@@ -2,6 +2,7 @@ pipeline/data/
 *.jsonl
 *.csv
 *.log
+.env
 *.fls
 *.log
 *.aux

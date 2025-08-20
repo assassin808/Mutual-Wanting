@@ -1,12 +1,39 @@
 #!/usr/bin/env python3
-"""Minimal Reddit fetcher skeleton with transition window tagging.
+"""Minimal Reddit fetcher skeleton with transition window tagging and optional live fetch.
 
-Fill in real API calls where indicated. Keeps output lean for labeling pipeline.
+Usage:
+  python fetch_reddit.py --out pipeline/data/raw.jsonl --limit 500
+If environment variables REDDIT_CLIENT_ID/SECRET/USER_AGENT exist and PRAW installed, will fetch live posts/comments.
+Else uses synthetic generator.
 """
 from __future__ import annotations
-import os, json, time, argparse, sys, hashlib
+import os, json, time, argparse, sys, hashlib, importlib
 from datetime import datetime, timedelta
 from typing import Iterable, Dict, Any, List, Tuple
+
+# Attempt dynamic import
+def _load_env_file(path: str = ".env"):
+    if not os.path.isfile(path):
+        return
+    try:
+        with open(path,'r',encoding='utf-8') as f:
+            for line in f:
+                line=line.strip()
+                if not line or line.startswith('#') or '=' not in line:
+                    continue
+                k,v = line.split('=',1)
+                if k not in os.environ:  # do not override already exported vars
+                    os.environ[k]=v
+    except Exception as e:
+        print(f"[warn] could not parse .env: {e}")
+
+_load_env_file()
+
+praw_spec = importlib.util.find_spec("praw")
+if praw_spec:
+    import praw  # type: ignore
+else:
+    praw = None  # fallback
 
 # Transition release dates (UTC, placeholder adjust as needed)
 RELEASES = {
@@ -21,6 +48,13 @@ POST_DAYS = 28
 
 def hash_user(user: str) -> str:
     return hashlib.sha256(user.encode('utf-8')).hexdigest()[:16]
+
+
+def load_subreddits(path: str = "pipeline/subreddits.txt") -> List[str]:
+    if os.path.isfile(path):
+        with open(path,'r',encoding='utf-8') as f:
+            return [l.strip() for l in f if l.strip() and not l.startswith('#')]
+    return ["ChatGPT"]
 
 
 def window_for(ts: int) -> Tuple[str, str] | Tuple[None, None]:
@@ -58,15 +92,74 @@ def emit(comment: Dict[str, Any]) -> Dict[str, Any]:
     }
 
 
+def auth_client():
+    cid = os.getenv("REDDIT_CLIENT_ID")
+    secret = os.getenv("REDDIT_CLIENT_SECRET")
+    ua = os.getenv("REDDIT_USER_AGENT")
+    if not (cid and secret and ua and praw):
+        return None
+    # Optional script auth
+    username = os.getenv("REDDIT_USERNAME")
+    password = os.getenv("REDDIT_PASSWORD")
+    if username and password:
+        return praw.Reddit(client_id=cid, client_secret=secret, user_agent=ua, username=username, password=password)
+    return praw.Reddit(client_id=cid, client_secret=secret, user_agent=ua)
+
+
+def iter_submissions(r, subreddits: List[str], limit: int) -> Iterable[Any]:
+    per_sub = max(1, limit // max(1,len(subreddits)))
+    for s in subreddits:
+        for submission in r.subreddit(s).new(limit=per_sub):
+            yield submission
+
+
+def expand_comments(submission, max_comments: int = 50) -> Iterable[Any]:
+    submission.comments.replace_more(limit=0)
+    count = 0
+    for c in submission.comments.list():
+        if count >= max_comments:
+            break
+        yield c
+        count += 1
+
+
+def normalize_comment(c) -> Dict[str, Any]:
+    return {
+        "id": getattr(c, 'id', None),
+        "parent_id": getattr(c, 'parent_id', None),
+        "link_id": getattr(c, 'link_id', f"t3_{getattr(c,'link_id', '')}"),
+        "created_utc": int(getattr(c, 'created_utc', time.time())),
+        "score": getattr(c, 'score', 0),
+        "author": getattr(c.author, 'name', 'anon') if getattr(c, 'author', None) else 'anon',
+        "body": getattr(c, 'body', ''),
+        "subreddit": getattr(c, 'subreddit', 'unknown')
+    }
+
+
+def live_stream(limit: int) -> Iterable[Dict[str, Any]]:
+    r = auth_client()
+    if r is None:
+        return []
+    subs = load_subreddits()
+    collected = 0
+    for submission in iter_submissions(r, subs, limit):
+        yield normalize_comment(submission)  # treat submission body as comment analog
+        collected += 1
+        for c in expand_comments(submission):
+            yield normalize_comment(c)
+            collected += 1
+            if collected >= limit:
+                return
+
+
 def fake_stream(limit: int) -> Iterable[Dict[str, Any]]:
     now = int(time.time())
-    # spread timestamps over recent window for demo
     for i in range(limit):
         yield {
             "id": f"c{i}",
             "parent_id": f"p{i//5}",
             "link_id": f"t{i//10}",
-            "created_utc": now - (i * 3600),
+            "created_utc": now - (i * 86400 // 60),  # spread across days
             "score": i % 87,
             "author": f"user{i%7}",
             "body": "Example comment body about model feeling colder now.",
@@ -82,12 +175,22 @@ def write_jsonl(path: str, rows: Iterable[Dict[str, Any]]):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('--out', required=True, help='Output JSONL file')
-    ap.add_argument('--limit', type=int, default=50)
+    ap.add_argument('--out', required=True)
+    ap.add_argument('--limit', type=int, default=200)
+    ap.add_argument('--live', action='store_true', help='Attempt live Reddit fetch')
     args = ap.parse_args()
 
-    rows = [emit(c) for c in fake_stream(args.limit)]
-    write_jsonl(args.out, rows)
+    if args.live:
+        rows = [emit(c) for c in live_stream(args.limit)]
+        if not rows:
+            print("Live fetch unavailable; falling back to synthetic.")
+            rows = [emit(c) for c in fake_stream(args.limit)]
+    else:
+        rows = [emit(c) for c in fake_stream(args.limit)]
+
+    with open(args.out,'w',encoding='utf-8') as f:
+        for r in rows:
+            f.write(json.dumps(r) + '\n')
     print(f"Wrote {len(rows)} rows -> {args.out}")
 
 if __name__ == '__main__':

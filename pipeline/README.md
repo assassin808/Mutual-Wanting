@@ -75,3 +75,21 @@ See `pipeline/labeling_guidelines.md` and `pipeline/annotation_examples.md` for 
 - Implement fetch script with simple Reddit API or pushshift fallback (if accessible).
 - Create sampling script, produce pilot batch.
 - Update guidelines after pilot reliability.
+
+## Environment Variables (Reddit API)
+Set locally (do NOT commit secrets):
+```
+export REDDIT_CLIENT_ID="<your_client_id>"
+export REDDIT_CLIENT_SECRET="<your_client_secret>"
+export REDDIT_USER_AGENT="PersonaDriftStudy/0.1 by Yang"
+# Optional (script auth if needed)
+export REDDIT_USERNAME="<reddit_username>"
+export REDDIT_PASSWORD="<reddit_password>"
+```
+Fetching will gracefully fall back to synthetic data if these are missing.
+
+## Subreddit Configuration
+Create a simple text file `pipeline/subreddits.txt` listing one subreddit per line (e.g., `ChatGPT`, `OpenAI`, `ArtificialInteligence`). The fetch script will read it if present.
+
+## Release Dates Configuration
+Adjust `RELEASES` dict in `fetch_reddit.py` once exact GPT-5 public date is confirmed.
