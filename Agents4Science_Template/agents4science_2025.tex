@@ -89,25 +89,28 @@ Large-scale model upgrades increasingly trigger affective and epistemic friction
 
 \section{Related Work}
 \subsection{Human--AI Interaction Guidelines and Trust}
-Foundational guidelines emphasize iterative disclosure, graceful uncertainty, and user control \citep{amershi2019guidelines}. Trust calibration dynamics show that explanation, accuracy, and confidence signals interact in shaping reliance \citep{yin2019understanding,lai2019human}. Transparency design patterns for algorithmic systems advocate selective, context-sensitive disclosure to avoid overload \citep{eiband2018bringing,kizilcec2016much}.
+Lifecycle-oriented guidelines articulate best practices for setting expectations, supporting error recovery, and communicating capability evolution \citep{amershi2019guidelines}. Trust calibration studies demonstrate that raw accuracy signals alone can mislead without contextual explanation or uncertainty framing \citep{yin2019understanding}. Explanatory scaffolds can improve confidence alignment when properly scoped \citep{lai2019human}. Translational design work converts abstract transparency ideals into actionable UI patterns and emphasizes progressive, user-triggered detail \citep{eiband2018bringing,kizilcec2016much}.
 
-\subsection{Anthropomorphism, Parasocial and Emotional Boundaries}
-Anthropomorphism emerges from elicited social cues rather than inherent agency \citep{epley2007seeing}. Parasocial relationship theory \citep{horton1956mass} frames asymmetrical user attachment risk, motivating calibrated empathy tiers.
+\subsection{Anthropomorphism, Parasocial Bonds, and Emotional Boundaries}
+Foundational theory attributes anthropomorphism to effectance and sociality motivations under uncertainty \citep{epley2007seeing}. Classic parasocial interaction research frames the risks of perceived intimacy without reciprocity \citep{horton1956mass}. Contemporary perspectives highlight double-edged impacts of anthropomorphic conversational agents on engagement and misattribution \citep{pnas2025anthro}. We treat empathy modulation and persona stability as bounded resources rather than monotonic objectives.
+
+\subsection{Domain-Specific Anthropomorphism Effects}
+In sustainability-oriented conversational systems, anthropomorphic framing modestly increases sensed connection without reliably improving self-efficacy \citep{envsustain2025anthro}. This contextualizes when warmth yields diminishing returns relative to cognitive clarity.
 
 \subsection{Uncertainty Communication}
-Research on uncertainty visualization and phrasing shows graded confidence can enhance, not erode, trust when structured \citep{kay2016uncertainty}. We extend this into conversational micro-patterns ("confidence sandwich") within LLM dialogue.
+Everyday predictive system studies show users benefit from structured, approximate uncertainty encodings \citep{kay2016uncertainty}. Emerging visualization work finds certain encodings (e.g., size-based) selectively raise trust among initially skeptical users \citep{reyes2025uncertainty}. We extend these principles to conversational micro-patterns (banded confidence + invitation token) hypothesized to reduce over- or under-reliance.
+
+\subsection{Privacy, Safety, and Intimacy Boundaries}
+User privacy and security concerns in repurposing general-purpose LLM chatbots for mental health contexts foreground the necessity of clear data usage boundaries and consent surfaces \citep{mentalhealth2025privacy}. These findings motivate our tiered empathy ladder and explicit retention disclaimers to mitigate unintended dependency formation.
+
+\subsection{Conversational Pacing and Silence}
+Conversation analysis traditions (placeholder citation to be added) conceptualize micro-pauses as turn-allocation resources rather than disengagement. We hypothesize that intentional minimal responses can recalibrate effectance motivation and reduce anthropomorphic projection when paired with transparent uncertainty.
 
 \subsection{Model Evolution and User Perception}
-Version drift dissatisfaction has analogues in software update trust erosion and explainability expectation gaps (e.g., user misattribution when internal policies change). While systematic public studies on GPT persona drift are emergent, prior work on adaptive system transparency informs our design space.
+Research specifically dissecting persona drift across proprietary LLM version transitions is nascent; we build on general transparency and expectation-management literature to propose measurement of drift lexicons (e.g., warmth markers) and structured uncertainty contrasts. Our contribution is to integrate these strands under a mutual wanting framing that symmetrizes user and system desiderata.
 
-\subsection{Extended Literature Synthesis}
-We cluster adjacent strands beyond the core HCI and trust canon to situate our framework:
-\paragraph{Parasocial Escalation Risks.} Recent analyses of emerging parasocial dynamics in LLM-mediated affective design environments highlight how increasingly human-like stylistic mirroring can generate perceived intimacy without reciprocal cognition \citep{maeda2024parasocial,pnas2025anthro}. This supports our boundary tier design to avoid speculative emotional projection.
-\paragraph{Anthropomorphism Trade-offs.} Contemporary sustainability-oriented conversational agent research underscores how anthropomorphic cues can motivate pro-social or pro-environmental behaviors while simultaneously amplifying attribution errors \citep{envsustain2025anthro}. Our framework treats anthropomorphic warmth as a resource to allocate, not maximize.
-\paragraph{Uncertainty Visualization to Dialogue Translation.} Studies on visual uncertainty communication in decision aids (e.g., lightweight encodings improving calibration \citep{reyes2025uncertainty}) inform our textual micro-pattern taxonomy (banded confidence vs flat disclaimers). We hypothesize analogous gains in conversational calibration.
-\paragraph{Privacy and Emotional Support Tension.} Investigations into user security and privacy attitudes with general-purpose LLM chatbots for mental health use cases reveal tension between candid disclosure and data stewardship concerns \citep{mentalhealth2025privacy}. We address this via minimal retention defaults and overt boundary messaging.
-\paragraph{Relational Silence and Turn-Taking.} Although understudied in LLM contexts, classical conversation analysis (not cited in detail here for brevity) positions micro-pauses as invitations rather than absence. Our introduction of "intentional silence" draws conceptually from that lineage while demanding empirical verification in mediated AI settings.
-\paragraph{Gaps.} (i) Lack of systematic persona drift lexicon analyses across model version transitions; (ii) no published uncertainty style comparative corpus for major GPT variants; (iii) limited operationalization of "mutual wanting" as a bidirectional desiderata mapping rather than unidirectional alignment.
+\subsection{Synthesis and Gaps}
+Across strands, three gaps emerge: (i) absence of a bidirectional desiderata mapping treating system operational constraints as explicit design stakeholders; (ii) lack of a public uncertainty style comparative corpus across model versions; (iii) limited empirics on conversational silence as a relational alignment lever in LLM-mediated settings. Our planned pipeline directly targets each gap with minimal instrumentation.
 
 \section{Conceptual Framework: Mutual Wanting Alignment (M-WAF)}
 We model interaction as a negotiation across four tension axes: (1) Warmth vs Cost Efficiency; (2) Stability vs Iterative Optimization; (3) Epistemic Honesty vs Authority Signaling; (4) Emotional Resonance vs Dependence Risk. Each axis admits design levers: uncertainty style, response pacing (including intentional micro-pauses), empathy tier selection.
@@ -149,6 +152,28 @@ Metrics: Confidence Disclosure Rate (CDR), Structured Uncertainty Ratio (SUR), E
   \item Warmth-Cost Tension Index (WCTI): Normalized difference between warmth markers per token and average token length budget.
   \item Dependence Risk Proxy (DRP): Proportion of emotional disclosure prompts escalating without model deflection.
 \end{itemize}
+
+\subsection{Metric Summary and Literature Support}
+\begin{table}[h]
+  \centering
+  \caption{Planned metrics with operational definitions and primary literature grounding.}
+  \label{tab:metrics}
+  \small
+  \begin{tabular}{p{2.2cm} p{5.4cm} p{5.6cm}}
+    	oprule
+    Metric & Operational Definition & Supporting Rationale / Citations \\
+    \midrule
+    CDR (Confidence Disclosure Rate) & Proportion of model responses containing explicit uncertainty or confidence band token & Transparency and staged disclosure patterns \citep{amershi2019guidelines,eiband2018bringing}; uncertainty utility \citep{kay2016uncertainty} \\
+    SUR (Structured Uncertainty Ratio) & Fraction of uncertainty-bearing responses that follow templated structure (band + missing variable + invitation) & Calibrated trust via structured explanation \citep{yin2019understanding,lai2019human} \\
+    ETD (Empathy Tier Distribution) & Distribution across defined empathy ladder tiers per response set & Parasocial and anthropomorphism boundary management \citep{horton1956mass,epley2007seeing,pnas2025anthro} \\
+    SST (Silence Simulation Tolerance) & Mean number of user clarification turns after intentional minimal response before escalation & Turn-taking as resource \citep{sacks1974simplest}; effectance modulation \citep{epley2007seeing} \\
+    CRR (Concision Re-prompt Rate) & Rate of user follow-up prompts requesting elaboration after succinct responses & Optimal transparency granularity \citep{kizilcec2016much} \\
+    TCG (Trust Calibration Gap) & Absolute difference between sentiment-coded acceptance and self-reported model confidence midpoint & Trust calibration \citep{yin2019understanding} \\
+    WCTI (Warmth-Cost Tension Index) & Warmth markers per token minus normalized verbosity budget & Anthropomorphism trade-offs \citep{pnas2025anthro,envsustain2025anthro} \\
+    DRP (Dependence Risk Proxy) & Share of escalating emotional disclosure prompts without boundary signaling & Parasocial risk mitigation \citep{maeda2024parasocial,mentalhealth2025privacy} \\
+  \bottomrule
+  \end{tabular}
+\end{table}
 
 \section{Planned Results Presentation}
 We will report: (a) Descriptive distributions of tension axis indicators; (b) Correlations among axes (e.g., does higher SUR correlate with reduced CRR?); (c) Qualitative archetypes (Over-Confident Shell, Over-Humble Fog, Silent User) grounded in empirical feature profiles; (d) Ablation of uncertainty pattern types versus trust proxy metrics.
