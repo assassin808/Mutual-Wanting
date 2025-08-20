@@ -58,15 +58,30 @@ def aggregate(rows: List[Dict[str,Any]]) -> Dict[str,Any]:
     return agg
 
 
+def read_raw_jsonl(path: str) -> List[Dict[str,Any]]:
+    rows = []
+    with open(path,'r',encoding='utf-8') as f:
+        for line in f:
+            if line.strip():
+                rows.append(json.loads(line))
+    return rows
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('--labeled', required=True, help='CSV with labeled data (after manual)')
+    g = ap.add_mutually_exclusive_group(required=True)
+    g.add_argument('--labeled', help='CSV with labeled data (after manual)')
+    g.add_argument('--raw', help='Raw JSONL (unlabeled) quick sanity')
     ap.add_argument('--out', required=True, help='JSON summary output')
     args = ap.parse_args()
 
-    labeled = read_labeled(args.labeled)
+    if args.labeled:
+        data_rows = read_labeled(args.labeled)
+    else:
+        data_rows = read_raw_jsonl(args.raw)
+
     enriched = []
-    for r in labeled:
+    for r in data_rows:
         f = features(r.get('body',''))
         r.update(f)
         enriched.append(r)
@@ -74,7 +89,7 @@ def main():
     summary = aggregate(enriched)
     with open(args.out,'w',encoding='utf-8') as f:
         json.dump({"summary":summary,"count":len(enriched)}, f, indent=2)
-    print(f"Wrote summary -> {args.out}")
+    print(f"Wrote summary ({len(enriched)} rows) -> {args.out}")
 
 if __name__ == '__main__':
     main()

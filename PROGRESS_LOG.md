@@ -38,3 +38,21 @@ Rationale: capture high-salience complaint sources (core + prompt) plus contrast
 Run first live fetch (limit 500) and inspect class balance across transitions; adjust keyword filter later if general subs yield excessive noise.
 
 -- End of entry --
+
+## Session Update (Subsequent)
+- Enhanced `fetch_reddit.py` with subreddit-level exception handling and early abort safety.
+- Fixed serialization (subreddit object) by coercing to display name.
+- Successful live fetch (120 rows) despite 403 on some subs (e.g., GPT4) -> stored at `pipeline/data/live_raw.jsonl`.
+- Created first stratified sample (`pipeline/data/label_batch1.csv`, n=60) for pilot labeling.
+- Extended `features_and_analysis.py` with `--raw` mode; produced preliminary summary (`feature_summary.json`).
+
+### Immediate Next Steps
+1. Increase fetch volume (iterate higher limits; consider time-bounded queries) to obtain pre/post diversity (currently only future-post window due to placeholder release date interpreting current timestamps as post-transition).
+2. Commence manual labeling on `label_batch1.csv`; save annotated copy and compute inter-annotator agreement if multiple raters.
+3. Add bot / moderation filter heuristic (e.g., remove bodies matching auto-mod patterns) before next sampling.
+4. Insert preliminary descriptive stats into manuscript (`agents4science_2025.tex`).
+5. Replace GPT-5 placeholder release date with actual (or shift placeholder forward to avoid all data marked post).
+
+### Notes
+- Need historical retrieval method (Pushshift successor / monthly dumps) for genuine pre windows; current API only yields recent posts.
+- Consider adding a keyword filter (e.g., complaints terms list) to enrich target density for labeling efficiency.

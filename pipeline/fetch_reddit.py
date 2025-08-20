@@ -7,7 +7,7 @@ If environment variables REDDIT_CLIENT_ID/SECRET/USER_AGENT exist and PRAW insta
 Else uses synthetic generator.
 """
 from __future__ import annotations
-import os, json, time, argparse, sys, hashlib, importlib
+import os, json, time, argparse, sys, hashlib, importlib, importlib.util
 from datetime import datetime, timedelta
 from typing import Iterable, Dict, Any, List, Tuple
 
@@ -109,8 +109,11 @@ def auth_client():
 def iter_submissions(r, subreddits: List[str], limit: int) -> Iterable[Any]:
     per_sub = max(1, limit // max(1,len(subreddits)))
     for s in subreddits:
-        for submission in r.subreddit(s).new(limit=per_sub):
-            yield submission
+        try:
+            for submission in r.subreddit(s).new(limit=per_sub):
+                yield submission
+        except Exception as e:  # catch forbidden / rate / etc.
+            print(f"[warn] skipping subreddit {s}: {e}")
 
 
 def expand_comments(submission, max_comments: int = 50) -> Iterable[Any]:
@@ -124,6 +127,12 @@ def expand_comments(submission, max_comments: int = 50) -> Iterable[Any]:
 
 
 def normalize_comment(c) -> Dict[str, Any]:
+    sub = getattr(c, 'subreddit', 'unknown')
+    if not isinstance(sub, str):
+        try:
+            sub = getattr(sub, 'display_name', str(sub))
+        except Exception:
+            sub = 'unknown'
     return {
         "id": getattr(c, 'id', None),
         "parent_id": getattr(c, 'parent_id', None),
@@ -132,7 +141,7 @@ def normalize_comment(c) -> Dict[str, Any]:
         "score": getattr(c, 'score', 0),
         "author": getattr(c.author, 'name', 'anon') if getattr(c, 'author', None) else 'anon',
         "body": getattr(c, 'body', ''),
-        "subreddit": getattr(c, 'subreddit', 'unknown')
+        "subreddit": sub
     }
 
 
@@ -142,14 +151,18 @@ def live_stream(limit: int) -> Iterable[Dict[str, Any]]:
         return []
     subs = load_subreddits()
     collected = 0
-    for submission in iter_submissions(r, subs, limit):
-        yield normalize_comment(submission)  # treat submission body as comment analog
-        collected += 1
-        for c in expand_comments(submission):
-            yield normalize_comment(c)
+    try:
+        for submission in iter_submissions(r, subs, limit):
+            yield normalize_comment(submission)  # treat submission body as comment analog
             collected += 1
-            if collected >= limit:
-                return
+            for c in expand_comments(submission):
+                yield normalize_comment(c)
+                collected += 1
+                if collected >= limit:
+                    return
+    except Exception as e:
+        print(f"[warn] live fetch aborted early due to error: {e}")
+        return []
 
 
 def fake_stream(limit: int) -> Iterable[Dict[str, Any]]:

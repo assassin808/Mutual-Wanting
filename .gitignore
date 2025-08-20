@@ -13,3 +13,4 @@ pipeline/data/
 *.pdf
 *.fdb_latexmk
 *.synctex.gz
+.venv/
