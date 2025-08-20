@@ -1,3 +1,7 @@
+pipeline/data/
+*.jsonl
+*.csv
+*.log
 *.fls
 *.log
 *.aux
