@@ -7,7 +7,7 @@ If environment variables REDDIT_CLIENT_ID/SECRET/USER_AGENT exist and PRAW insta
 Else uses synthetic generator.
 """
 from __future__ import annotations
-import os, json, time, argparse, sys, hashlib, importlib, importlib.util
+import os, json, time, argparse, sys, hashlib, importlib, importlib.util, re
 from datetime import datetime, timedelta
 from typing import Iterable, Dict, Any, List, Tuple
 
@@ -191,20 +191,73 @@ def main():
     ap.add_argument('--out', required=True)
     ap.add_argument('--limit', type=int, default=200)
     ap.add_argument('--live', action='store_true', help='Attempt live Reddit fetch')
+    ap.add_argument('--keywords', nargs='*', help='If set, only retain comments containing any keyword (case-insensitive)')
+    ap.add_argument('--keywords-file', help='Optional file with one keyword per line')
+    ap.add_argument('--min-len', type=int, default=0, help='Minimum body character length after strip')
+    ap.add_argument('--no-bots', action='store_true', help='Filter out likely bot/moderator comments (author contains bot/mod, or body matches common patterns)')
+    ap.add_argument('--summary-out', help='Optional JSON summary stats path')
     args = ap.parse_args()
 
     if args.live:
-        rows = [emit(c) for c in live_stream(args.limit)]
-        if not rows:
+        raw_rows = [emit(c) for c in live_stream(args.limit)]
+        if not raw_rows:
             print("Live fetch unavailable; falling back to synthetic.")
-            rows = [emit(c) for c in fake_stream(args.limit)]
+            raw_rows = [emit(c) for c in fake_stream(args.limit)]
     else:
-        rows = [emit(c) for c in fake_stream(args.limit)]
+        raw_rows = [emit(c) for c in fake_stream(args.limit)]
+
+    # Build keyword set
+    kw_set = set()
+    if args.keywords_file and os.path.isfile(args.keywords_file):
+        with open(args.keywords_file,'r',encoding='utf-8') as f:
+            for line in f:
+                line=line.strip()
+                if line and not line.startswith('#'):
+                    kw_set.add(line.lower())
+    if args.keywords:
+        kw_set.update(k.lower() for k in args.keywords)
+
+    bot_re = re.compile(r"bot|automoderator|mod|helper", re.IGNORECASE)
+    def passes_filters(r: dict) -> bool:
+        body = (r.get('body') or '').strip()
+        if len(body) < args.min_len:
+            return False
+        if kw_set:
+            low = body.lower()
+            if not any(k in low for k in kw_set):
+                return False
+        if args.no_bots:
+            if bot_re.search(r.get('author_hash','')):  # hashed, so cannot detect; skip
+                return False
+            # crude heuristic: moderation notice pattern
+            if body.startswith('Hey /u/') and 'action was performed automatically' in body:
+                return False
+        return True
+
+    rows = [r for r in raw_rows if passes_filters(r)]
 
     with open(args.out,'w',encoding='utf-8') as f:
         for r in rows:
             f.write(json.dumps(r) + '\n')
-    print(f"Wrote {len(rows)} rows -> {args.out}")
+    print(f"Wrote {len(rows)} rows (from {len(raw_rows)} raw) -> {args.out}")
+
+    if args.summary_out:
+        # Simple counts by (transition, pre_post, score_bucket)
+        from collections import Counter
+        combo = Counter((r['transition'], r['pre_post'], r['score_bucket']) for r in rows)
+        transitions = Counter(r['transition'] for r in rows if r['transition'])
+        summary = {
+            'total_raw': len(raw_rows),
+            'total_retained': len(rows),
+            'by_transition_phase_bucket': {f"{k[0]}|{k[1]}|{k[2]}": v for k,v in combo.items()},
+            'by_transition': dict(transitions),
+            'keyword_filter': sorted(list(kw_set)),
+            'min_len': args.min_len,
+            'no_bots': args.no_bots
+        }
+        with open(args.summary_out,'w',encoding='utf-8') as sf:
+            json.dump(summary, sf, indent=2)
+        print(f"Summary -> {args.summary_out}")
 
 if __name__ == '__main__':
     main()
