@@ -68,3 +68,30 @@ Run first live fetch (limit 500) and inspect class balance across transitions; a
 - Mixed sample batch2 generated (target 140, actual 119 due to available enriched size): enriched=63, baseline=56.
 - Generated per-row feature CSV (expanded enriched set) via updated features script for upcoming modeling.
 - Added historical backfill scaffold script (GPT-4 -> 4o) awaiting external archive exports.
+
+### Synthetic Pipeline Validation (2025-08-22)
+- Created `generate_synthetic_labels.py` to assign synthetic complaint tags (controlled randomization; optional post flips) for end-to-end smoke test.
+- Produced `label_batch2_synth_annotated.csv` (n=119) mirroring mixed sample schema.
+- Ran `features_and_analysis.py --labeled` on synthetic file; initial failure due to strict CSV DictWriter fieldnames (missing union of dynamic feature keys) resulting in ValueError; patched script to compute union across all rows prior to writer initialization.
+- Generated per-row feature export (`feature_rows_synth.csv`) and summary (`feature_summary_synth.json`).
+- Executed `regression_skeleton.py` on synthetic labels; several models produced extreme coefficients / singular matrix errors (e.g., warmth_regression, verbosity_change) consistent with quasi-separation in synthetic data. Captured outputs in `regression_synth.json`.
+- Logged convergence warnings (overflow in exp / singular matrix) indicating need for: (a) penalized logistic fallback, (b) minimum positive class count threshold before modeling.
+- Ran restricted drift lexicon analysis (`drift_lexicon.py --restrict-lexicon complaint_focus_lexicon.txt`) producing `drift_log_odds_restricted.json`; extremely low token counts (many <5 per side) underline current instability; will enforce token frequency floor (≥10 per side) before interpretive use.
+- Confirmed acquisition→sample→label (synthetic)→features→regression→drift path operational end-to-end.
+
+### Updated Immediate Next Actions
+1. Manual Labeling: Begin real annotation on `label_batch2.csv` (retain synthetic variant only for tooling regression tests). Target: ≥120 labeled within 24h; designate 25 overlapping items for second rater to compute Cohen's κ (goal >0.65).
+2. Reliability: After dual labels, run `agreement.py` then `merge_annotations.py` to produce consensus set for modeling.
+3. Modeling Hardening: Implement automatic fallback to L2-penalized logistic (scikit-learn) when statsmodels GLM fails or class counts < threshold; skip models where minority class <8.
+4. Drift Stability: Add frequency floor filter & caching of token counts; re-run restricted drift only after both sides have ≥150 total tokens and each candidate term ≥10 per side.
+5. Historical Backfill: Populate `historical_backfill_stub.py` with actual GPT-4→4o archive files (expected JSONL). On ingestion, recompute sampling ensuring authentic pre/post rather than placeholder-based tagging.
+6. Enrichment Evaluation: Add utility to estimate precision/recall of keyword filter using baseline-labeled subset; adjust lexicon accordingly (track F1).
+7. Manuscript Update: Insert note distinguishing synthetic pipeline validation from empirical findings; add planned safeguards (penalized models, token frequency floors) to Methods.
+
+### Risks / Mitigations (Update)
+- Synthetic overfitting / separation -> add penalization + thresholds (Mitigation in progress).
+- Sparse lexical counts -> enforce frequency floors + optionally merge synonyms.
+- Annotation throughput uncertainty -> prioritize enriched subset; adjust baseline proportion dynamically.
+- Delay in historical archive acquisition -> parallelize labeling of recent (post) data while sourcing pre archives; maintain explicit provenance labels.
+
+-- End of 2025-08-22 update --
