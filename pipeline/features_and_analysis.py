@@ -94,9 +94,16 @@ def main():
 
     if args.emit_csv:
         import csv as _csv
-        fieldnames = list(enriched[0].keys()) if enriched else []
+        # Collect union of keys across rows to avoid missing fieldnames
+        key_union = []
+        seen = set()
+        for r in enriched:
+            for k in r.keys():
+                if k not in seen:
+                    seen.add(k)
+                    key_union.append(k)
         with open(args.emit_csv,'w',newline='',encoding='utf-8') as fcsv:
-            w = _csv.DictWriter(fcsv, fieldnames=fieldnames)
+            w = _csv.DictWriter(fcsv, fieldnames=key_union)
             w.writeheader()
             for r in enriched:
                 w.writerow(r)
