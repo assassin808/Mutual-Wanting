@@ -98,3 +98,7 @@ Run first live fetch (limit 500) and inspect class balance across transitions; a
 
 ### Implementation Note (Modeling Hardening Executed 2025-08-22)
 - Updated `regression_skeleton.py` with: class count threshold (MIN_CLASS=8), statsmodels primary fit, scikit-learn L2 logistic fallback when failures (separation / singular matrix) occur, explicit estimator annotation, and skip metadata when insufficient data. Purpose: prevent spurious large coefficients influencing narrative about persona drift (ensures only adequately supported complaint shift signals enter manuscript). Pending: integrate into manuscript Methods (Robustness subsection).
+
+### Drift Stability Enhancement (2025-08-22)
+- Augmented `drift_lexicon.py` with `--freq-floor` (default 10) enforcing minimum per-side frequency for token inclusion; added optional `--cache-counts` to persist raw token frequency distributions for reproducibility & manuscript appendix.
+- Rationale: avoid overinterpreting low-frequency lexical artifacts as evidence of expectation renegotiation; aligns with paper's emphasis on stable mutual wanting alignment signals rather than transient noise.

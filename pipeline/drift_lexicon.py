@@ -3,6 +3,8 @@
 Applies log-odds with an informative Dirichlet prior (Monroe et al. 2008 style) with symmetric prior.
 Outputs JSON listing top tokens favoring each side.
 
+Paper linkage: Provides candidate lexical signals of expectation / persona mismatch around model transitions. We guard against spurious early impressions by enforcing token frequency floors and caching aggregate counts so the manuscript only reports stable (frequency >= floor per side) terms.
+
 Usage:
   python pipeline/drift_lexicon.py --pre pipeline/data/live_raw_window.jsonl \
     --post pipeline/data/live_raw_kw.jsonl \
@@ -70,6 +72,8 @@ def main():
     ap.add_argument('--out-json', required=True)
     ap.add_argument('--top', type=int, default=30)
     ap.add_argument('--restrict-lexicon', help='Optional file with one token per line to restrict vocabulary (case-insensitive)')
+    ap.add_argument('--freq-floor', type=int, default=10, help='Minimum frequency per side required to consider token (applied after restriction)')
+    ap.add_argument('--cache-counts', help='Optional path to write raw frequency counts JSON for reproducibility')
     args = ap.parse_args()
 
     pre_rows = load_jsonl(args.pre)
@@ -87,7 +91,19 @@ def main():
         post_toks = [t for t in post_toks if t in lex]
     f_pre = Counter(pre_toks)
     f_post = Counter(post_toks)
-    res = log_odds(f_pre, f_post)
+    if args.cache_counts:
+        with open(args.cache_counts,'w',encoding='utf-8') as cf:
+            json.dump({
+                'pre_total_tokens': sum(f_pre.values()),
+                'post_total_tokens': sum(f_post.values()),
+                'pre_freq': f_pre,
+                'post_freq': f_post
+            }, cf, indent=2, default=int)
+    # Apply frequency floor: token must appear at least floor times on BOTH sides to be considered for symmetric stability OR at least on one side? Here we require BOTH to avoid one-sided inflation.
+    freq_floor = args.freq_floor
+    filt_pre = Counter({w:c for w,c in f_pre.items() if c >= freq_floor and f_post.get(w,0) >= freq_floor})
+    filt_post = Counter({w:c for w,c in f_post.items() if c >= freq_floor and f_pre.get(w,0) >= freq_floor})
+    res = log_odds(filt_pre, filt_post)
     # Sort by z-score
     pre_favor = sorted(res, key=lambda x: x[2], reverse=True)[:args.top]
     post_favor = sorted(res, key=lambda x: x[2])[:args.top]
@@ -95,6 +111,8 @@ def main():
     out = {
         'pre_total_tokens': sum(f_pre.values()),
         'post_total_tokens': sum(f_post.values()),
+        'freq_floor': freq_floor,
+        'retained_vocab': len(filt_pre),
         'top_pre_tokens': [{'token':w,'delta':d,'z':z,'pre_freq':f_pre[w],'post_freq':f_post.get(w,0)} for w,d,z in pre_favor],
         'top_post_tokens': [{'token':w,'delta':d,'z':z,'pre_freq':f_pre[w],'post_freq':f_post.get(w,0)} for w,d,z in post_favor]
     }
