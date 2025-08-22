@@ -62,3 +62,4 @@ Run first live fetch (limit 500) and inspect class balance across transitions; a
 - Filtered fetch run: 400 raw -> 23 retained complaint-relevant rows (high precision, low recall) all tagged post (placeholder release date issue persists).
 - Added JSON summary output for distribution auditing.
 - Next: adjust release dates or backfill historical to achieve pre samples; consider relaxing min length or expanding limit for better retention.
+- Added minimal CLI `annotation_tool.py` for in-terminal labeling; smoke test generated `_annotated` CSV.
