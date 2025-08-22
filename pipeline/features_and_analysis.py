@@ -73,6 +73,7 @@ def main():
     g.add_argument('--labeled', help='CSV with labeled data (after manual)')
     g.add_argument('--raw', help='Raw JSONL (unlabeled) quick sanity')
     ap.add_argument('--out', required=True, help='JSON summary output')
+    ap.add_argument('--emit-csv', help='Optional path to write per-row features CSV for modeling')
     args = ap.parse_args()
 
     if args.labeled:
@@ -90,6 +91,16 @@ def main():
     with open(args.out,'w',encoding='utf-8') as f:
         json.dump({"summary":summary,"count":len(enriched)}, f, indent=2)
     print(f"Wrote summary ({len(enriched)} rows) -> {args.out}")
+
+    if args.emit_csv:
+        import csv as _csv
+        fieldnames = list(enriched[0].keys()) if enriched else []
+        with open(args.emit_csv,'w',newline='',encoding='utf-8') as fcsv:
+            w = _csv.DictWriter(fcsv, fieldnames=fieldnames)
+            w.writeheader()
+            for r in enriched:
+                w.writerow(r)
+        print(f"Per-row features CSV -> {args.emit_csv}")
 
 if __name__ == '__main__':
     main()
