@@ -102,3 +102,9 @@ Run first live fetch (limit 500) and inspect class balance across transitions; a
 ### Drift Stability Enhancement (2025-08-22)
 - Augmented `drift_lexicon.py` with `--freq-floor` (default 10) enforcing minimum per-side frequency for token inclusion; added optional `--cache-counts` to persist raw token frequency distributions for reproducibility & manuscript appendix.
 - Rationale: avoid overinterpreting low-frequency lexical artifacts as evidence of expectation renegotiation; aligns with paper's emphasis on stable mutual wanting alignment signals rather than transient noise.
+
+### Enrichment Evaluation Tool (2025-08-22)
+- Added `enrichment_eval.py` to quantify keyword enrichment precision, baseline prevalence, relative risk, and recall estimate (under random prevalence assumption). Provides Wilson CIs for enriched precision & baseline prevalence. Supports Methods section justification that enriched sampling does not materially distort complaint incidence, preserving validity of drift inferences.
+
+### Dual Annotation Splitter (2025-08-22)
+- Added `split_for_dual_annotation.py` to create Annotator A/B assignment CSVs with configurable overlap subset (default 25) enabling planned Cohen's kappa reliability computation. Purpose: formalize reliability gating criterion before modeling complaint drift.
