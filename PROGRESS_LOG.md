@@ -67,3 +67,4 @@ Run first live fetch (limit 500) and inspect class balance across transitions; a
 - Expanded keyword lexicon (warmth + creativity paraphrases). New enriched fetch: 800 raw -> 63 retained (retention 7.9%, improved coverage). Still pre-only due to synthetic anchor.
 - Mixed sample batch2 generated (target 140, actual 119 due to available enriched size): enriched=63, baseline=56.
 - Generated per-row feature CSV (expanded enriched set) via updated features script for upcoming modeling.
+- Added historical backfill scaffold script (GPT-4 -> 4o) awaiting external archive exports.

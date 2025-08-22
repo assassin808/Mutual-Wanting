@@ -11,7 +11,7 @@ Usage:
 NOTE: Current data may not be temporally authentic; interpret cautiously.
 """
 from __future__ import annotations
-import json, argparse, math, re
+import json, argparse, math, re, os
 from collections import Counter
 from typing import Dict, List, Tuple
 
@@ -69,12 +69,22 @@ def main():
     ap.add_argument('--post', required=True)
     ap.add_argument('--out-json', required=True)
     ap.add_argument('--top', type=int, default=30)
+    ap.add_argument('--restrict-lexicon', help='Optional file with one token per line to restrict vocabulary (case-insensitive)')
     args = ap.parse_args()
 
     pre_rows = load_jsonl(args.pre)
     post_rows = load_jsonl(args.post)
     pre_toks = tokens(pre_rows)
     post_toks = tokens(post_rows)
+    if args.restrict_lexicon and os.path.isfile(args.restrict_lexicon):
+        lex = set()
+        with open(args.restrict_lexicon,'r',encoding='utf-8') as lf:
+            for line in lf:
+                line=line.strip().lower()
+                if line and not line.startswith('#'):
+                    lex.add(line)
+        pre_toks = [t for t in pre_toks if t in lex]
+        post_toks = [t for t in post_toks if t in lex]
     f_pre = Counter(pre_toks)
     f_post = Counter(post_toks)
     res = log_odds(f_pre, f_post)
