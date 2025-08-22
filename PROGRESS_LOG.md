@@ -108,3 +108,6 @@ Run first live fetch (limit 500) and inspect class balance across transitions; a
 
 ### Dual Annotation Splitter (2025-08-22)
 - Added `split_for_dual_annotation.py` to create Annotator A/B assignment CSVs with configurable overlap subset (default 25) enabling planned Cohen's kappa reliability computation. Purpose: formalize reliability gating criterion before modeling complaint drift.
+	- Executed split on `label_batch2.csv` -> A=72, B=72, overlap=25 (`label_batch2_A.csv`, `label_batch2_B.csv`).
+		- Added `labeling_progress.py` to monitor per-file and aggregate labeling completion & class distribution; supports deciding when reliability threshold met for modeling.
+			- Inserted manuscript robustness subsection detailing sampling bias quantification, reliability gating, model separation handling, lexical drift frequency floor, temporal authenticity via historical backfill, and segregation of synthetic validation.

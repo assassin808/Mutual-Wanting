@@ -234,6 +234,18 @@ We defer implementing heavier topic modeling (e.g., BERTopic) until a minimally 
 
 \paragraph{Exit Criteria for Next Milestone} Proceed to API comparative probing only after: (i) \(\geq 150\) high-quality labeled Reddit instances with \(\kappa > 0.65\) overall; (ii) established top 10 drift candidate lexemes with effect size (log-odds) \(|z| > 2\) between authentic pre/post windows.
 
+\subsection*{Robustness and Bias Mitigation (Added During Implementation)}
+We integrated guardrails to ensure that any eventual persona drift claims reflect stable, non-artifactual patterns:
+\begin{itemize}
+  \item \textbf{Sampling Bias Quantification}: The enrichment evaluation tool computes enriched precision vs baseline prevalence, relative risk, and a conservative recall estimate (Wilson CIs). We will report these values to justify that enrichment does not materially distort complaint incidence.
+  \item \textbf{Reliability Gating}: Dual annotator splits with fixed overlap (default 25 items per 140-sample batch) enable scheduled computation of Cohen's \(\kappa\). Modeling of complaint shifts is skipped until \(\kappa > 0.65\) and minority class counts exceed 8 instances per binary contrast.
+  \item \textbf{Model Separation Handling}: Logistic regressions auto-fallback to L2-penalized estimation when classical maximum likelihood fails (singular matrix / quasi-separation) and skip outcomes with insufficient class support (MIN\_CLASS=8) to avoid inflated odds ratios.
+  \item \textbf{Lexical Drift Stability}: Drift computation applies a symmetric per-side frequency floor (default 10) and can cache raw counts for reproducibility; tokens below the floor are excluded to mitigate noisy one-sided spikes.
+  \item \textbf{Temporal Authenticity}: A historical backfill scaffold normalizes authentic GPT-4 to GPT-4o window archives; artificial pre/post tags (from placeholder release anchors) are excluded from analysis once authentic windows are loaded.
+  \item \textbf{Transparency of WIP}: Synthetic pipeline validation outputs (e.g., provisional regressions on randomized labels) are explicitly segregated and never interpreted as empirical findings.
+\end{itemize}
+These measures uphold the paper's goal: attributing observed user–system misalignment to genuine mutual wanting tension rather than artifacts of sampling, labeling noise, or early sparse data.
+
 \subsection{Provisional Lexical Drift Signal}
 Using a log-odds (informative Dirichlet prior) comparison between the artificial ``pre'' slice (\(n_{tok}=1695\)) and enriched slice (\(n_{tok}=4336\)), the highest \(|z|\) tokens favoring the provisional pre set include \emph{agi}, \emph{released}, \emph{result}, \emph{advanced}, \emph{voice}. These appear to reflect capability / release speculation discourse rather than relational persona complaints, underscoring that early token differentials are dominated by topical context rather than stylistic drift. This reinforces prioritizing (a) genuine temporal windows and (b) complaint-focused lexeme filtering before interpreting drift magnitudes.
 
