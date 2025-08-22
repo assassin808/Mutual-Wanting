@@ -234,6 +234,11 @@ We defer implementing heavier topic modeling (e.g., BERTopic) until a minimally 
 
 \paragraph{Exit Criteria for Next Milestone} Proceed to API comparative probing only after: (i) \(\geq 150\) high-quality labeled Reddit instances with \(\kappa > 0.65\) overall; (ii) established top 10 drift candidate lexemes with effect size (log-odds) \(|z| > 2\) between authentic pre/post windows.
 
+\subsection{Provisional Lexical Drift Signal}
+Using a log-odds (informative Dirichlet prior) comparison between the artificial ``pre'' slice (\(n_{tok}=1695\)) and enriched slice (\(n_{tok}=4336\)), the highest \(|z|\) tokens favoring the provisional pre set include \emph{agi}, \emph{released}, \emph{result}, \emph{advanced}, \emph{voice}. These appear to reflect capability / release speculation discourse rather than relational persona complaints, underscoring that early token differentials are dominated by topical context rather than stylistic drift. This reinforces prioritizing (a) genuine temporal windows and (b) complaint-focused lexeme filtering before interpreting drift magnitudes.
+
+\paragraph{Caution} We treat the current drift list as a stress-test of the analysis pipeline only; no design conclusions will be drawn from speculative or release-focused vocabulary.
+
 
 \section{Evaluation, Validity, and Limitations}
 \paragraph{Internal Validity} Reddit self-selection bias; mitigation via stratified sampling across thread sizes and user activity levels.
