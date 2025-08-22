@@ -77,6 +77,8 @@ def emit(comment: Dict[str, Any]) -> Dict[str, Any]:
         bucket = "mid"
     else:
         bucket = "lo"
+    raw_author = comment.get("author","anon") or "anon"
+    is_bot = bool(re.search(r"bot|automoderator|mod", raw_author, re.IGNORECASE))
     return {
         "comment_id": comment.get("id"),
         "parent_id": comment.get("parent_id"),
@@ -84,7 +86,8 @@ def emit(comment: Dict[str, Any]) -> Dict[str, Any]:
         "created_utc": comment.get("created_utc"),
         "score": score,
         "score_bucket": bucket,
-        "author_hash": hash_user(comment.get("author","anon")),
+        "author_hash": hash_user(raw_author),
+        "is_bot_mod": is_bot,
         "body": comment.get("body"),
         "subreddit": comment.get("subreddit"),
         "transition": trans,
@@ -239,9 +242,9 @@ def main():
             if not any(k in low for k in kw_set):
                 return False
         if args.no_bots:
-            if bot_re.search(r.get('author_hash','')):  # hashed, so cannot detect; skip
+            # Prefer explicit flag set pre-hash; fallback to heuristic on body
+            if r.get('is_bot_mod'):
                 return False
-            # crude heuristic: moderation notice pattern
             if body.startswith('Hey /u/') and 'action was performed automatically' in body:
                 return False
         return True

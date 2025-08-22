@@ -111,3 +111,4 @@ Run first live fetch (limit 500) and inspect class balance across transitions; a
 	- Executed split on `label_batch2.csv` -> A=72, B=72, overlap=25 (`label_batch2_A.csv`, `label_batch2_B.csv`).
 		- Added `labeling_progress.py` to monitor per-file and aggregate labeling completion & class distribution; supports deciding when reliability threshold met for modeling.
 			- Inserted manuscript robustness subsection detailing sampling bias quantification, reliability gating, model separation handling, lexical drift frequency floor, temporal authenticity via historical backfill, and segregation of synthetic validation.
+			- Enhanced `fetch_reddit.py` to explicitly flag probable bot/mod authors (`is_bot_mod`) pre-hash for more reliable exclusion when `--no-bots` is set.
