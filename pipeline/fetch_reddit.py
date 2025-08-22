@@ -39,7 +39,7 @@ else:
 RELEASES = {
     "gpt3_5_to_4": datetime(2023, 3, 14),
     "gpt4_to_4o": datetime(2024, 5, 13),
-    "gpt4o_to_5": datetime(2025, 8, 1),  # placeholder
+    "gpt4o_to_5": datetime(2025, 8, 15),  # adjust closer to present for tagging
 }
 PRE_DAYS = 14
 POST_DAYS = 28
@@ -196,7 +196,19 @@ def main():
     ap.add_argument('--min-len', type=int, default=0, help='Minimum body character length after strip')
     ap.add_argument('--no-bots', action='store_true', help='Filter out likely bot/moderator comments (author contains bot/mod, or body matches common patterns)')
     ap.add_argument('--summary-out', help='Optional JSON summary stats path')
+    ap.add_argument('--override-release', nargs='*', help='Override release dates: key=YYYY-MM-DD (e.g., gpt4o_to_5=2025-08-18)')
     args = ap.parse_args()
+
+    # Apply overrides
+    if args.override_release:
+        for spec in args.override_release:
+            if '=' in spec:
+                k,v = spec.split('=',1)
+                k=k.strip(); v=v.strip()
+                try:
+                    RELEASES[k] = datetime.strptime(v,'%Y-%m-%d')
+                except ValueError:
+                    print(f"[warn] invalid date for {k}: {v} (expected YYYY-MM-DD)")
 
     if args.live:
         raw_rows = [emit(c) for c in live_stream(args.limit)]

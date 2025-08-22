@@ -56,3 +56,9 @@ Run first live fetch (limit 500) and inspect class balance across transitions; a
 ### Notes
 - Need historical retrieval method (Pushshift successor / monthly dumps) for genuine pre windows; current API only yields recent posts.
 - Consider adding a keyword filter (e.g., complaints terms list) to enrich target density for labeling efficiency.
+
+### Session Continuation Addendum
+- Implemented keyword/length/bot filtering in fetch script; created `pipeline/keywords.txt`.
+- Filtered fetch run: 400 raw -> 23 retained complaint-relevant rows (high precision, low recall) all tagged post (placeholder release date issue persists).
+- Added JSON summary output for distribution auditing.
+- Next: adjust release dates or backfill historical to achieve pre samples; consider relaxing min length or expanding limit for better retention.

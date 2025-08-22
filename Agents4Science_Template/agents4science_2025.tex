@@ -178,6 +178,26 @@ Metrics: Confidence Disclosure Rate (CDR), Structured Uncertainty Ratio (SUR), E
 \section{Planned Results Presentation}
 We will report: (a) Descriptive distributions of tension axis indicators; (b) Correlations among axes (e.g., does higher SUR correlate with reduced CRR?); (c) Qualitative archetypes (Over-Confident Shell, Over-Humble Fog, Silent User) grounded in empirical feature profiles; (d) Ablation of uncertainty pattern types versus trust proxy metrics.
 
+\subsection{Preliminary Descriptive Snapshot (Pilot Fetch)}
+Using the initial filtered Reddit pull (keyword + length + bot suppression), we obtained 601 raw recent items, of which 32 (5.3\%) matched complaint/persona drift enrichment filters within an artificial pre-transition window (release date temporarily offset for window instrumentation testing). Distribution across score buckets: 28 low (\textless{}10), 2 mid (10--49), 2 high (\geq{}50). All retained instances currently fall in the pre window due to forward-shifted release anchor; next iteration will incorporate historical backfill for genuine pre/post contrast.
+
+\begin{table}[h]
+  \centering
+  \caption{Pilot filtered sample counts (illustrative; not final).}
+  \label{tab:pilot_counts}
+  \small
+  \begin{tabular}{lccc}
+    	oprule
+    Phase & Low & Mid & High \\
+    \midrule
+  Pre (gpt4o\_to\_5) & 28 & 2 & 2 \\
+  Post (gpt4o\_to\_5) & 0 & 0 & 0 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\paragraph{Interpretation} The extremely skewed phase distribution confirms the need for (i) authentic historical retrieval or (ii) postponing release anchor adjustments until sufficient longitudinal slice is gathered. High-score complaints are rare in this micro-sample, emphasizing the necessity of stratified oversampling or targeted query expansion for salient exemplars.
+
 \section{Evaluation, Validity, and Limitations}
 \paragraph{Internal Validity} Reddit self-selection bias; mitigation via stratified sampling across thread sizes and user activity levels.
 \paragraph{Construct Validity} Warmth markers rely on lexicon + contextual embedding; will perform manual calibration on a random subset.
