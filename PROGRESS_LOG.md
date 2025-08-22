@@ -95,3 +95,6 @@ Run first live fetch (limit 500) and inspect class balance across transitions; a
 - Delay in historical archive acquisition -> parallelize labeling of recent (post) data while sourcing pre archives; maintain explicit provenance labels.
 
 -- End of 2025-08-22 update --
+
+### Implementation Note (Modeling Hardening Executed 2025-08-22)
+- Updated `regression_skeleton.py` with: class count threshold (MIN_CLASS=8), statsmodels primary fit, scikit-learn L2 logistic fallback when failures (separation / singular matrix) occur, explicit estimator annotation, and skip metadata when insufficient data. Purpose: prevent spurious large coefficients influencing narrative about persona drift (ensures only adequately supported complaint shift signals enter manuscript). Pending: integrate into manuscript Methods (Robustness subsection).
