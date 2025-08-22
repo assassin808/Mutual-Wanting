@@ -64,3 +64,4 @@ Run first live fetch (limit 500) and inspect class balance across transitions; a
 - Next: adjust release dates or backfill historical to achieve pre samples; consider relaxing min length or expanding limit for better retention.
 - Added minimal CLI `annotation_tool.py` for in-terminal labeling; smoke test generated `_annotated` CSV.
 - Generated provisional pre/post descriptive stats combining filtered passes (32 pre, 23 post). Early lexeme frequencies: 'worse' dominant; latency & memory co-occur; high-score complaints sparse.
+- Expanded keyword lexicon (warmth + creativity paraphrases). New enriched fetch: 800 raw -> 63 retained (retention 7.9%, improved coverage). Still pre-only due to synthetic anchor.

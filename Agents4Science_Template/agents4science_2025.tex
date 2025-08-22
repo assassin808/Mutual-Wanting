@@ -198,6 +198,43 @@ Using the initial filtered Reddit pull (keyword + length + bot suppression), we 
 
 \paragraph{Interpretation} The extremely skewed phase distribution confirms the need for (i) authentic historical retrieval or (ii) postponing release anchor adjustments until sufficient longitudinal slice is gathered. High-score complaints are rare in this micro-sample, emphasizing the necessity of stratified oversampling or targeted query expansion for salient exemplars.
 
+\section{Current Empirical Status (Work-in-Progress)}
+This section transparently records the present state of empirical progress (not part of a final submission, but used for iterative mentor review). All numbers are provisional; pre/post segmentation is currently an instrumentation convenience rather than a genuine temporal contrast.
+
+\subsection{Data Acquisition Pipeline Realization}
+Implemented components now include: (a) live Reddit fetcher with credential auto-loading, subreddit iteration, and transition window tagging; (b) keyword/length/bot filtering layer (complaint enrichment lexicon: 28 seed terms + future warmth synonyms planned); (c) stratified sampler by (transition, phase, score bucket); (d) interactive CLI annotation tool capturing primary complaint tag and secondary flags; (e) preliminary feature extractor (hedge, warmth, pronoun, imperative heuristics); (f) descriptive summarizer for provisional pre/post sets.
+
+\subsection{Provisional Corpus Snapshot}
+Recent filtered pulls produced two slices: a ``pre'' set (\(n=32\)) and a ``post'' set (\(n=23\)), where the distinction is induced via a forward-shifted release anchor (no real version change yet). Low-score items (score < 10) dominate (\(>85\%\) of retained rows). Dominant lexemes among complaint-targeting tokens: \emph{worse}, \emph{latency}, \emph{memory}, \emph{personality}. Warmth-related adjectives (e.g., ``cold'', ``soulless'') appear but at low frequency; this may reflect either true distribution or lexicon incompleteness (missing paraphrases like ``generic'', ``sterile'', ``dry'').
+
+\subsection{Preliminary Interpretive Signals}
+\begin{itemize}
+  \item \textbf{Salience Bundling}: Latency and memory concerns co-occur with generic ``worse'' judgments, suggesting multi-factor dissatisfaction rather than isolated persona warmth regression.
+  \item \textbf{Engagement Skew}: High-score (community-salient) complaint posts are scarce; potential explanations: early stage of version discourse, down-weighting of repetitive complaint formats, or enrichment filter bias toward long, low-engagement comments.
+  \item \textbf{Lexicon Coverage Risk}: Warmth regression may be expressed via phrases not yet in the enrichment list (``feels robotic'', ``sanitized'', ``over-sanitized''); planned expansion should raise recall without excessive noise.
+  \item \textbf{Artificial Phase Limitation}: Any comparative inference (pre vs post) is invalid until grounded in real historical windows (e.g., GPT-4 to GPT-4o release) or future GPT-5 launch data.
+\end{itemize}
+
+\subsection{Planned Immediate Extensions}
+\begin{enumerate}
+  \item \textbf{Authentic Historical Baseline}: Backfill actual GPT-4 to GPT-4o transition window using archive API / third-party dataset to establish real pre/post distributions.
+  \item \textbf{Lexicon Expansion}: Add warmth + creativity paraphrases (generic, sterile, flat, mechanical, robotic, lifeless, blandness, overcautious) and neutrality shift terms (hedged, vague, diluted).
+  \item \textbf{Dual-Sampling Strategy}: Combine (i) enriched keyword sample and (ii) random baseline sample to enable precision/recall estimation for complaint detection heuristics via manual labels.
+  \item \textbf{Annotation Batch Scaling}: Target initial labeled size \(n \approx 200\) (balanced across enriched vs baseline) to estimate label prevalence and adjust sampling weights.
+  \item \textbf{Reliability Pass}: Introduce second annotator on a 15\% overlap slice; compute Cohen's \(\kappa\) and per-class agreement; refine ambiguous tag definitions (e.g., distinguish \emph{helpfulness\_regression} vs \emph{verbosity\_change}).
+  \item \textbf{Preliminary Modeling}: Fit logistic regression predicting any complaint vs none using current stylistic features; inspect odds ratios for hedge rate, warmth rate, and verbosity proxies.
+  \item \textbf{Drift Lexicon Seed}: Generate differential term list (enriched vs baseline) controlling for token length to initialize a persona drift candidate lexicon for later validation.
+  \item \textbf{Ethical Guardrail Review}: Vet planned quoting policies and ensure de-identification and paraphrasing rules are codified prior to releasing intermediate examples.
+\end{enumerate}
+
+\subsection{Decision Log (Current Rationale)}
+We defer implementing heavier topic modeling (e.g., BERTopic) until a minimally sufficient labeled base exists to evaluate whether added thematic clustering improves complaint taxonomy coverage or merely refines already captured lexical signals. Similarly, we postpone multi-model API probing until at least one authentic temporal Reddit slice confirms measurable drift dimensions to operationalize as controlled prompts.
+
+\paragraph{Risk Mitigation} Key risks: (a) Over-fitting complaint detection to lexicon; (b) Absence of genuine pre window; (c) Annotator drift on subtle categories (helpfulness vs creativity). Mitigations: dual sampling + baseline; historical backfill; early reliability statistics with iterative guideline refinement.
+
+\paragraph{Exit Criteria for Next Milestone} Proceed to API comparative probing only after: (i) \(\geq 150\) high-quality labeled Reddit instances with \(\kappa > 0.65\) overall; (ii) established top 10 drift candidate lexemes with effect size (log-odds) \(|z| > 2\) between authentic pre/post windows.
+
+
 \section{Evaluation, Validity, and Limitations}
 \paragraph{Internal Validity} Reddit self-selection bias; mitigation via stratified sampling across thread sizes and user activity levels.
 \paragraph{Construct Validity} Warmth markers rely on lexicon + contextual embedding; will perform manual calibration on a random subset.

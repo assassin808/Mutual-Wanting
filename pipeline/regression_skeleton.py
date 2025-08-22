@@ -11,8 +11,9 @@ except ImportError:
     pd = None
 
 PRIMARY_TAGS = [
-    "WARMTH_LOSS","CREATIVITY_DROP","HELPFULNESS_REGRESSION","HEDGING_SHIFT",
-    "SAFETY_REFUSAL_SHIFT","MEMORY_CONTINUITY","VERBOSITY_CHANGE","LATENCY_SPEED","ACCESS_LIMITS"
+    'warmth_regression','creativity_regression','helpfulness_regression',
+    'hedging_shift','safety_refusal_shift','memory_continuity',
+    'verbosity_change','latency_speed','access_limit'
 ]
 
 def load_df(path: str):
@@ -20,6 +21,19 @@ def load_df(path: str):
 
 def run_models(df):
     results = {}
+    # Omnibus complaint vs other
+    df['any_complaint'] = df['primary_tag'].apply(lambda x: 0 if (pd.isna(x) or x=='') else 1)
+    try:
+        m_any = smf.logit("any_complaint ~ C(transition) * C(pre_post) + C(score_bucket)", data=df).fit(disp=False)
+        results['any_complaint'] = {
+            'n': int(df.shape[0]),
+            'params': m_any.params.to_dict(),
+            'pvalues': m_any.pvalues.to_dict(),
+            'aic': m_any.aic
+        }
+    except Exception as e:
+        results['any_complaint'] = {'error': str(e)}
+
     for tag in PRIMARY_TAGS:
         df[tag + '_bin'] = (df['primary_tag'] == tag).astype(int)
         formula = f"{tag}_bin ~ C(transition) * C(pre_post) + C(score_bucket)"
