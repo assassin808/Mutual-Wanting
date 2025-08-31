@@ -116,6 +116,45 @@ def table_drift(drift_lex, drift_boot, outdir: Path):
     write_tsv(outdir/'drift_tokens.tsv', rows[0], rows[1:])
 
 
+def table_probe_stats(data, outdir: Path):
+    if not data:
+        return
+    # Per-model
+    header=['model','metric','count','n','prop']
+    rows=[]
+    for model, metrics in data.get('per_model',{}).items():
+        for m, d in metrics.items():
+            rows.append([model, m, d['count'], d['n'], f"{d['prop']:.3f}"])
+    write_tsv(outdir/'probe_props.tsv', header, rows)
+    comp_header=['metric','model_a','model_b','prop_a','prop_b','z','p']
+    comp_rows=[]
+    for c in data.get('pairwise',[]):
+        comp_rows.append([c['metric'], c['model_a'], c['model_b'], f"{c['prop_a']:.3f}", f"{c['prop_b']:.3f}", '' if c['z'] is None else f"{c['z']:.2f}", '' if c['p'] is None else f"{c['p']:.3g}"])
+    write_tsv(outdir/'probe_pairwise.tsv', comp_header, comp_rows)
+
+
+def table_coverage(data, outdir: Path):
+    if not data:
+        return
+    header=['phase','n_rows','days','min_day','max_day','missing','sparse','median_tokens']
+    rows=[]
+    for phase in ['pre','post']:
+        d=data.get(phase)
+        if not d:
+            continue
+        rows.append([
+            phase,
+            d.get('n_rows'),
+            d.get('days_covered'),
+            d.get('min_day'),
+            d.get('max_day'),
+            len(d.get('missing_days',[])),
+            len(d.get('sparse_days',[])),
+            d.get('token_length_median')
+        ])
+    write_tsv(outdir/'archive_coverage.tsv', header, rows)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--agreement')
@@ -123,6 +162,8 @@ def main():
     ap.add_argument('--regress')
     ap.add_argument('--drift-lex')
     ap.add_argument('--drift-boot')
+    ap.add_argument('--probe-stats')
+    ap.add_argument('--coverage')
     ap.add_argument('--out-dir', required=True)
     args = ap.parse_args()
 
@@ -134,11 +175,15 @@ def main():
     regress = load(args.regress)
     drift_lex = load(args.drift_lex)
     drift_boot = load(args.drift_boot)
+    probe_stats = load(args.probe_stats)
+    coverage = load(args.coverage)
 
     table_agreement(agreement, outdir)
     table_enrichment(enrichment, outdir)
     table_regress(regress, outdir)
     table_drift(drift_lex, drift_boot, outdir)
+    table_probe_stats(probe_stats, outdir)
+    table_coverage(coverage, outdir)
 
 if __name__ == '__main__':
     main()

@@ -34,7 +34,7 @@ DATA = ROOT / 'data'
 DEFAULT_OUT = ROOT / 'outputs'
 
 PHASES = [
-    'backfill','sample','split','agreement','merge','enrichment','features','drift','regress','probes'
+    'backfill','coverage','sample','split','agreement','merge','enrichment','features','drift','regress','probes','probe_stats'
 ]
 
 
@@ -70,6 +70,23 @@ def phase_backfill(args, outdir: Path):
         '--out', str(combined)
     ])
     return combined
+
+
+def phase_coverage(args, outdir: Path):
+    if not (args.pre_json and args.post_json):
+        print('Skipping coverage (need --pre-json & --post-json).')
+        return None
+    report = outdir / 'archive_coverage.json'
+    if report.exists() and not args.force:
+        print('Archive coverage exists.')
+        return report
+    run([
+        sys.executable, str(ROOT / 'archive_coverage.py'),
+        '--pre', args.pre_json,
+        '--post', args.post_json,
+        '--out', str(report)
+    ])
+    return report
 
 
 def phase_sample(args, outdir: Path):
@@ -254,8 +271,27 @@ def phase_probes(args, outdir: Path):
     return out_json
 
 
+def phase_probe_stats(args, outdir: Path):
+    if not args.probes_json:
+        print('Skipping probe_stats (need --probes-json).')
+        return None
+    out_json = outdir / 'probe_stats.json'
+    if out_json.exists() and not args.force:
+        print('Probe stats exist.')
+        return out_json
+    metrics = args.probe_metrics or ['cdr','sur']
+    run([
+        sys.executable, str(ROOT / 'probe_stats.py'),
+        '--probes-json', args.probes_json,
+        '--metrics', *metrics,
+        '--out', str(out_json)
+    ])
+    return out_json
+
+
 PHASE_FUNC = {
     'backfill': phase_backfill,
+    'coverage': phase_coverage,
     'sample': phase_sample,
     'split': phase_split,
     'agreement': phase_agreement,
@@ -264,7 +300,8 @@ PHASE_FUNC = {
     'features': phase_features,
     'drift': phase_drift,
     'regress': phase_regress,
-    'probes': phase_probes
+    'probes': phase_probes,
+    'probe_stats': phase_probe_stats
 }
 
 
@@ -302,6 +339,8 @@ def parse_args():
     ap.add_argument('--prompts-json')
     ap.add_argument('--models', nargs='+')
     ap.add_argument('--max-prompts', type=int)
+    ap.add_argument('--probes-json', help='Existing probes results JSON for stats phase')
+    ap.add_argument('--probe-metrics', nargs='+', help='Binary probe metrics to compare (default cdr sur)')
     return ap.parse_args()
 
 
