@@ -241,6 +241,38 @@ These measures uphold the paper's goal: attributing observed user–system misal
 \subsection{Provisional Lexical Drift Signal}
 Using a log-odds (informative Dirichlet prior) comparison between the artificial ``pre'' slice (\(n_{tok}=1695\)) and enriched slice (\(n_{tok}=4336\)), the highest \(|z|\) tokens favoring the provisional pre set include \emph{agi}, \emph{released}, \emph{result}, \emph{advanced}, \emph{voice}. These appear to reflect capability / release speculation discourse rather than relational persona complaints, underscoring that early token differentials are dominated by topical context rather than stylistic drift. This reinforces prioritizing (a) genuine temporal windows and (b) complaint-focused lexeme filtering before interpreting drift magnitudes.
 
+\section{Results (Placeholder)}
+This section will be populated after reliability, enrichment, drift, modeling, and probe phases meet gating criteria. Table references are scaffolded for seamless insertion.
+\subsection{Annotation Reliability}
+Pending: Cohen's $\kappa$ and confusion pairs. Table~\ref{tab:agreement} will present final overlap metrics.
+\subsection{Enrichment Sampling Bias}
+Pending: Precision vs baseline prevalence with Wilson CIs and relative risk.
+\subsection{Lexical Drift (Stable Tokens)}
+Pending: Filtered token list (freq $\geq$ 10 each side, sign consistency $\geq$ 0.8). Appendix table will include mean $z$, std, stability.
+\subsection{Complaint Incidence Modeling}
+Pending: Interaction coefficients (transition:pre/post) for any complaint and major categories; report effect sizes with separation safeguards.
+\subsection{Behavioral Probes Across Versions}
+Pending: Comparative metrics (CDR, SUR, ETD distributions, SST proxy, CRR, DRP) with proportion tests and uncertainty intervals.
+\subsection{Synthesis Across Mutual Wanting Axes}
+Pending: Integrated narrative linking significant shifts to Warmth--Cost, Stability--Optimization, Honesty--Authority, and Resonance--Dependence axes with actionable design implications.
+
+\begin{table}[h]
+  \centering
+  \caption{Annotation reliability (placeholder). Will be replaced by exported TSV (agreement).}
+  \label{tab:agreement}
+  \small
+  \begin{tabular}{lc}
+    	oprule
+    Metric & Value \\
+    \midrule
+    Cohen's $\kappa$ & TBD \\
+    Overlap Items & TBD \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+% Additional tables (enrichment, regression interactions, drift tokens, probe metrics) will be inserted analogously.
+
 \paragraph{Caution} We treat the current drift list as a stress-test of the analysis pipeline only; no design conclusions will be drawn from speculative or release-focused vocabulary.
 
 
