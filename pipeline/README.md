@@ -1,13 +1,20 @@
-# Minimal Pipeline Overview
+# Pipeline Overview (Operational)
 
-Goal: Lightweight extraction, sampling, labeling, and analysis of Reddit complaints across GPT model transitions.
+Goal: Lightweight, reproducible extraction, sampling, labeling, probing, and analysis of Reddit complaints and model behavior across GPT version transitions.
 
-## Pipeline Steps
-1. Fetch: Collect comments for defined pre/post windows per transition.
+## Core Phases
+1. Fetch / Backfill: Collect or externally export Reddit comments for canonical pre/post windows.
 2. Sample: Stratify by engagement (score buckets) and pre/post.
-3. Label: Human annotation using `labeling_guidelines.md`.
-4. Features: Compute user style features (length, hedge density, pronoun types, imperative ratio, warmth markers).
-5. Analysis: Proportion shifts, logistic models with interaction (transition * pre_post + user_cluster).
+3. Split: Dual-annotation split with controlled overlap for reliability.
+4. Label: Human annotation using `labeling_guidelines.md` + refinement cycles.
+5. Agreement & Disagreement Report: Compute kappa + surface confusion pairs.
+6. Merge & Consensus: Majority + tie flagging.
+7. Enrichment Evaluation: Quantify sampling precision/recall & relative risk.
+8. Features: User style / linguistic features.
+9. Drift: Lexical log-odds + bootstrap stability filtering.
+10. Regression: Complaint incidence modeling with interaction.
+11. Probes: Behavioral prompt suite across API model versions.
+12. Table Prep: Convert JSON artifacts into manuscript-ready TSV tables.
 
 ## Directory Layout
 ```
@@ -47,11 +54,36 @@ logit(tag ~ transition + pre_post + transition:pre_post + user_style_cluster + s
 ```
 Cluster: k-means (k=5) over standardized features.
 
-## Outputs
-- proportions_shift.csv
-- regression_results.json
-- cooccurrence_network.gml
-- style_cluster_centroids.csv
+## Key Scripts Added
+| Script | Purpose |
+|--------|---------|
+| `historical_backfill_stub.py` | Normalize externally exported Reddit archives and tag pre/post. |
+| `split_for_dual_annotation.py` | Create annotator A/B CSVs with overlap subset. |
+| `agreement.py` | Compute Cohen's kappa + confusion matrix. |
+| `disagreement_report.py` | Rank confusion pairs & emit remediation guidance. |
+| `merge_annotations.py` | Build consensus labels & disagreement summary. |
+| `enrichment_eval.py` | Evaluate keyword enrichment precision, recall proxy, relative risk. |
+| `features_and_analysis.py` | Per-row feature extraction + aggregate summary. |
+| `drift_lexicon.py` | Log-odds lexical drift (frequency floor guarded). |
+| `drift_bootstrap.py` | Drift token stability via bootstrap sign consistency. |
+| `regression_skeleton.py` | Logistic modeling with separation safeguards. |
+| `probe_runner.py` | Execute probe prompt suite vs API models (behavioral metrics). |
+| `orchestrate_pipeline.py` | One-stop phase orchestrator with resumable outputs. |
+| `table_prep.py` | Collate JSON artifacts into TSV tables for manuscript. |
+
+## Primary JSON/TSV Artifacts
+| Artifact | Source Phase | Notes |
+|----------|--------------|-------|
+| `agreement.json` | agreement | Contains kappa & confusion matrix. |
+| `disagreement_report.json` | disagreement_report | Heuristic remediation guidance. |
+| `labels_consensus.csv` | merge | Consensus primary tags (ties flagged). |
+| `enrichment_eval.json` | enrichment | Precision, prevalence, relative risk, recall estimate. |
+| `features_rows.csv` | features | Per-row merged labels + features for modeling. |
+| `drift_log_odds.json` | drift | Top tokens each side (freq floor applied). |
+| `drift_bootstrap.json` | drift | Token stability metrics (mean z, std, sign consistency). |
+| `regression_results.json` | regress | Model coefficients (interaction focus). |
+| `probes_results.json` | probes | Behavioral metrics per model/prompt. |
+| `tables/*.tsv` | table_prep | Manuscript-ready condensed tables. |
 
 ## Dependencies
 Install optional analysis libraries (skip if only preparing raw labels):
@@ -71,10 +103,47 @@ python pipeline/features_and_analysis.py --labeled pipeline/data/sample_labels.c
 ## Annotation Aids
 See `pipeline/labeling_guidelines.md` and `pipeline/annotation_examples.md` for calibration.
 
-## Next Actions
-- Implement fetch script with simple Reddit API or pushshift fallback (if accessible).
-- Create sampling script, produce pilot batch.
-- Update guidelines after pilot reliability.
+## Orchestration Usage
+Single phase (e.g., drift only):
+```
+python pipeline/orchestrate_pipeline.py --phase drift \
+  --pre-json pipeline/data/historical_pre.jsonl \
+  --post-json pipeline/data/historical_post.jsonl \
+  --out-root pipeline/outputs
+```
+Full run (provide inputs progressively; phases skip missing prerequisites):
+```
+python pipeline/orchestrate_pipeline.py --out-root pipeline/outputs \
+  --pre-archive exported_pre.jsonl --post-archive exported_post.jsonl \
+  --raw-json pipeline/outputs/historical_combined.jsonl --sample-n 600 \
+  --batch-path pipeline/outputs/label_batch.csv --overlap 60 \
+  --annot-a pipeline/outputs/label_batch_A.csv --annot-b pipeline/outputs/label_batch_B.csv \
+  --consensus-inputs pipeline/outputs/label_batch_A_annotated.csv pipeline/outputs/label_batch_B_annotated.csv \
+  --consensus-csv pipeline/outputs/labels_consensus.csv \
+  --pre-json pipeline/data/historical_pre.jsonl --post-json pipeline/data/historical_post.jsonl \
+  --prompts-json pipeline/data/prompts.json
+```
+Then prepare tables:
+```
+python pipeline/table_prep.py --agreement pipeline/outputs/agreement.json \
+  --enrichment pipeline/outputs/enrichment_eval.json \
+  --regress pipeline/outputs/regression_results.json \
+  --drift-lex pipeline/outputs/drift_log_odds.json \
+  --drift-boot pipeline/outputs/drift_bootstrap.json \
+  --out-dir pipeline/outputs/tables
+```
+
+## Reliability & Stability Gates
+- Annotation phase proceeds until Cohen's kappa > 0.65 (refinement cycles guided by `disagreement_report.py`).
+- Drift tokens reported only if frequency floor met (>=10 each side) AND sign_consistency >= 0.8 (bootstrap).
+- Regression models skipped for outcomes failing MIN_CLASS threshold (>=8 positives & negatives).
+
+## Next Immediate Actions (if resuming mid-project)
+1. Acquire authentic pre/post Reddit archives & run backfill phase.
+2. Generate sampling batch & split for dual annotation.
+3. Complete first overlap labeling, run agreement + disagreement report, update guidelines.
+4. Iterate until reliability gate hit; merge, feature extraction, enrichment eval.
+5. Drift + bootstrap, regressions, probe runs, table prep.
 
 ## Environment Variables (Reddit API)
 Set locally (do NOT commit secrets):
