@@ -1,0 +1,14 @@
+{
+  "gpt4_to_4o": {
+    "pre": "pipeline/data/gpt4_to_4o_pre.jsonl",
+    "post": "pipeline/data/gpt4_to_4o_post.jsonl"
+  },
+  "gpt4o_iterative_mar2025": {
+    "pre": "pipeline/data/gpt4o_iterative_mar2025_pre.jsonl",
+    "post": "pipeline/data/gpt4o_iterative_mar2025_post.jsonl"
+  },
+  "gpt4_retirement_chatgpt": {
+    "pre": "pipeline/data/gpt4_retirement_chatgpt_pre.jsonl",
+    "post": "pipeline/data/gpt4_retirement_chatgpt_post.jsonl"
+  }
+}

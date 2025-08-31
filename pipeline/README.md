@@ -58,6 +58,10 @@ Cluster: k-means (k=5) over standardized features.
 | Script | Purpose |
 |--------|---------|
 | `historical_backfill_stub.py` | Normalize externally exported Reddit archives and tag pre/post. |
+| `multi_backfill_stub.py` | Normalize multiple transitions from YAML + archive map. |
+| `transitions.yaml` | Canonical transition window configuration. |
+| `archive_coverage.py` | Validate coverage of raw pre/post archives (day counts, sparsity). |
+| `fetch_window_reddit.py` | Build focused raw window archives (Pushshift fallback). |
 | `split_for_dual_annotation.py` | Create annotator A/B CSVs with overlap subset. |
 | `agreement.py` | Compute Cohen's kappa + confusion matrix. |
 | `disagreement_report.py` | Rank confusion pairs & emit remediation guidance. |
@@ -68,8 +72,11 @@ Cluster: k-means (k=5) over standardized features.
 | `drift_bootstrap.py` | Drift token stability via bootstrap sign consistency. |
 | `regression_skeleton.py` | Logistic modeling with separation safeguards. |
 | `probe_runner.py` | Execute probe prompt suite vs API models (behavioral metrics). |
+| `probe_stats.py` | Pairwise proportion tests over probe metrics. |
 | `orchestrate_pipeline.py` | One-stop phase orchestrator with resumable outputs. |
 | `table_prep.py` | Collate JSON artifacts into TSV tables for manuscript. |
+| `regression_placebo.py` | Null distribution (shuffled pre_post) for interaction effect sanity. |
+| `drift_trend.py` | Cross-transition drift trend stability. |
 
 ## Primary JSON/TSV Artifacts
 | Artifact | Source Phase | Notes |
@@ -144,6 +151,7 @@ python pipeline/table_prep.py --agreement pipeline/outputs/agreement.json \
 3. Complete first overlap labeling, run agreement + disagreement report, update guidelines.
 4. Iterate until reliability gate hit; merge, feature extraction, enrichment eval.
 5. Drift + bootstrap, regressions, probe runs, table prep.
+ 6. (Optional) Run regression placebo and drift_trend once multi-transition data present.
 
 ## Environment Variables (Reddit API)
 Set locally (do NOT commit secrets):

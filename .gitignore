@@ -17,3 +17,4 @@ pipeline/outputs/*
 *.fdb_latexmk
 *.synctex.gz
 .venv/
+__pycache__/
