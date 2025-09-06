@@ -59,6 +59,7 @@ Cluster: k-means (k=5) over standardized features.
 |--------|---------|
 | `historical_backfill_stub.py` | Normalize externally exported Reddit archives and tag pre/post. |
 | `multi_backfill_stub.py` | Normalize multiple transitions from YAML + archive map. |
+| `multi_fetch_windows.py` | Batch fetch all transition pre/post windows + manifest. |
 | `transitions.yaml` | Canonical transition window configuration. |
 | `archive_coverage.py` | Validate coverage of raw pre/post archives (day counts, sparsity). |
 | `fetch_window_reddit.py` | Build focused raw window archives (Pushshift fallback). |
@@ -77,6 +78,7 @@ Cluster: k-means (k=5) over standardized features.
 | `table_prep.py` | Collate JSON artifacts into TSV tables for manuscript. |
 | `regression_placebo.py` | Null distribution (shuffled pre_post) for interaction effect sanity. |
 | `drift_trend.py` | Cross-transition drift trend stability. |
+| `regression_placebo.py` | Null distribution for interaction effect sanity. |
 
 ## Primary JSON/TSV Artifacts
 | Artifact | Source Phase | Notes |
@@ -146,12 +148,13 @@ python pipeline/table_prep.py --agreement pipeline/outputs/agreement.json \
 - Regression models skipped for outcomes failing MIN_CLASS threshold (>=8 positives & negatives).
 
 ## Next Immediate Actions (if resuming mid-project)
-1. Acquire authentic pre/post Reddit archives & run backfill phase.
-2. Generate sampling batch & split for dual annotation.
-3. Complete first overlap labeling, run agreement + disagreement report, update guidelines.
-4. Iterate until reliability gate hit; merge, feature extraction, enrichment eval.
-5. Drift + bootstrap, regressions, probe runs, table prep.
- 6. (Optional) Run regression placebo and drift_trend once multi-transition data present.
+1. Run `multi_fetch_windows.py` to create per-transition pre/post archives + `archive_map.json` (or supply externally exported archives and build map manually).
+2. Run orchestrator `--phase multi_backfill` with `--transitions` + `--archive-map` to generate `multi_transitions.jsonl`.
+3. Run coverage phase (archive completeness) then sampling.
+4. Split, dual annotation, agreement + disagreement refinement cycles until kappa > 0.65.
+5. Merge, enrichment eval, features, drift + bootstrap, regressions.
+6. Run probes, probe_stats, regression_placebo, drift_trend for robustness.
+7. Table prep & manuscript Results population.
 
 ## Environment Variables (Reddit API)
 Set locally (do NOT commit secrets):

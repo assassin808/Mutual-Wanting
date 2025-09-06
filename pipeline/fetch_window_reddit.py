@@ -51,16 +51,50 @@ def load_subreddits(path: str) -> List[str]:
 # -------- Reddit API (PRAW) --------
 
 def fetch_praw(sub: str, start: int, end: int, limit: int) -> List[Dict]:
+    """Fetch via official API using submissions time filter then flatten comments.
+
+    We iterate submissions in the window and expand comment trees (shallow) until limit reached.
+    This is approximate (may over-represent high-comment submissions) but ensures data presence
+    when Pushshift is unavailable. Duplicate comment IDs are deduped.
+    """
     client_id = os.getenv('REDDIT_CLIENT_ID')
     client_secret = os.getenv('REDDIT_CLIENT_SECRET')
     user_agent = os.getenv('REDDIT_USER_AGENT','MutualWantingStudy/0.1')
-    if not (client_id and client_secret):
+    if not (client_id and client_secret) or praw is None:
         return []
     reddit = praw.Reddit(client_id=client_id, client_secret=client_secret, user_agent=user_agent, check_for_async=False)
-    out=[]
-    # PRAW does not support direct time-bound comment search; we iterate submissions and comments heuristically (coarse).
-    # For precision we fallback to Pushshift for comment-level filtering.
-    return out  # rely on pushshift for now unless we implement full listing (placeholder)
+    subreddit = reddit.subreddit(sub)
+    out: Dict[str,Dict] = {}
+    try:
+        for submission in subreddit.submissions(start, end):  # type: ignore[attr-defined]
+            submission.comment_sort = 'top'
+            submission.comments.replace_more(limit=0)
+            for c in submission.comments.list():
+                if len(out) >= limit:
+                    break
+                created = int(getattr(c,'created_utc',0))
+                if created < start or created > end:
+                    continue
+                body = getattr(c,'body','') or ''
+                cid = getattr(c,'id',None)
+                if not cid or cid in out:
+                    continue
+                score = getattr(c,'score',0) or 0
+                out[cid] = {
+                    'id': cid,
+                    'parent_id': getattr(c,'parent_id',None),
+                    'link_id': getattr(c,'link_id', f"t3_{submission.id}"),
+                    'created_utc': created,
+                    'score': score,
+                    'body': body,
+                    'subreddit': sub,
+                    'author': str(getattr(c,'author','anon'))
+                }
+            if len(out) >= limit:
+                break
+    except Exception:
+        return list(out.values())
+    return list(out.values())
 
 # -------- Pushshift Fallback --------
 
@@ -142,12 +176,16 @@ def main():
 
     all_rows=[]
     for s in subs:
-        got = []
+        got: List[Dict] = []
+        # Try pushshift first
         ps = fetch_pushshift(s, start_ts, end_ts, args.max_per_subreddit)
         got.extend(ps)
+        if not got:  # fallback to PRAW if available
+            praw_rows = fetch_praw(s, start_ts, end_ts, args.max_per_subreddit)
+            got.extend(praw_rows)
         norm = normalize(got)
         all_rows.extend(norm)
-        print(f"{s}: {len(norm)} rows")
+        print(f"{s}: {len(norm)} rows (source={'pushshift' if ps else 'praw' if got else 'none'})")
 
     with open(args.out,'w',encoding='utf-8') as f:
         for r in all_rows:

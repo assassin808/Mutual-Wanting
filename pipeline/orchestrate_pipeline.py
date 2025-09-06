@@ -34,7 +34,7 @@ DATA = ROOT / 'data'
 DEFAULT_OUT = ROOT / 'outputs'
 
 PHASES = [
-    'backfill','coverage','sample','split','agreement','merge','enrichment','features','drift','regress','probes','probe_stats'
+    'backfill','multi_backfill','coverage','sample','split','agreement','merge','enrichment','features','drift','regress','probes','probe_stats'
 ]
 
 
@@ -70,6 +70,28 @@ def phase_backfill(args, outdir: Path):
         '--out', str(combined)
     ])
     return combined
+
+
+def phase_multi_backfill(args, outdir: Path):
+    """Multi-transition backfill using transitions + archive map.
+
+    Requires --transitions and --archive-map (produced by multi_fetch_windows.py).
+    Produces multi_transitions.jsonl which can be fed to sampling phase.
+    """
+    if not (args.transitions and args.archive_map):
+        print('Skipping multi_backfill (need --transitions & --archive-map).')
+        return None
+    out = outdir / 'multi_transitions.jsonl'
+    if out.exists() and not args.force:
+        print('Multi-transition backfill exists.')
+        return out
+    run([
+        sys.executable, str(ROOT / 'multi_backfill_stub.py'),
+        '--transitions', args.transitions,
+        '--archive-map', args.archive_map,
+        '--out', str(out)
+    ])
+    return out
 
 
 def phase_coverage(args, outdir: Path):
@@ -291,6 +313,7 @@ def phase_probe_stats(args, outdir: Path):
 
 PHASE_FUNC = {
     'backfill': phase_backfill,
+    'multi_backfill': phase_multi_backfill,
     'coverage': phase_coverage,
     'sample': phase_sample,
     'split': phase_split,
@@ -313,6 +336,9 @@ def parse_args():
     # Backfill
     ap.add_argument('--pre-archive')
     ap.add_argument('--post-archive')
+    # Multi backfill
+    ap.add_argument('--transitions', help='Path to transitions.yaml for multi_backfill phase')
+    ap.add_argument('--archive-map', help='Archive map JSON produced by multi_fetch_windows.py')
     # Sampling
     ap.add_argument('--raw-json', help='Raw combined window JSONL for sampling')
     ap.add_argument('--sample-n', type=int, default=300)
