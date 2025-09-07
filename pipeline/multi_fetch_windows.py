@@ -6,9 +6,14 @@ Clean reimplementation after corruption.
 """
 from __future__ import annotations
 import argparse, json, yaml, time, requests, os
+try:
+    from . import env_loader  # type: ignore
+except Exception:
+    import env_loader
+env_loader.load_env_once()
 from pathlib import Path
 from datetime import datetime, timedelta
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Tuple
 
 try:
     import praw  # type: ignore
@@ -153,7 +158,7 @@ def write_jsonl(path: Path, rows: List[dict]):
             f.write(json.dumps(r)+'\n')
 
 
-def validate_subs(subs: List[str]) -> (List[str], List[str]):
+def validate_subs(subs: List[str]) -> Tuple[List[str], List[str]]:
     invalid=[]
     if praw is None:
         return subs, invalid

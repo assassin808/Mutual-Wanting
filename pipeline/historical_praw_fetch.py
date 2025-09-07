@@ -31,6 +31,11 @@ Notes:
 """
 from __future__ import annotations
 import argparse, os, time, json, math
+try:
+    from . import env_loader  # type: ignore
+except Exception:
+    import env_loader  # fallback when run as script
+env_loader.load_env_once()
 from datetime import datetime, timedelta, timezone
 from typing import List, Dict, Set
 

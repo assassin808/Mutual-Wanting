@@ -18,6 +18,11 @@ Note: For large windows consider splitting (e.g., daily) to respect API limits. 
 """
 from __future__ import annotations
 import argparse, os, sys, time, json, datetime as dt
+try:
+    from . import env_loader  # type: ignore
+except Exception:
+    import env_loader
+env_loader.load_env_once()
 from typing import List, Dict
 import hashlib
 import math
