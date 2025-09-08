@@ -2,14 +2,14 @@
 ChatGPT
 OpenAI
 GPT3
-GPT4
+# GPT4 (403 – inaccessible via API)  # removed
 
 # Prompting & usage style (persona concerns often surface)
 PromptEngineering
 AIprompting
 
 # General AI user experience (broader complaints; lower precision)
-ArtificialIntelligence
+## ArtificialIntelligence (404 – removed / inaccessible)  # removed
 singularity
 
 # LLM developer / practitioner (occasional comparative persona drift threads)
@@ -22,7 +22,7 @@ AISafety
 
 # Narrower discussion hubs (monitor volume; may downsample)
 AIPromptHub
-AIChat
+## AIChat (404 – removed)  # removed
 
 # Notes:
 # - r/ChatGPT and r/OpenAI expected to yield the majority of persona-change complaints.

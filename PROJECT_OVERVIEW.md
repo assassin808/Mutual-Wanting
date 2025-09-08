@@ -2,14 +2,20 @@
 
 _Last updated: 2025-08-26_
 
-## 1. Core Research Question
-How do user "wants" (expressed / latent desiderata in public discourse) and system "wants" (implicit optimization / deployment preferences manifested in behavioral responses) diverge or realign across a salient GPT model version transition? Can a minimal, reproducible two‑lever method (Reddit discourse + controlled API probe suite) surface stable tension axes (Warmth–Cost, Stability–Iteration, Honesty–Authority, Resonance–Dependence)?
+## 1. Core Research Question (Finalized 2025-09-08)
+To what extent, and along which stable tension axes (Warmth–Cost Efficiency, Stability–Iteration, Epistemic Honesty–Authority, Emotional Resonance–Dependence), do user‑perceived persona complaints shift across GPT model version transitions, and can a minimal dual‑source method (Reddit discourse + controlled probe suite) yield reproducible early‑warning signals of divergence between user wanting and system operational wanting?
 
 ## 2. Mutual Wanting Alignment Framework (Axes)
 - Warmth vs Cost Efficiency: personable, empathic elaboration vs brevity/token frugality.
 - Stability vs Iterative Optimization: persona continuity vs rapid tuning/router shifts.
 - Epistemic Honesty vs Authority Signaling: calibrated uncertainty vs confident assurance.
 - Emotional Resonance vs Dependence Risk: adaptive mirroring vs over‑bonding vulnerability.
+
+### Non-Goals (Explicit)
+- No causal inference about downstream user behavioral or wellbeing outcomes.
+- No longitudinal per-user trajectory reconstruction (privacy-preserving aggregate only).
+- No attribution to specific internal training interventions or safety policy edits (black-box stance).
+- No normative claims about optimal persona; strictly observational early-warning signals.
 
 ## 3. Metrics (Operational Set)
 | Code | Name (Short) | Concept | High Value Indicates |

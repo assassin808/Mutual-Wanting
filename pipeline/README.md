@@ -112,6 +112,14 @@ python pipeline/features_and_analysis.py --labeled pipeline/data/sample_labels.c
 ## Annotation Aids
 See `pipeline/labeling_guidelines.md` and `pipeline/annotation_examples.md` for calibration.
 
+### Pilot-Specific Tools (Submissions Dataset)
+For the pilot submission-focused batch (`pilot_batch.csv`):
+* Use `pilot_split_for_dual_annotation.py` to create `_A` / `_B` splits plus overlap IDs (default overlap=20 for 60-item pilot).
+* Annotators label with `annotation_tool_pilot.py`, which implements the updated tag set from `labeling_guidelines.md` (WARMTH_LOSS, CREATIVITY_DROP, etc.).
+* Overlap IDs file feeds into reliability computation (extend `agreement.py` to handle the pilot field schema: map `id` -> primary_tag for both annotators, then compute Cohen's kappa).
+
+Legacy comment-batch scripts (`split_for_dual_annotation.py`, `annotation_tool.py`) remain for window-based comment corpora (fields: comment_id/body/etc.).
+
 ## Orchestration Usage
 Single phase (e.g., drift only):
 ```
@@ -156,6 +164,20 @@ python pipeline/table_prep.py --agreement pipeline/outputs/agreement.json \
 6. Run probes, probe_stats, regression_placebo, drift_trend for robustness.
 7. Table prep & manuscript Results population.
 
+### Interim (No Archive Dumps Yet) Data Capture
+When you **do not** yet have historical Pushshift (or equivalent) dumps, you can still harvest the maximum RECENT + TOP historical surface via the API using `limited_historical_scrape.py`:
+
+```
+python pipeline/limited_historical_scrape.py \
+  --subreddits-file pipeline/subreddits.txt \
+  --out-dir pipeline/data/live_scrape \
+  --keywords "gpt,openai,persona" --max-per-view 1000
+```
+
+Outputs: one `<sub>_aggregate.jsonl` per subreddit plus per‑sub summaries and a `scrape_manifest.json`.
+
+Limitations: This **cannot** reconstruct full historical pre windows; it only unions what each listing (new/top/controversial + keyword searches) still exposes (each capped at ~1000). Use solely for exploratory feature prototyping until real archives are ingested.
+
 ## Environment Variables (Reddit API)
 Set locally (do NOT commit secrets):
 ```
@@ -166,7 +188,7 @@ export REDDIT_USER_AGENT="PersonaDriftStudy/0.1 by Yang"
 export REDDIT_USERNAME="<reddit_username>"
 export REDDIT_PASSWORD="<reddit_password>"
 ```
-Fetching will gracefully fall back to synthetic data if these are missing.
+Synthetic fallback has been fully disabled; absence of credentials will now just limit live fetch attempts (historical relies on local archives only).
 
 ## Subreddit Configuration
 Create a simple text file `pipeline/subreddits.txt` listing one subreddit per line (e.g., `ChatGPT`, `OpenAI`, `ArtificialInteligence`). The fetch script will read it if present.

@@ -75,62 +75,77 @@ def get_reddit():
 
 
 def _search_chunk(reddit, subreddit: str, start_epoch: int, end_epoch: int, keywords: List[str]) -> List[str]:
-    # Reddit search often requires at least one non-range term; pure timestamp clauses
-    # can return zero even when submissions exist. We progressively relax/augment.
+    """Issue progressively broader cloudsearch queries for a time slice.
+
+    We keep queries minimal to reduce request count; stop on first yielding hits.
+    """
+    base = f"timestamp:{start_epoch}..{end_epoch}"
     queries = [
-        f"timestamp:{start_epoch}..{end_epoch} AND author:*",
-        f"(timestamp:{start_epoch}..{end_epoch}) AND (self:yes OR self:no) AND author:*",
-        f"timestamp:{start_epoch}..{end_epoch}",
-        f"timestamp:{start_epoch}..{end_epoch} AND *",
+        f"{base} AND author:*",
+        f"({base}) AND (self:yes OR self:no)",
+        base,
+        f"{base} AND *",
     ]
-    # If still empty, append keyword seeded queries (each keyword) to broaden recall.
-    for kw in keywords[:5]:  # limit to first 5 to cap requests
-        queries.append(f"(timestamp:{start_epoch}..{end_epoch}) AND {kw}")
+    # Add keyword seeded variants (helps subs with sparse generic titles)
+    for kw in keywords[:4]:
+        queries.append(f"({base}) AND {kw}")
+    # Final ultra-broad wildcard (rarely needed, but prevents silent misses)
+    queries.append(f"{base} AND title:*")
     out_ids: Set[str] = set()
-    for q in queries:
+    for qi, q in enumerate(queries):
         try:
+            # IMPORTANT: positional first arg is the query string; previous errors omitted it.
             results = reddit.subreddit(subreddit).search(q, syntax='cloudsearch', sort='new', limit=100, params={'restrict_sr':1})
-            hit=False
+            pulled=0
             for s in results:
-                hit=True
+                pulled+=1
                 created = int(getattr(s,'created_utc',0))
                 if start_epoch <= created <= end_epoch:
                     out_ids.add(s.id)
-            if hit:
-                break  # stop after first query yielding hits
+            if pulled:
+                if qi>0:
+                    print(f"    [search-hit] sub={subreddit} q_variant={qi} q='{q[:60]}' ids={len(out_ids)}")
+                break
         except Exception as e:
-            print(f"[warn] search query error sub={subreddit} q='{q}': {e}")
+            print(f"[warn] search query error sub={subreddit} variant={qi} q='{q}': {e}")
             continue
     return list(out_ids)
 
 
 def search_submissions_cloud(reddit, subreddit: str, start_ts: int, end_ts: int, chunk_hours: int, sleep_s: float, keywords: List[str]) -> List[str]:
-    """Return unique submission IDs using adaptive chunking (24h -> 6h -> 3h)."""
+    """Return unique submission IDs using adaptive chunking.
+
+    Strategy:
+      Start with requested chunk size. For empty slices, recursively contract:
+        H -> H/2 until < 3h, then accept emptiness.
+    """
     ids: Set[str] = set()
     end_dt = datetime.utcfromtimestamp(end_ts)
+
     def process_window(win_start: datetime, win_end: datetime, hours: int):
+        if hours < 3:
+            return
         cursor = win_start
         while cursor <= win_end:
             seg_end = min(cursor + timedelta(hours=hours) - timedelta(seconds=1), win_end)
             se_start = int(cursor.timestamp())
             se_end = int(seg_end.timestamp())
             seg_ids = _search_chunk(reddit, subreddit, se_start, se_end, keywords)
-            if not seg_ids and hours > 6:  # contract to 6h
-                process_window(cursor, seg_end, 6)
-            elif not seg_ids and hours == 6:  # contract to 3h
-                process_window(cursor, seg_end, 3)
+            if not seg_ids and hours > 3:
+                # contract
+                smaller = hours//2
+                if smaller >=3:
+                    process_window(cursor, seg_end, smaller)
             else:
-                ids.update(seg_ids)
+                if seg_ids:
+                    ids.update(seg_ids)
             cursor = seg_end + timedelta(seconds=1)
-            # rate limit logging
             try:
                 limits = getattr(reddit.auth, 'limits', None)
                 if limits:
                     remaining = limits.get('remaining')
-                    used = limits.get('used')
-                    reset = limits.get('reset_timestamp')
                     if remaining is not None:
-                        print(f"    [rl] rem={remaining} used={used} reset_ts={reset}")
+                        print(f"    [rl] rem={remaining}")
             except Exception:
                 pass
             time.sleep(sleep_s)

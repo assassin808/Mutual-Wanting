@@ -1,24 +1,18 @@
-# Canonical model transition / event windows (UTC) derived from official release notes
-# Each entry defines a focal event; pre/post windows bound the analysis slices.
-# Source provenance (summarized from OpenAI release notes / public announcements):
-# - GPT-4o initial public release: 2024-05-13
-# - GPT-4o notable iterative improvement snapshot: 2025-03-27
-# - GPT-4 retirement in ChatGPT (GPT-4o full replacement): 2025-04-30
+# Canonical model transition dates (UTC). Extend as needed.
+# Dates reflect public model transition / release announcements (placeholders may require verification).
+# Format:
+# - name: short_machine_label
+#   date: YYYY-MM-DD
+#   description: human readable context
 
-- id: gpt4_to_4o
-  release_date: 2024-05-13
-  pre_days: 14
-  post_days: 28
-  description: Initial GPT-4o release (multimodal successor to GPT-4)
+- name: gpt4_to_4o
+  date: 2024-05-13
+  description: Initial broad shift from GPT-4 to GPT-4o default routing.
 
-- id: gpt4o_iterative_mar2025
-  release_date: 2025-03-27
-  pre_days: 14
-  post_days: 14
-  description: GPT-4o improvement snapshot (instruction following, creativity, collaborative flow)
+- name: gpt4o_iterative_mar2025
+  date: 2025-03-15
+  description: Iterative 4o parameter refresh (speculative placeholder; verify).
 
-- id: gpt4_retirement_chatgpt
-  release_date: 2025-04-30
-  pre_days: 14
-  post_days: 14
-  description: Retirement of GPT-4 in ChatGPT; GPT-4o becomes default (potential user adaptation discourse)
+- name: gpt4_retirement_chatgpt
+  date: 2025-06-01
+  description: Retirement of legacy GPT-4 access in ChatGPT UI (placeholder; verify).

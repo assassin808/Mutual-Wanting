@@ -1,3 +1,33 @@
+# Metrics Specification (Initial Scaffold)
+
+Gating Criteria (registered):
+- Inter-annotator reliability: Cohen's kappa ≥ 0.70 for major tags (warmth, creativity, helpfulness, hedging) prior to scale-up.
+- Lexical drift tokens considered only if frequency ≥ 10 in both pre and post.
+- Bootstrap sign consistency threshold: ≥ 0.80 for stable token direction claims.
+- Regression outcomes included only if each class count ≥ 8 (MIN_CLASS).
+
+Primary Metrics:
+1. Complaint Incidence Shift: Interaction OR from logistic regression tag ~ pre_post * transition + controls.
+2. Lexical Drift: Log-odds with informative Dirichlet prior (Monroe et al.) per token.
+3. Enrichment Precision: Wilson 95% CI for complaint rate among enriched strata.
+4. Relative Risk (enriched vs baseline) for complaint prevalence.
+5. Probe Metrics (placeholders): CDR, SUR, ETD, SST, CRR, DRP (to be operationalized once probe suite defined).
+
+Risk Register (living, initial entries):
+| Risk | Description | Mitigation | Trigger | Status |
+|------|-------------|------------|---------|--------|
+| Incomplete historical coverage | Missing days in windows | Coverage report + gap flagging | >1 missing day per phase | Open |
+| Low reliability | κ < 0.70 on major tag | Confusion audit + guideline refinement | Pilot κ computation | Open |
+| Enrichment bias | Lexicon over-focuses on certain failure modes | Evaluate relative risk + expand lexicon | Precision lower bound <0.30 | Open |
+| Sparse high-score strata | Few hi score posts reduce balance | Dynamic reallocation documented | n<5 hi per phase | Open |
+| Privacy leak | Raw usernames accidentally stored | Hash & exclude handles | Username present in normalized row | Open |
+
+Next Revision Triggers:
+- After pilot disagreement analysis (guideline v0.2).
+- After first enrichment precision computation (≥150 labeled items).
+
+Version History:
+- v0.1 (scaffold) 2025-09-08
 # Metrics Specification (Operational Details)
 
 Each metric will have: input data requirements, computation procedure (pseudo-code), safeguards, and interpretation caveats.
@@ -39,6 +69,8 @@ Procedure:
 Safeguards: Minimum total tokens ≥5k per side.
 Interpretation: Values <1 indicate shrinkage; >1 expansion (check for verbosity confound via token normalization).
 
+Naming Collision Note: Earlier internal drafts used CRR to denote "Concision Re‑prompt Rate". That legacy concept is now renamed to CPR (Concision Prompt Rate) wherever it still appears. All occurrences of CRR henceforth refer exclusively to Creative Range Retention.
+
 ## 6. Token Conservation Gain (TCG)
 Inputs: Paired prompt-response lengths across versions.
 Procedure: For matched prompts, compute mean token delta: Δ = mean(tokens_old - tokens_new); TCG = Δ / mean(tokens_old).
@@ -70,4 +102,25 @@ Safeguards: Bootstrapped stability check (token present in ≥70% of resamples w
 Interpretation: Tokens with stable z beyond ±z_threshold (e.g., |z|>3) and stability pass flagged.
 
 ---
+## 11. Gating Criteria (Registered)
+* Annotation reliability: Overall Cohen's kappa ≥ 0.70 for major tags (WARMTH_LOSS, CREATIVITY_DROP, HELPFULNESS_REGRESSION, HEDGING_SHIFT) prior to scaling beyond pilot.
+* Drift reporting: Only tokens with (freq_pre ≥10 AND freq_post ≥10) AND stability_sign_consistency ≥ 0.8 AND |z| ≥ 3.
+* Regression models: Outcome classes require MIN_CLASS ≥ 8 positives & ≥ 8 negatives; otherwise model skipped and logged.
+* Probe metrics: Each metric requires ≥50 valid conversations (or events) per model version; else annotate as underpowered.
+* Enrichment evaluation: Precision lower bound (Wilson 95% CI) must exceed 0.30; otherwise lexicon expansion required before complaint prevalence claims.
+* Lexical–theme coupling: Report only tokens where conditional tag OR 95% CI excludes 1.0.
+* Placebo validation: Observed interaction effect must exceed 95th percentile of placebo distribution to claim drift effect.
+
+## 12. Risk Register (Operational)
+| Risk | Category | Trigger | Mitigation | Residual |
+|------|----------|---------|------------|----------|
+| Incomplete historical days | Data completeness | Missing >1 contiguous day per window | Truncate window; note in coverage table | Slight reduction in power |
+| Low reliability on subtle tags | Annotation quality | κ <0.55 after pilot | Confusion workshop; add boundary examples | Potential schedule slip |
+| Lexicon enrichment bias | Sampling bias | Precision <0.40 | Expand paraphrase set; increase baseline sample proportion | Moderate over-representation risk |
+| Model separation in logistic | Statistical | Perfect prediction warning | L2 penalty; collapse rare tags | Reduced interpretability for rare tags |
+| Overfitting drift to topical tokens | Construct validity | Top drift tokens unrelated to persona | Restrict to complaint-linked OR tokens | Some drift signal loss |
+| Probe API version deprecation | External dependency | 410/404 responses | Snapshot prompt logs; fallback alt model version | Missing direct comparability |
+| Parasocial risk inflation | Ethics | DRP >0.4 threshold | Strengthen boundary prompts; flag in Discussion | Residual dependency risk |
+| Cost overrun for probes | Budget | API spend > planned | Early small-scale calibration; adjust prompt count | Lower metric confidence |
+
 Version Control: Update this file if metric definitions change; reflect modifications in manuscript Methods.

@@ -1,4 +1,81 @@
 #!/usr/bin/env python3
+"""CLI annotation tool (terminal) for pilot / scale phases.
+
+Input CSV columns required: id, body
+Output CSV adds: warmth, creativity, helpfulness, hedging, complaint (Y/N/blank)
+
+Features:
+ - Shuffle option
+ - Autosave every N items
+ - Progress stats printed
+
+NO synthetic content is produced; this tool only augments existing rows.
+"""
+from __future__ import annotations
+import argparse, csv, random, sys, pathlib, time
+
+TAGS = ["warmth", "creativity", "helpfulness", "hedging", "complaint"]
+
+def read_rows(path):
+    with open(path,'r',encoding='utf-8') as f:
+        r = csv.DictReader(f)
+        rows = list(r)
+    return rows
+
+def write_rows(path, rows):
+    fieldnames = list(rows[0].keys())
+    with open(path,'w',encoding='utf-8',newline='') as f:
+        w = csv.DictWriter(f, fieldnames=fieldnames)
+        w.writeheader()
+        for row in rows:
+            w.writerow(row)
+
+def annotate(rows, autosave_every, out_path):
+    completed = sum(1 for r in rows if any(r.get(t) for t in TAGS))
+    for idx, row in enumerate(rows):
+        if any(row.get(t) for t in TAGS):
+            continue
+        print("-"*60)
+        print(f"Item {idx+1}/{len(rows)}  (completed {completed}/{len(rows)}) id={row.get('id')}")
+        print(row.get('body','')[:500])
+        print()
+        for tag in TAGS:
+            val = input(f"  {tag} (y/n/blank=skip): ").strip().lower()
+            if val not in {'y','n',''}:
+                print("    Invalid -> blank recorded")
+                val = ''
+            row[tag] = val
+        completed += 1
+        if autosave_every and completed % autosave_every == 0:
+            tmp = out_path.with_suffix('.tmp.csv')
+            write_rows(tmp, rows)
+            print(f"[autosave] {tmp}")
+    return rows
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument('--input', required=True, help='CSV with id, body')
+    ap.add_argument('--output', required=True)
+    ap.add_argument('--shuffle', action='store_true')
+    ap.add_argument('--autosave-every', type=int, default=5)
+    args = ap.parse_args()
+
+    in_path = pathlib.Path(args.input)
+    out_path = pathlib.Path(args.output)
+    rows = read_rows(in_path)
+    # ensure tag columns exist
+    for r in rows:
+        for t in TAGS:
+            r.setdefault(t,'')
+    if args.shuffle:
+        random.shuffle(rows)
+    rows = annotate(rows, args.autosave_every, out_path)
+    write_rows(out_path, rows)
+    print(f"Saved -> {out_path}")
+
+if __name__ == '__main__':
+    main()
+#!/usr/bin/env python3
 """Minimal CLI annotation helper.
 Reads a CSV (like label_batch1.csv), presents unlabeled rows, allows setting primary_tag and secondary_flags.
 Writes in-place updates to a new CSV (adds _annotated suffix if --out unspecified).

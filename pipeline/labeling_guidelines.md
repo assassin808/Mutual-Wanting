@@ -1,6 +1,37 @@
+# Labeling Guidelines (Pilot v0.1)
+
+Purpose: Provide consistent definitions for pilot annotation of Reddit user complaints regarding model persona / quality drift.
+
+Tags (binary: y / n / blank=unsure):
+1. warmth: User explicitly or implicitly evaluates emotional tone (cold, empathetic, caring, sterile, robotic).
+2. creativity: User references originality, variety, novelty, or avoidance of repetition / generic phrasing.
+3. helpfulness: User comments on usefulness, practicality, accuracy (NOT mere politeness unless linked to usefulness).
+4. hedging: Mentions of model uncertainty style (maybe, might, could, seems) framed as excessive, new, reduced, or problematic.
+5. complaint: The post constitutes a complaint about any model change effect (if absent, other tags typically remain blank unless the user speculates on qualities anyway).
+
+General Rules:
+- Tag only once per item (no intensity scale).
+- Prefer blank over forced guess if ambiguous.
+- Multiple tags can co-occur (e.g., complaint + warmth + creativity).
+- A neutral observation ("model says maybe more now") without dissatisfaction does NOT count as complaint unless negative framing.
+
+Edge Cases:
+- Sarcasm: If clearly negative about model quality -> complaint.
+- Comparative: "Old model was more creative" => creativity=y, complaint=y.
+- System prompts / jailbreak talk without quality claim: leave tags blank unless a quality claim appears.
+
+Escalation List (capture for v0.2 refinement):
+- Distinguishing warmth vs helpfulness when user references "caring details" that may also increase usefulness.
+- Ambiguous hedging when user quotes only one instance.
+
+Reliability Target: κ ≥ 0.70 major tags prior to scale annotation.
+
+Change Log:
+- v0.1 (pilot scaffold) 2025-09-08
 # Reddit Model Transition Complaint Labeling Guidelines
 
-Version: 0.1 (2025-08-20)
+Version: 0.1.1 (2025-09-08)  
+(Minor corrective update: pilot size fix; added gating criteria reference.)
 Primary goal: Consistent labeling of user comments discussing model version changes (GPT-3.5→4, 4→4o, 4o→5) to quantify shifts in complaint theme prevalence.
 
 ## 1. General Instructions
@@ -55,9 +86,13 @@ Priority order (tie-breaker): Warmth > Helpfulness > Creativity > Safety/Refusal
 - Comment: "Miss old creative flair; now basic facts still fine." Choose CREATIVITY_DROP.
 
 ## 6. Annotation Quality Control
-- Pilot batch: 80 comments, dual-labeled.
-- Calculate Cohen’s κ for WARMTH_LOSS, HELPFULNESS_REGRESSION, CREATIVITY_DROP, HEDGING_SHIFT (target ≥0.70). Refine unclear definitions.
-- Drift check: every 200 labels, re-label 20 previously labeled comments to monitor consistency.
+Pilot batch: 60 comments (20 overlap dual-labeled; 20 unique A; 20 unique B).
+
+Reliability: Compute Cohen’s κ overall and per-major tag (WARMTH_LOSS, HELPFULNESS_REGRESSION, CREATIVITY_DROP, HEDGING_SHIFT). Target κ ≥0.70 before scaling.
+
+Drift check: Every additional 200 consensus labels, re-label 20 previously labeled comments (temporal consistency audit).
+
+Gating Criteria Reference: See `pipeline/metrics_spec.md` Section 11 for formal gating thresholds (kappa, token frequency floors, bootstrap stability ≥0.8). Scaling proceeds only if pilot reliability gate passes.
 
 ## 7. Data Fields for Export
 Each labeled row should include:
@@ -76,3 +111,4 @@ Each labeled row should include:
 
 ## 10. Change Log
 - v0.1: Initial schema creation.
+- v0.1.1: Corrected pilot size (60 not 80); added explicit reliability gate reference; clarified overlap structure.

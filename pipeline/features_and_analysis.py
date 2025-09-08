@@ -3,11 +3,29 @@
 Focus on minimal, inspectable computations.
 """
 from __future__ import annotations
-import re, csv, json, argparse, math, statistics
+import re, csv, json, argparse, math, statistics, pathlib
 from typing import List, Dict, Any
 
-HEDGES = {"maybe","might","could","possibly","perhaps","seems","appears"}
-WARMTH = {"thanks","thank","please","appreciate","love","enjoy"}
+DEFAULT_HEDGES = {"maybe","might","could","possibly","perhaps","seems","appears"}
+DEFAULT_WARMTH = {"thanks","thank","please","appreciate","love","enjoy"}
+LEXICON_CONFIG_PATH = pathlib.Path(__file__).parent / 'feature_lexicon_config.json'
+
+def load_lexicons():
+    if LEXICON_CONFIG_PATH.exists():
+        try:
+            with open(LEXICON_CONFIG_PATH,'r',encoding='utf-8') as f:
+                cfg = json.load(f)
+            warmth = set(cfg.get('warmth_markers', [])) | DEFAULT_WARMTH
+            hedges = set(cfg.get('hedge_markers', [])) | DEFAULT_HEDGES
+            first = set(cfg.get('first_person_pronouns', ['i','we','me','us','our','ours']))
+            second = set(cfg.get('second_person_pronouns', ['you','your','yours']))
+            imperative_excl = set(cfg.get('imperative_exclusions', ['i','you','we','it']))
+            return hedges, warmth, first, second, imperative_excl
+        except Exception:
+            pass
+    return DEFAULT_HEDGES, DEFAULT_WARMTH, {"i","we","me","us","our","ours"}, {"you","your","yours"}, {"i","you","we","it"}
+
+HEDGES, WARMTH, FIRST_PRONOUNS, SECOND_PRONOUNS, IMPERATIVE_EXCL = load_lexicons()
 
 WORD_RE = re.compile(r"[A-Za-z']+")
 
@@ -35,8 +53,8 @@ def features(text: str) -> Dict[str,Any]:
     hedge_count = sum(t in HEDGES for t in toks)
     warmth_count = sum(t in WARMTH for t in toks)
     # Simple heuristic: imperative if starts with verb-like token and no starting pronoun (very rough)
-    imperative = 1 if toks[0] not in {"i","you","we","it"} and toks[0] not in HEDGES else 0
-    pronoun_count = sum(t in {"i","you","we"} for t in toks)
+    imperative = 1 if toks[0] not in IMPERATIVE_EXCL and toks[0] not in HEDGES else 0
+    pronoun_count = sum(t in (FIRST_PRONOUNS | SECOND_PRONOUNS) for t in toks)
     return {
         "token_len": token_len,
         "hedge_rate": hedge_count / token_len,

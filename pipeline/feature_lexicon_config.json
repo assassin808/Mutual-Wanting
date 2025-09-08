@@ -1,0 +1,7 @@
+{
+  "warmth_markers": ["thanks","thank","please","appreciate","love","enjoy","friendly","kind","caring","empathetic","compassion","warm","supportive","thoughtful","encouraging","cheerful","uplifting"],
+  "hedge_markers": ["maybe","might","could","possibly","perhaps","seems","appears","likely","apparently","presumably","generally","roughly"],
+  "second_person_pronouns": ["you","your","yours"],
+  "first_person_pronouns": ["i","we","me","us","our","ours"],
+  "imperative_exclusions": ["i","you","we","it","they","he","she"]
+}
