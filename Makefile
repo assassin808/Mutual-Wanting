@@ -1,3 +1,13 @@
+probes:
+	$(PY) pipeline/probe_runner.py --prompts pipeline/probes/prompts.yaml --out $(OUT_DIR)/probes_manifest.json || true
+	$(PY) pipeline/probe_stats.py --manifest $(OUT_DIR)/probes_manifest.json --out-json $(OUT_DIR)/probes_results.json --out-tsv $(OUT_DIR)/tables/probes_summary.tsv || true
+
+regression:
+	$(PY) pipeline/build_model_dataset.py --features-csv $(OUT_DIR)/feature_rows_live.csv --labels-csv pipeline/data/consensus_labels.csv --out-csv $(OUT_DIR)/model_dataset.csv || true
+	$(PY) pipeline/run_regression.py --dataset-csv $(OUT_DIR)/model_dataset.csv --targets complaint helpfulness warmth hedging creativity --out-json $(OUT_DIR)/regression_results.json || true
+
+# One-shot reproduce current state (no external data): figures, tables, probe scaffold, regression scaffold
+reproduce-all: fast-iterate pilot-reports tables figs probes regression
 # Quick pipeline task shortcuts
 
 PY?=python3

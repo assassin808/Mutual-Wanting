@@ -107,20 +107,20 @@ Additional Action: Overlap IDs to be prioritized first using `annotator_quicksta
 - [ ] Placebo (shuffled pre_post) drift to estimate false positive rate  
 
 ## 6. Regression Modeling
-- [ ] Construct modeling dataset (merged features + consensus labels)  
+- [~] Construct modeling dataset (merged features + consensus labels)  
 - [ ] Filter outcomes with class count ≥ MIN_CLASS (8)  
 - [ ] Fit logistic models: tag ~ pre_post * transition + subreddit + score_bucket (+ cluster if used)  
 - [ ] Extract interaction ORs + 95% CI  
 - [ ] Penalized fallback for separation (L2)  
 - [ ] Placebo interaction test (shuffle pre_post) distribution  
-- [ ] Save `regression_results.json` + `regression_placebo.json`  
+- [~] Save `regression_results.json` + `regression_placebo.json`  
 - [ ] Model diagnostics: variance inflation, Hosmer–Lemeshow (optional)  
 
 ## 7. Probe Experiments (Behavioral)
-- [ ] Finalize probe prompt suite (uncertainty, warmth, intimacy boundary, silence pacing, creativity)  
+- [~] Finalize probe prompt suite (uncertainty, warmth, intimacy boundary, silence pacing, creativity)  
 - [ ] Specify target model versions (e.g., gpt-4o-YYYYMM, gpt-5-YYYYMM)  
 - [ ] Rate limit / cost budgeting doc  
-- [ ] Run `probe_runner.py` with seed reproducibility  
+- [~] Run `probe_runner.py` with seed reproducibility  
 - [ ] Derive metrics: CDR, SUR, ETD, SST, CRR, DRP  
 - [ ] Statistical comparisons (proportion tests / non-param) via `probe_stats.py`  
 - [ ] Store `probes_results.json` + summary TSV  
@@ -166,6 +166,7 @@ Additional Action: Overlap IDs to be prioritized first using `annotator_quicksta
 - [ ] Table2 Enrichment evaluation  
 - [ ] Table3 Regression interactions  
 - [ ] Table4 Probe metrics summary  
+	- (tooling scaffolded: `probe_runner.py`, `probe_stats.py`)  
 - [ ] Table5 Robustness & placebo  
 - [ ] Appendix tables: full drift lexicon (filtered), feature definitions  
 
@@ -197,7 +198,7 @@ Additional Action: Overlap IDs to be prioritized first using `annotator_quicksta
 
 ## 13. Quality Gates
 - [ ] Lint / type check scripts (ruff / mypy optional)  
-- [ ] Repro run script (`make reproduce` or doc)  
+- [x] Repro run doc (`REPRODUCE.md`)  
 - [ ] Random seed reproducibility test (two-run drift token intersection ≥90%)  
 - [~] All JSON artifacts schema-validated  
   	- (pilot normalized JSONL validated via `jsonl_schema_check.py`)  

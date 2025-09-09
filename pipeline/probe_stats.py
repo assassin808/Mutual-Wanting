@@ -1,107 +1,54 @@
 #!/usr/bin/env python3
-"""Statistical comparison utilities for probe metrics.
+"""Compute basic probe metrics from a filled probes manifest (no API calls).
 
-Given a probes_results.json (output of probe_runner) having structure:
-  { model: { prompt_id: { 'text': ..., 'metrics': { cdr:0/1, sur:0/1, ... } }, ... }, ... }
-
-This script aggregates per-model proportion metrics and performs pairwise
-Wald z-tests for proportions across models for specified binary metrics.
-
-Outputs JSON with per-model aggregates and pairwise comparisons.
-
-Usage:
-  python pipeline/probe_stats.py --probes-json pipeline/outputs/probes_results.json \
-      --metrics cdr sur --out pipeline/outputs/probe_stats.json
+Expected manifest fields:
+  responses: list of {model, prompt_id, text, metrics: {cdr:0/1, sur:0/1, ...}}
+Outputs summary TSV and JSON.
 """
-from __future__ import annotations
-import json, argparse, math, itertools
-from typing import Dict, Any, List
-
-
-def load(path: str) -> Dict[str,Any]:
-    with open(path,'r',encoding='utf-8') as f:
-        return json.load(f)
-
-
-def aggregate(data: Dict[str,Any], metrics: List[str]):
-    per_model={}
-    for model, prompts in data.items():
-        agg={}
-        counts={m:0 for m in metrics}
-        n_prompts=0
-        for pid, meta in prompts.items():
-            m=meta.get('metrics',{})
-            n_prompts+=1
-            for k in metrics:
-                v=m.get(k)
-                if v in (0,1):
-                    counts[k]+=v
-        for k in metrics:
-            denom=n_prompts or 1
-            p=counts[k]/denom
-            agg[k]={'n': n_prompts, 'count': counts[k], 'prop': p}
-        per_model[model]=agg
-    return per_model
-
-
-def z_test(p1, n1, p2, n2):
-    # Wald z
-    if n1==0 or n2==0:
-        return None
-    p_pool=(p1*n1 + p2*n2)/(n1+n2)
-    se=math.sqrt(p_pool*(1-p_pool)*(1/n1 + 1/n2))
-    if se==0:
-        return None
-    z=(p1-p2)/se
-    # two-sided p approximated via normal
-    try:
-        import math as _m
-        from math import erf, sqrt
-        # tail prob
-        from math import exp
-    except:  # noqa
-        pass
-    # Use survival function approximation
-    p_val=2*(1-0.5*(1+math.erf(abs(z)/math.sqrt(2))))
-    return z, p_val
-
-
-def pairwise_tests(per_model: Dict[str,Any], metrics: List[str]):
-    comps=[]
-    models=list(per_model.keys())
-    for a,b in itertools.combinations(models,2):
-        for m in metrics:
-            pa=per_model[a][m]['prop']
-            na=per_model[a][m]['n']
-            pb=per_model[b][m]['prop']
-            nb=per_model[b][m]['n']
-            z_p=z_test(pa,na,pb,nb)
-            comps.append({
-                'metric': m,
-                'model_a': a,
-                'model_b': b,
-                'prop_a': pa,
-                'prop_b': pb,
-                'z': None if z_p is None else z_p[0],
-                'p': None if z_p is None else z_p[1]
-            })
-    return comps
+import argparse, json, os
 
 
 def main():
-    ap=argparse.ArgumentParser()
-    ap.add_argument('--probes-json', required=True)
-    ap.add_argument('--metrics', nargs='+', required=True)
-    ap.add_argument('--out', required=True)
-    args=ap.parse_args()
+    ap = argparse.ArgumentParser()
+    ap.add_argument('--manifest', default='pipeline/outputs/probes_manifest.json')
+    ap.add_argument('--out-json', default='pipeline/outputs/probes_results.json')
+    ap.add_argument('--out-tsv', default='pipeline/outputs/tables/probes_summary.tsv')
+    args = ap.parse_args()
 
-    data=load(args.probes_json)
-    per_model=aggregate(data, args.metrics)
-    comps=pairwise_tests(per_model, args.metrics)
-    out={'per_model': per_model, 'pairwise': comps}
-    with open(args.out,'w',encoding='utf-8') as f:
-        json.dump(out,f,indent=2)
-    print(f"Probe stats -> {args.out}")
+    if not os.path.exists(args.manifest):
+        print('Manifest not found; skipping probe stats.')
+        return
+    with open(args.manifest, 'r', encoding='utf-8') as f:
+        man = json.load(f)
+    rows = man.get('responses', [])
+    # Aggregate simple mean per metric by model
+    by_model = {}
+    for r in rows:
+        m = r.get('model')
+        met = r.get('metrics', {})
+        by_model.setdefault(m, {})
+        for k, v in met.items():
+            acc = by_model[m].setdefault(k, {'sum':0.0,'n':0})
+            try:
+                acc['sum'] += float(v)
+                acc['n'] += 1
+            except Exception:
+                pass
+    summary = {}
+    for m, md in by_model.items():
+        summary[m] = {k: (v['sum']/v['n'] if v['n'] else None) for k, v in md.items()}
 
-if __name__=='__main__':
+    os.makedirs(os.path.dirname(args.out_json), exist_ok=True)
+    with open(args.out_json, 'w', encoding='utf-8') as f:
+        json.dump({'summary': summary}, f, indent=2)
+    os.makedirs(os.path.dirname(args.out_tsv), exist_ok=True)
+    with open(args.out_tsv, 'w', encoding='utf-8') as f:
+        f.write('model\tmetric\tmean\n')
+        for m, md in summary.items():
+            for k, v in md.items():
+                f.write(f"{m}\t{k}\t{v if v is not None else ''}\n")
+    print(f"Probe stats -> {args.out_json}; {args.out_tsv}")
+
+
+if __name__ == '__main__':
     main()
