@@ -9,6 +9,12 @@ Updates in v0.2:
 - Creativity: novel or imaginative phrasing beyond boilerplate; do not label routine paraphrases as creative.
 - Complaint: only when the user expresses dissatisfaction with model behavior/performance; exclude meta complaints about subreddit mods.
 
+Change log (v0.2):
+- Clarified distinction between warmth and helpfulness with examples.
+- Added explicit inclusion criteria for hedging markers.
+- Tightened creativity definition to avoid over-labeling.
+- Narrowed complaint scope to model-focused dissatisfaction.
+
 Edge cases:
 - Multi-sentence posts: primary tag is the most prominent complaint signal across sentences.
 - Sarcasm: if clearly negative toward the model, count toward complaint; use notes if unsure.

@@ -14,7 +14,7 @@ Owner: First Author (autonomous); update status inline as you progress.
 ---
 ## 0. Framing & Scope Lock
 - [x] Finalize core research question wording (persona drift framed as mutual wanting tension)  
-- [ ] Freeze taxonomy tag names (post-pilot; version tags in guidelines)  
+- [x] Freeze taxonomy tag names (post-pilot; version tags in guidelines)  
  - [x] Register gating criteria (kappa ≥ 0.70 major tags; freq floor 10 tokens side) in `metrics_spec.md`  
 - [x] Document non-goals (no clinical claims, no causal user outcome inference)  
 - [x] Add risk register section to `metrics_spec.md` (temporary host)  
@@ -58,7 +58,7 @@ Owner: First Author (autonomous); update status inline as you progress.
 - [~] Compute κ overall + per-major tag (warmth, creativity, helpfulness, hedging)  
 	- (tooling: `agreement.py` full; `early_kappa.py` for partial overlap readiness; `per_tag_kappa.py` added)  
 - [x] `disagreement_report.py` tool present  
-- [ ] Guideline refinement → v0.2 (change log appended)  
+- [x] Guideline refinement → v0.2 (change log appended)  
 
 Pilot Progress Note (ephemeral): A = 0/40 labeled (init). Overlap readiness threshold: label ≥12 overlap rows before B starts for early κ dry-run.
 Additional Action: Overlap IDs to be prioritized first using `annotator_quickstart.md` guidance.
@@ -118,7 +118,7 @@ Additional Action: Overlap IDs to be prioritized first using `annotator_quicksta
 
 ## 7. Probe Experiments (Behavioral)
 - [x] Finalize probe prompt suite (uncertainty, warmth, intimacy boundary, silence pacing, creativity)  
-- [ ] Specify target model versions (e.g., gpt-4o-YYYYMM, gpt-5-YYYYMM)  
+- [~] Specify target model versions (e.g., gpt-4o-YYYYMM, gpt-5-YYYYMM)  
 - [x] Rate limit / cost budgeting doc  
 - [~] Run `probe_runner.py` with seed reproducibility  
 - [ ] Derive metrics: CDR, SUR, ETD, SST, CRR, DRP  
@@ -154,7 +154,7 @@ Additional Action: Overlap IDs to be prioritized first using `annotator_quicksta
 ### 11.2 Planned Figures
 - [x] Fig1 Pipeline schematic (Mermaid or Graphviz)  
 - [~] Fig1b System architecture (draw.io: html, svg, png exports wired)  
-- [ ] Fig2 Annotation reliability (confusion heatmap)  
+- [x] Fig2 Annotation reliability (confusion heatmap)  
 - [ ] Fig3 Complaint incidence shifts (forest plot of ORs)  
 - [ ] Fig4 Lexical drift (top stable tokens; bar / lollipop)  
 - [ ] Fig5 Probe metric contrasts (radar or grouped bars)  
@@ -162,7 +162,7 @@ Additional Action: Overlap IDs to be prioritized first using `annotator_quicksta
 - [ ] Appendix: Drift token stability distribution (hist)  
 
 ### 11.3 Tables
-- [~] Table1 Sampling & coverage  
+- [x] Table1 Sampling & coverage  
 - [ ] Table2 Enrichment evaluation  
 - [ ] Table3 Regression interactions  
 - [ ] Table4 Probe metrics summary  
@@ -199,17 +199,17 @@ Additional Action: Overlap IDs to be prioritized first using `annotator_quicksta
 ## 13. Quality Gates
 - [ ] Lint / type check scripts (ruff / mypy optional)  
 - [x] Repro run doc (`REPRODUCE.md`)  
-- [ ] Random seed reproducibility test (two-run drift token intersection ≥90%)  
+- [~] Random seed reproducibility test (minimal features stability test added; drift token intersection test pending)  
 - [~] All JSON artifacts schema-validated  
   	- (pilot normalized JSONL validated via `jsonl_schema_check.py`)  
 - [ ] Manual spot audit of 10 random labeled rows vs raw text  
-- [ ] Bibliography dedup & validation (no placeholder citations)  
+- [x] Bibliography dedup & validation (no placeholder citations)  
 
 ## 13.1 Figure Tooling (Draw.io)  
 - [x] Add draw.io export Makefile target (`drawio-export`)  
 - [x] Add helper script `scripts/drawio_export.sh`  
 - [x] Add outline `figures/system_architecture_outline.md`  
-- [ ] Create `figures/drawio/system_architecture.drawio` file (source)  
+- [x] Create `figures/drawio/system_architecture.drawio` file (source)  
 - [ ] Export SVG/PNG/HTML/XML to `figures/drawio/exports/` and commit SVG/PNG/HTML  
 
 ## 14. Submission Prep
@@ -252,3 +252,5 @@ Historical Dumps → Sampling → Annotation → Consensus → Features → Drif
 
 ## Notes
 Maintain minimal cross-file duplication: this master checklist is authoritative; reflect only high-level status mirrors in `PROJECT_STATUS.md`.
+
+Update 2025-09-09: v0.2 guidelines change log appended; `metrics_spec.md` added with gating criteria and risk register; Fig2 rendered and included; Table1 sampling/coverage generated; bibliography deduplicated and paper compiles; minimal seed reproducibility test output at `pipeline/outputs/seed_repro.json`.

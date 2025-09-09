@@ -64,6 +64,33 @@ drawio-export:
 # Convenience: all figures (CSV slices + draw.io exports)
 figs-all: figs drawio-export
 
+# Render Fig2 (confusion heatmap PNG) from generated CSV
+fig2:
+	$(PY) scripts/render_fig2_confusion.py pipeline/outputs/figs/confusion_heatmap.csv pipeline/outputs/figs/fig2_confusion_heatmap.png || true
+
+figs-all: figs drawio-export fig2
+
+# Lint Python with ruff; write JSON report (does not fail pipeline)
+lint:
+	@mkdir -p $(OUT_DIR)
+	ruff check pipeline scripts --output-format=json > $(OUT_DIR)/lint_report.json || true
+	@echo "Lint report -> $(OUT_DIR)/lint_report.json"
+
+# Validate JSON artifacts in outputs; and JSONL schema for pilot normalized
+validate-artifacts:
+	$(PY) scripts/validate_artifacts.py --dir $(OUT_DIR) --out $(OUT_DIR)/artifact_validation.json || true
+	$(PY) pipeline/jsonl_schema_check.py --jsonl pipeline/data/recent_corpus_normalized_pilot.jsonl --required id subreddit author_hash created_utc score body parent_id link_id transition pre_post || true
+
+# Quality bundle
+quality: lint validate-artifacts
+
+# Build LaTeX paper (best-effort; will not fail pipeline)
+paper:
+	( cd Agents4Science_Template && pdflatex -interaction=nonstopmode agents4science_2025.tex || true )
+	( cd Agents4Science_Template && bibtex agents4science_2025 || true )
+	( cd Agents4Science_Template && pdflatex -interaction=nonstopmode agents4science_2025.tex || true )
+	( cd Agents4Science_Template && pdflatex -interaction=nonstopmode agents4science_2025.tex || true )
+
 # Historical acquisition pipeline (expects JSONL dumps under $(DATA_DIR)/raw)
 integrity-historical:
 	$(PY) pipeline/archive_integrity.py --files $(DATA_DIR)/raw/*.jsonl --out $(OUT_DIR)/archive_integrity_report.json || true
