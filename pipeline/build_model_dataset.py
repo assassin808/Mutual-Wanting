@@ -25,11 +25,17 @@ def main():
 
     feat = pd.read_csv(args.features_csv)
     lab = pd.read_csv(args.labels_csv)
+    # Accept either 'id' or 'comment_id' in labels; normalize to 'id'
+    if 'id' not in lab.columns and 'comment_id' in lab.columns:
+        lab = lab.rename(columns={'comment_id': 'id'})
     if 'id' not in feat.columns or 'id' not in lab.columns:
-        raise SystemExit('Both CSVs must include an id column')
+        raise SystemExit('Both CSVs must include an id column (labels may use comment_id)')
 
     keep_cols = ['id'] + [c for c in lab.columns if c in set(['primary_tag'] + args.targets)]
     lab_small = lab[keep_cols].copy()
+    # Ensure id is string for safe merge
+    feat['id'] = feat['id'].astype(str)
+    lab_small['id'] = lab_small['id'].astype(str)
     df = feat.merge(lab_small, on='id', how='inner')
 
     os.makedirs(os.path.dirname(args.out_csv), exist_ok=True)

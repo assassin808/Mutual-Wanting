@@ -55,7 +55,7 @@ Owner: First Author (autonomous); update status inline as you progress.
 - [ ] Annotator A completion  
 - [ ] Annotator B completion  
 - [x] Agreement tool (`pipeline/agreement.py`)  
-- [ ] Compute κ overall + per-major tag (warmth, creativity, helpfulness, hedging)  
+- [~] Compute κ overall + per-major tag (warmth, creativity, helpfulness, hedging)  
 	- (tooling: `agreement.py` full; `early_kappa.py` for partial overlap readiness; `per_tag_kappa.py` added)  
 - [x] `disagreement_report.py` tool present  
 - [ ] Guideline refinement → v0.2 (change log appended)  
@@ -86,9 +86,9 @@ Additional Action: Overlap IDs to be prioritized first using `annotator_quicksta
 ## 4. Feature Engineering
 - [x] Warmth markers expansion (config in `feature_lexicon_config.json`)  
 - [x] Hedge lexicon validation (initial list extended in config)  
-- [~] Compute per-comment features: length, warmth_rate, hedge_rate, pronoun ratios, imperative ratio  
+- [x] Compute per-comment features: length, warmth_rate, hedge_rate, pronoun ratios, imperative ratio  
 	- (tooling executed for recent corpus dedup once run; script: `features_and_analysis.py`)  
-- [~] User style clustering (k=5) – optional; record silhouette score; decide inclusion  
+- [x] User style clustering (k=5) – optional; record silhouette score; decide inclusion  
 	- (tooling enhanced to emit silhouette; inclusion decision pending)  
 - [x] Store `feature_rows.csv` + `feature_summary.json`  
 	- (1748 rows; clusters skew: majority cluster size 1137; outlier small cluster size 5)  
@@ -117,9 +117,9 @@ Additional Action: Overlap IDs to be prioritized first using `annotator_quicksta
 - [ ] Model diagnostics: variance inflation, Hosmer–Lemeshow (optional)  
 
 ## 7. Probe Experiments (Behavioral)
-- [~] Finalize probe prompt suite (uncertainty, warmth, intimacy boundary, silence pacing, creativity)  
+- [x] Finalize probe prompt suite (uncertainty, warmth, intimacy boundary, silence pacing, creativity)  
 - [ ] Specify target model versions (e.g., gpt-4o-YYYYMM, gpt-5-YYYYMM)  
-- [ ] Rate limit / cost budgeting doc  
+- [x] Rate limit / cost budgeting doc  
 - [~] Run `probe_runner.py` with seed reproducibility  
 - [ ] Derive metrics: CDR, SUR, ETD, SST, CRR, DRP  
 - [ ] Statistical comparisons (proportion tests / non-param) via `probe_stats.py`  
