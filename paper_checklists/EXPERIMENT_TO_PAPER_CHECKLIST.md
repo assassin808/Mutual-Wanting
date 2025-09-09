@@ -56,7 +56,7 @@ Owner: First Author (autonomous); update status inline as you progress.
 - [ ] Annotator B completion  
 - [x] Agreement tool (`pipeline/agreement.py`)  
 - [ ] Compute κ overall + per-major tag (warmth, creativity, helpfulness, hedging)  
-	- (tooling: `agreement.py` full; `early_kappa.py` for partial overlap readiness)  
+	- (tooling: `agreement.py` full; `early_kappa.py` for partial overlap readiness; `per_tag_kappa.py` added)  
 - [x] `disagreement_report.py` tool present  
 - [ ] Guideline refinement → v0.2 (change log appended)  
 
@@ -89,7 +89,7 @@ Additional Action: Overlap IDs to be prioritized first using `annotator_quicksta
 - [~] Compute per-comment features: length, warmth_rate, hedge_rate, pronoun ratios, imperative ratio  
 	- (tooling executed for recent corpus dedup once run; script: `features_and_analysis.py`)  
 - [~] User style clustering (k=5) – optional; record silhouette score; decide inclusion  
-	- (tooling ready: `cluster_user_styles.py`)  
+	- (tooling enhanced to emit silhouette; inclusion decision pending)  
 - [x] Store `feature_rows.csv` + `feature_summary.json`  
 	- (1748 rows; clusters skew: majority cluster size 1137; outlier small cluster size 5)  
 - [x] Validate no leakage features referencing post labels incorrectly  
@@ -148,11 +148,12 @@ Additional Action: Overlap IDs to be prioritized first using `annotator_quicksta
 
 ## 11. Figures & Tables Production
 ### 11.1 Data Extraction Scripts
-- [ ] `table_prep.py` extended for: agreement, enrichment, regression, drift, probes, robustness  
-- [ ] Add `fig_prep.py` for figure-ready CSV slices  
+- [x] `table_prep.py` extended for: agreement, enrichment, regression, drift, probes, coverage  
+- [x] Add `fig_prep.py` for figure-ready CSV slices  
 
 ### 11.2 Planned Figures
-- [ ] Fig1 Pipeline schematic (Mermaid or Graphviz)  
+- [x] Fig1 Pipeline schematic (Mermaid or Graphviz)  
+- [~] Fig1b System architecture (draw.io: html, svg, png exports wired)  
 - [ ] Fig2 Annotation reliability (confusion heatmap)  
 - [ ] Fig3 Complaint incidence shifts (forest plot of ORs)  
 - [ ] Fig4 Lexical drift (top stable tokens; bar / lollipop)  
@@ -161,7 +162,7 @@ Additional Action: Overlap IDs to be prioritized first using `annotator_quicksta
 - [ ] Appendix: Drift token stability distribution (hist)  
 
 ### 11.3 Tables
-- [ ] Table1 Sampling & coverage  
+- [~] Table1 Sampling & coverage  
 - [ ] Table2 Enrichment evaluation  
 - [ ] Table3 Regression interactions  
 - [ ] Table4 Probe metrics summary  
@@ -198,9 +199,17 @@ Additional Action: Overlap IDs to be prioritized first using `annotator_quicksta
 - [ ] Lint / type check scripts (ruff / mypy optional)  
 - [ ] Repro run script (`make reproduce` or doc)  
 - [ ] Random seed reproducibility test (two-run drift token intersection ≥90%)  
-- [ ] All JSON artifacts schema-validated  
+- [~] All JSON artifacts schema-validated  
+  	- (pilot normalized JSONL validated via `jsonl_schema_check.py`)  
 - [ ] Manual spot audit of 10 random labeled rows vs raw text  
 - [ ] Bibliography dedup & validation (no placeholder citations)  
+
+## 13.1 Figure Tooling (Draw.io)  
+- [x] Add draw.io export Makefile target (`drawio-export`)  
+- [x] Add helper script `scripts/drawio_export.sh`  
+- [x] Add outline `figures/system_architecture_outline.md`  
+- [ ] Create `figures/drawio/system_architecture.drawio` file (source)  
+- [ ] Export SVG/PNG/HTML/XML to `figures/drawio/exports/` and commit SVG/PNG/HTML  
 
 ## 14. Submission Prep
 - [ ] Ensure LaTeX compiles without warnings (refs, figs)  

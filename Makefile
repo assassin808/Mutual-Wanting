@@ -4,6 +4,9 @@ PY?=python3
 
 DATA_DIR=pipeline/data
 OUT_DIR=pipeline/outputs
+DRAWIO?=npx --yes @drawio/cli
+DRAWIO_SRC=figures/drawio/system_architecture.drawio
+DRAWIO_OUT_DIR=figures/drawio/exports
 
 .PHONY: plan hygiene sample pilot-agreement features tables clean
 
@@ -26,6 +29,43 @@ features:
 
 tables:
 	$(PY) pipeline/table_prep.py --agreement $(OUT_DIR)/pilot_agreement.json --enrichment $(OUT_DIR)/enrichment_eval.json --regress $(OUT_DIR)/regression_results.json --drift-lex $(OUT_DIR)/drift_log_odds.json --drift-boot $(OUT_DIR)/drift_bootstrap.json --coverage $(OUT_DIR)/coverage_pilot.json --out-dir $(OUT_DIR)/tables || true
+	$(PY) pipeline/table1_sampling_coverage.py --coverage $(OUT_DIR)/coverage_pilot.json --sampling-manifest $(OUT_DIR)/sampling_manifest.json --out-tsv $(OUT_DIR)/tables/table1_sampling_coverage.tsv || true
+
+table1:
+	$(PY) pipeline/table1_sampling_coverage.py --coverage $(OUT_DIR)/coverage_pilot.json --sampling-manifest $(OUT_DIR)/sampling_manifest.json --out-tsv $(OUT_DIR)/tables/table1_sampling_coverage.tsv || true
+
+# Figure-ready CSV slices
+figs:
+	$(PY) pipeline/fig_prep.py --agreement $(OUT_DIR)/pilot_agreement.json --coverage $(OUT_DIR)/coverage_pilot.json --out-dir $(OUT_DIR)/figs || true
+
+# Draw.io exports for system figure (requires Node + @drawio/cli, or use scripts/drawio_export.sh)
+drawio-export:
+	@mkdir -p $(DRAWIO_OUT_DIR)
+	@if [ -f "$(DRAWIO_SRC)" ]; then \
+	  $(DRAWIO) -x -f svg -o $(DRAWIO_OUT_DIR)/system_architecture.svg $(DRAWIO_SRC) || true; \
+	  $(DRAWIO) -x -f png -o $(DRAWIO_OUT_DIR)/system_architecture.png $(DRAWIO_SRC) || true; \
+	  $(DRAWIO) -x -f html -o $(DRAWIO_OUT_DIR)/system_architecture.html $(DRAWIO_SRC) || true; \
+	  cp $(DRAWIO_SRC) $(DRAWIO_OUT_DIR)/system_architecture.xml || true; \
+	else \
+	  echo "Missing $(DRAWIO_SRC). Create it in draw.io Desktop or see figures/system_architecture_outline.md"; \
+	fi
+
+# Convenience: all figures (CSV slices + draw.io exports)
+figs-all: figs drawio-export
+
+# Validate core artifacts quickly (pilot schema, leak check)
+validate:
+	$(PY) pipeline/jsonl_schema_check.py --jsonl pipeline/data/recent_corpus_normalized_pilot.jsonl --required id subreddit author_hash created_utc score body parent_id link_id transition pre_post || true
+	$(PY) pipeline/feature_leak_check.py --features-csv $(OUT_DIR)/feature_rows_nearclean.csv --out $(OUT_DIR)/feature_leak_check_nearclean.json || true
+
+# Pilot reports bundle: agreement, disagreements, early kappa, tables, figs
+pilot-reports:
+	$(PY) pipeline/agreement.py --a pipeline/data/pilot_batch_A.csv --b pipeline/data/pilot_batch_B.csv --out $(OUT_DIR)/pilot_agreement.json --mode pilot || true
+	$(PY) pipeline/disagreement_report.py --a pipeline/data/pilot_batch_A.csv --b pipeline/data/pilot_batch_B.csv --out $(OUT_DIR)/pilot_disagreements.json || true
+	$(PY) pipeline/early_kappa.py --a pipeline/data/pilot_batch_A.csv --b pipeline/data/pilot_batch_B.csv --overlap-ids pipeline/data/pilot_batch_overlap_ids.txt --out $(OUT_DIR)/early_kappa.json || true
+	$(PY) pipeline/per_tag_kappa.py --a pipeline/data/pilot_batch_A.csv --b pipeline/data/pilot_batch_B.csv --out $(OUT_DIR)/per_tag_kappa.json || true
+	$(MAKE) tables
+	$(MAKE) figs
 
 # New: optional user style clustering (depends on features target having run)
 cluster:
