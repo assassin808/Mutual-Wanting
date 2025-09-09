@@ -63,6 +63,35 @@ drawio-export:
 # Convenience: all figures (CSV slices + draw.io exports)
 figs-all: figs drawio-export
 
+# Historical acquisition pipeline (expects JSONL dumps under $(DATA_DIR)/raw)
+integrity-historical:
+	$(PY) pipeline/archive_integrity.py --files $(DATA_DIR)/raw/*.jsonl --out $(OUT_DIR)/archive_integrity_report.json || true
+
+archive-map:
+	$(PY) pipeline/build_archive_map.py --integrity $(OUT_DIR)/archive_integrity_report.json --plan pipeline/archive_plan.json --out $(OUT_DIR)/archive_map.json || true
+
+# Normalize one window file
+# usage: make normalize-window TRANSITION=gpt4_to_4o PHASE=pre IN=$(DATA_DIR)/raw/gpt4_pre.jsonl OUT=$(DATA_DIR)/gpt4_to_4o_pre.jsonl AUTHOR_SALT=... 
+normalize-window:
+	@if [ -z "$(TRANSITION)" ] || [ -z "$(PHASE)" ] || [ -z "$(IN)" ] || [ -z "$(OUT)" ]; then \
+		echo "Usage: make normalize-window TRANSITION=<id> PHASE=pre|post IN=<in.jsonl> OUT=<out.jsonl> AUTHOR_SALT=..."; \
+		exit 1; \
+	fi
+	AUTHOR_SALT=$(AUTHOR_SALT) $(PY) pipeline/archive_normalize.py --transition-id $(TRANSITION) --phase $(PHASE) --in $(IN) --out $(OUT) --author-salt "$(AUTHOR_SALT)" || true
+
+# Coverage for a normalized pre/post pair
+# usage: make coverage-historical PRE=$(DATA_DIR)/gpt4_to_4o_pre.jsonl POST=$(DATA_DIR)/gpt4_to_4o_post.jsonl
+coverage-historical:
+	@if [ -z "$(PRE)" ] || [ -z "$(POST)" ]; then \
+		echo "Usage: make coverage-historical PRE=<pre.jsonl> POST=<post.jsonl>"; \
+		exit 1; \
+	fi
+	$(PY) pipeline/archive_coverage.py --pre $(PRE) --post $(POST) --out $(OUT_DIR)/archive_coverage_report.json || true
+
+# Consensus merge of annotations (pilot A/B)
+consensus:
+	$(PY) pipeline/merge_annotations.py --inputs $(DATA_DIR)/pilot_batch_A.csv $(DATA_DIR)/pilot_batch_B.csv --out-csv $(DATA_DIR)/labels_consensus.csv --out-json $(OUT_DIR)/labels_consensus_summary.json || true
+
 # Validate core artifacts quickly (pilot schema, leak check)
 validate:
 	$(PY) pipeline/jsonl_schema_check.py --jsonl pipeline/data/recent_corpus_normalized_pilot.jsonl --required id subreddit author_hash created_utc score body parent_id link_id transition pre_post || true
