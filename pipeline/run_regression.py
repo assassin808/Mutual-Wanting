@@ -30,6 +30,12 @@ def main():
     num_cols = [c for c in df.columns if c not in (['id'] + cat_cols + args.targets + ['primary_tag'])]
 
     results = { 'targets': {}, 'n_rows': int(len(df)) }
+    if len(df) == 0:
+        os.makedirs(os.path.dirname(args.out_json), exist_ok=True)
+        with open(args.out_json, 'w', encoding='utf-8') as f:
+            json.dump(results, f, indent=2)
+        print(f"Regression results -> {args.out_json} (empty dataset)")
+        return
     for t in args.targets:
         if t not in df.columns:
             continue
@@ -38,7 +44,7 @@ def main():
         # Ensure binary 0/1
         sub[t] = sub[t].map(lambda x: 1 if str(x).strip().lower() in ('1','true','yes','y') else 0)
         cls_counts = sub[t].value_counts().to_dict()
-        if min(cls_counts.values()) < args.min_class:
+        if not cls_counts or min(cls_counts.values()) < args.min_class:
             results['targets'][t] = {'skipped': True, 'reason': f'class count < {args.min_class}', 'counts': cls_counts}
             continue
         pre = ColumnTransformer(
