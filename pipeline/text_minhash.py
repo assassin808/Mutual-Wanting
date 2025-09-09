@@ -36,11 +36,16 @@ def make_hash_funcs(k: int, seed: int = 42):
 def signature(shingle_hashes: List[int], hash_funcs) -> List[int]:
     sig = []
     for a,b in hash_funcs:
-        m = math.inf
+        if not shingle_hashes:
+            # Represent empty doc with a maximal sentinel value for all hash functions
+            sig.append(2**32-1)
+            continue
+        m = None
         for h in shingle_hashes:
             val = (a * h + b) % LARGE_PRIME
-            if val < m:
+            if (m is None) or (val < m):
                 m = val
+        # m must be an int now
         sig.append(int(m))
     return sig
 

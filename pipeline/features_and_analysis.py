@@ -101,7 +101,14 @@ def main():
 
     enriched = []
     for r in data_rows:
-        f = features(r.get('body',''))
+        raw_text = r.get('body')
+        if not raw_text:
+            # fallback: combine title + selftext if present
+            title = r.get('title','')
+            selftext = r.get('selftext','')
+            combo = (title + '\n' + selftext).strip()
+            raw_text = combo or title or selftext
+        f = features(raw_text or '')
         r.update(f)
         enriched.append(r)
 

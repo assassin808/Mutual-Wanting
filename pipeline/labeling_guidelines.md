@@ -27,7 +27,35 @@ Escalation List (capture for v0.2 refinement):
 Reliability Target: κ ≥ 0.70 major tags prior to scale annotation.
 
 Change Log:
+- v0.2 (planned) Coming refinement: clearer warmth vs helpfulness boundary; explicit examples of hedging vs factual uncertainty; add sarcasm decision matrix; add partial complaint framing cases ("miss the old model" vs direct dissatisfaction).
 - v0.1 (pilot scaffold) 2025-09-08
+
+---
+## v0.2 Draft (DO NOT USE YET)
+
+Planned Adjustments (pending pilot disagreement analysis):
+1. Warmth vs Helpfulness Disambiguation
+	- If user critiques lack of emotional tone AND output practicality, allow both tags; add examples where only one applies.
+2. Hedging Definition Tightening
+	- Require either (a) explicit user reference to increase/decrease in hedging OR (b) negative evaluation of hedging style; quoting a single "maybe" without evaluative context becomes blank.
+3. Complaint Boundary Table
+	| Scenario | Tag complaint? | Notes |
+	|----------|----------------|-------|
+	| "GPT-5 feels different" (no valence) | No | Lacks dissatisfaction signal |
+	| "GPT-5 is drier / less creative" | Yes | Negative comparative quality |
+	| "I miss GPT-4" | Yes | Implicit negative evaluation of current model |
+	| "Used GPT-4o for poetry" (nostalgic, neutral) | No | Historical usage only |
+4. Sarcasm Handling
+	- Treat clearly derisive tone about model performance as complaint even if superficially positive phrasing ("Amazing how it forgets instantly").
+5. Multi-Aspect Comments
+	- Permit up to all five tags if independently satisfied; emphasize independence no exclusivity.
+6. Annotation Etiquette
+	- Prefer leaving ambiguous singular hedge quotes blank vs over-tagging.
+7. Reliability Aid Examples
+	- Add 5 positive examples + 5 borderline + 5 negative for each major tag.
+
+This draft section will be merged + versioned after κ computation and disagreement audit.
+
 # Reddit Model Transition Complaint Labeling Guidelines
 
 Version: 0.1.1 (2025-09-08)  

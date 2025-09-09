@@ -29,14 +29,16 @@ Owner: First Author (autonomous); update status inline as you progress.
 - [ ] Normalize to unified JSONL schema (fields: id, subreddit, author_hash, created_utc, score, body, parent_id, link_id)  
 	- (tooling ready: `pipeline/archive_normalize.py`)  
 - [ ] Build `archive_map.json` with exact unix boundaries & transition labels  
+	- (tooling ready: `build_archive_map.py`)  
 - [ ] Run `archive_coverage.py` → produce `archive_coverage_report.json`  
 - [ ] Compute sparsity & per-day counts; flag missing days >1 gap  
 - [D] Decision: fallback if partial days? (interpolate vs truncate)  
 
 ### 1.2 Recent Live Supplement
 - [x] `limited_historical_scrape.py` executed (manifest present)  
-- [ ] Decide retention vs discard for final analyses (pilot only?)  
-- [ ] Tag any reused rows to avoid mixing with authentic windows  
+- [x] Decide retention vs discard for final analyses (pilot only)  
+- [x] Tag any reused rows to avoid mixing with authentic windows  
+	- (tooling: `tag_live_rows.py`)  
 
 ## 2. Sampling Strategy
 - [x] Define score buckets (lo <10, mid 10–49, hi ≥50) across windows (see `pipeline/sampling_spec.md`)  
@@ -54,8 +56,12 @@ Owner: First Author (autonomous); update status inline as you progress.
 - [ ] Annotator B completion  
 - [x] Agreement tool (`pipeline/agreement.py`)  
 - [ ] Compute κ overall + per-major tag (warmth, creativity, helpfulness, hedging)  
+	- (tooling: `agreement.py` full; `early_kappa.py` for partial overlap readiness)  
 - [x] `disagreement_report.py` tool present  
 - [ ] Guideline refinement → v0.2 (change log appended)  
+
+Pilot Progress Note (ephemeral): A = 0/40 labeled (init). Overlap readiness threshold: label ≥12 overlap rows before B starts for early κ dry-run.
+Additional Action: Overlap IDs to be prioritized first using `annotator_quickstart.md` guidance.
 
 ### 3.2 Scale Annotation
 - [ ] Generate first full batch (e.g. 400 items)  
@@ -67,22 +73,28 @@ Owner: First Author (autonomous); update status inline as you progress.
 - [ ] Periodic drift check (re-annotate 20 previously labeled items per 200 new)  
 
 ### 3.3 Data Hygiene
-- [ ] De-duplication (hash body text)  
-	- (tooling ready: `pipeline/dedupe_text.py`)  
-- [ ] Remove near-identical reposts (minhash)  
-	- (tooling ready: `pipeline/text_minhash.py`)  
+- [x] De-duplication (hash body text)  
+ 	- (improved canonical text fallback; current run kept 1748 / removed 2 exact dups)  
+- [x] Remove near-identical reposts (minhash)  
+ 	- (pairwise conservative pass; 0 removals under 5% cap; report saved)  
 - [ ] Author hash generation (SHA256 salt)  
-	- (tooling ready: `pipeline/archive_normalize.py`)  
-- [ ] Sensitive content filter log  
-	- (tooling ready: `pipeline/sensitive_filter.py`)  
+ 	- (tooling ready: `pipeline/archive_normalize.py`)  
+	- [x] Pilot corpus normalized with author hashes (`recent_corpus_normalized_pilot.jsonl`)  
+- [x] Sensitive content filter log  
+ 	- (executed on near-clean corpus; 0/1748 flagged with default patterns)  
 
 ## 4. Feature Engineering
 - [x] Warmth markers expansion (config in `feature_lexicon_config.json`)  
 - [x] Hedge lexicon validation (initial list extended in config)  
-- [ ] Compute per-comment features: length, warmth_rate, hedge_rate, pronoun ratios, imperative ratio  
-- [ ] User style clustering (k=5) – optional; record silhouette score; decide inclusion  
-- [ ] Store `feature_rows.csv` + `feature_summary.json`  
-- [ ] Validate no leakage features referencing post labels incorrectly  
+- [~] Compute per-comment features: length, warmth_rate, hedge_rate, pronoun ratios, imperative ratio  
+	- (tooling executed for recent corpus dedup once run; script: `features_and_analysis.py`)  
+- [~] User style clustering (k=5) – optional; record silhouette score; decide inclusion  
+	- (tooling ready: `cluster_user_styles.py`)  
+- [x] Store `feature_rows.csv` + `feature_summary.json`  
+	- (1748 rows; clusters skew: majority cluster size 1137; outlier small cluster size 5)  
+- [x] Validate no leakage features referencing post labels incorrectly  
+	- (tooling: `feature_leak_check.py`)  
+	- Status: initial pass OK (no flagged columns).  
 
 ## 5. Drift Analysis
 - [ ] Authentic pre/post corpus assembly (per transition)  
@@ -225,6 +237,8 @@ Historical Dumps → Sampling → Annotation → Consensus → Features → Drif
 | Date | Decision | Options Considered | Rationale | Impact |
 |------|----------|--------------------|-----------|--------|
 | YYYY-MM-DD |  |  |  |  |
+| 2025-09-08 | Decide retention of recent live supplement limited to pilot only unless coverage gaps | (1) Discard entirely (2) Use for pilot only (3) Blend into final | Avoid biasing authentic pre/post windows; maintain purity | Simplifies later drift comparability |
+| 2025-09-09 | MinHash near-duplicate threshold set at J>=0.90; retain longest token variant per component | (1) Random removal (2) Keep first (3) Keep longest | Longest likely preserves maximal semantic content & context | Minimizes information loss while removing redundancy |
 
 ## Notes
 Maintain minimal cross-file duplication: this master checklist is authoritative; reflect only high-level status mirrors in `PROJECT_STATUS.md`.

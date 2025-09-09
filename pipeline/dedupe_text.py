@@ -37,20 +37,23 @@ def save_jsonl(path: str, rows: List[dict]):
 
 def minhash_pairs(rows: List[dict], jaccard_min: float):
     try:
-        from text_minhash import shingles, hash_shingle, make_hash_funcs, signature, approx_jaccard
-    except ImportError:
-        return []
+        from . import text_minhash as tm  # package-relative import
+    except Exception:
+        try:
+            import text_minhash as tm  # fallback if executed as script
+        except Exception:
+            return []
     k_hash = 60
     bands = 20
     rows_per_band = k_hash // bands
-    hash_funcs = make_hash_funcs(k_hash)
+    hash_funcs = tm.make_hash_funcs(k_hash)
     sigs = {}
     shingle_map = {}
     for r in rows:
         rid = str(r.get('id'))
-        sh = [hash_shingle(s) for s in shingles(r.get('body',''), 3)]
-        shingle_map[rid] = sh
-        sigs[rid] = signature(sh, hash_funcs)
+    sh = [tm.hash_shingle(s) for s in tm.shingles(r.get('body',''), 3)]
+    shingle_map[rid] = sh
+    sigs[rid] = tm.signature(sh, hash_funcs)
     # LSH buckets
     buckets = {}
     for rid, sig in sigs.items():
@@ -66,10 +69,22 @@ def minhash_pairs(rows: List[dict], jaccard_min: float):
                 for j in range(i+1, len(ids)):
                     a,b = ids[i], ids[j]
                     if (a,b) in pairs: continue
-                    jac = approx_jaccard(shingle_map[a], shingle_map[b])
+                    jac = tm.approx_jaccard(shingle_map[a], shingle_map[b])
                     if jac >= jaccard_min:
                         pairs.add((a,b,jac))
     return [{'id_a': a, 'id_b': b, 'approx_jaccard': j} for a,b,j in pairs]
+
+def unify_text(row: dict) -> str:
+    """Return canonical text for duplicate detection.
+    Preference order: body -> (title + selftext) -> title -> selftext.
+    """
+    body = row.get('body')
+    if body and body.strip():
+        return body
+    title = row.get('title','').strip()
+    selftext = row.get('selftext','').strip()
+    combo = (title + '\n' + selftext).strip()
+    return combo or title or selftext or ''
 
 def main():
     ap = argparse.ArgumentParser()
@@ -84,7 +99,7 @@ def main():
     kept = []
     removed = []
     for row in load_jsonl(args.inp):
-        body_norm = norm_text(row.get('body',''))
+        body_norm = norm_text(unify_text(row))
         h = text_hash(body_norm)
         if h in seen_hash:
             removed.append({'id': row.get('id'), 'duplicate_of': seen_hash[h]})
