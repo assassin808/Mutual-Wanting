@@ -80,6 +80,12 @@ def main():
         return
     km = KMeans(n_clusters=args.k, n_init='auto', random_state=42)
     labels = km.fit_predict(X)
+    # Optional silhouette score (ignores - will skip if error)
+    try:
+        from sklearn.metrics import silhouette_score
+        sil = float(silhouette_score(X, labels)) if len(set(labels))>1 else None
+    except Exception:
+        sil = None
     for lbl, i in zip(labels, keep_idx):
         rows[i]['style_cluster'] = int(lbl)
     # Non-retained rows get -1 label
@@ -97,7 +103,8 @@ def main():
         'k': args.k,
         'n_rows_used': len(X),
         'cluster_sizes': cluster_sizes,
-        'centers': centers
+    'centers': centers,
+    'silhouette': sil
     }
     with open(args.out_json,'w',encoding='utf-8') as f:
         json.dump(out_summary,f,indent=2)

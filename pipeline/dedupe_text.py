@@ -51,9 +51,9 @@ def minhash_pairs(rows: List[dict], jaccard_min: float):
     shingle_map = {}
     for r in rows:
         rid = str(r.get('id'))
-    sh = [tm.hash_shingle(s) for s in tm.shingles(r.get('body',''), 3)]
-    shingle_map[rid] = sh
-    sigs[rid] = tm.signature(sh, hash_funcs)
+        sh = [tm.hash_shingle(s) for s in tm.shingles(r.get('body',''), 3)]
+        shingle_map[rid] = sh
+        sigs[rid] = tm.signature(sh, hash_funcs)
     # LSH buckets
     buckets = {}
     for rid, sig in sigs.items():
@@ -93,18 +93,22 @@ def main():
     ap.add_argument('--report', required=True)
     ap.add_argument('--near', action='store_true', help='Also compute near-duplicate pairs (slower)')
     ap.add_argument('--near-threshold', type=float, default=0.9)
+    ap.add_argument('--map-out', help='Optional JSON file to write canonical id mapping (id -> canonical_id)')
     args = ap.parse_args()
 
     seen_hash = {}
     kept = []
     removed = []
+    canonical_map: Dict[str,str] = {}
     for row in load_jsonl(args.inp):
         body_norm = norm_text(unify_text(row))
         h = text_hash(body_norm)
         if h in seen_hash:
             removed.append({'id': row.get('id'), 'duplicate_of': seen_hash[h]})
+            canonical_map[str(row.get('id'))] = str(seen_hash[h])
             continue
         seen_hash[h] = row.get('id')
+        canonical_map[str(row.get('id'))] = str(row.get('id'))
         kept.append(row)
 
     near_pairs = []
@@ -125,6 +129,11 @@ def main():
     with open(args.report,'w',encoding='utf-8') as f:
         json.dump(report,f,indent=2)
     print(f"Dedupe -> {args.out} kept={len(kept)} exact_dups={len(removed)} near_pairs={len(near_pairs)}")
+
+    if args.map_out:
+        with open(args.map_out,'w',encoding='utf-8') as mf:
+            json.dump({'canonical_map': canonical_map, 'n_ids': len(canonical_map)}, mf, indent=2)
+        print(f"Canonical map -> {args.map_out} ids={len(canonical_map)}")
 
 if __name__ == '__main__':
     main()

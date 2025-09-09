@@ -25,7 +25,7 @@ features:
 	$(PY) pipeline/features_and_analysis.py --raw $(DATA_DIR)/recent_corpus_merged_dedup.jsonl --out $(OUT_DIR)/feature_summary_live.json --emit-csv $(OUT_DIR)/feature_rows_live.csv || true
 
 tables:
-	$(PY) pipeline/table_prep.py --agreement $(OUT_DIR)/pilot_agreement.json --enrichment $(OUT_DIR)/enrichment_eval.json --regress $(OUT_DIR)/regression_results.json --drift-lex $(OUT_DIR)/drift_log_odds.json --drift-boot $(OUT_DIR)/drift_bootstrap.json --out-dir $(OUT_DIR)/tables || true
+	$(PY) pipeline/table_prep.py --agreement $(OUT_DIR)/pilot_agreement.json --enrichment $(OUT_DIR)/enrichment_eval.json --regress $(OUT_DIR)/regression_results.json --drift-lex $(OUT_DIR)/drift_log_odds.json --drift-boot $(OUT_DIR)/drift_bootstrap.json --coverage $(OUT_DIR)/coverage_pilot.json --out-dir $(OUT_DIR)/tables || true
 
 # New: optional user style clustering (depends on features target having run)
 cluster:
