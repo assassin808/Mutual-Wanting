@@ -11,7 +11,7 @@ Primary Metrics:
 2. Lexical Drift: Log-odds with informative Dirichlet prior (Monroe et al.) per token.
 3. Enrichment Precision: Wilson 95% CI for complaint rate among enriched strata.
 4. Relative Risk (enriched vs baseline) for complaint prevalence.
-5. Probe Metrics (placeholders): CDR, SUR, ETD, SST, CRR, DRP (to be operationalized once probe suite defined).
+5. Probe Metrics (placeholders): CDR, SUR, ETD, SST, CPR, DRP (to be operationalized once probe suite defined).
 
 Risk Register (living, initial entries):
 | Risk | Description | Mitigation | Trigger | Status |

@@ -27,7 +27,7 @@ Legend: [ ] pending, [~] in progress, [x] done.
 - [ ] Finalize model list (historical & current accessible variants).
 - [ ] Rotate API key & set env var (no commit).
 - [ ] Run probe_runner with max_prompts cap (dry run) -> verify metric extraction.
-- [ ] Full probe run; compute per-model metrics (CDR, SUR, ETD, SST proxy, CRR, DRP).
+- [ ] Full probe run; compute per-model metrics (CDR, SUR, ETD, SST proxy, CPR, DRP).
 - [ ] Statistical comparison: pairwise proportion tests for CDR/SUR across versions.
 
 ## Tables & Manuscript Integration

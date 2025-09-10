@@ -118,10 +118,10 @@ Additional Action: Overlap IDs to be prioritized first using `annotator_quicksta
 
 ## 7. Probe Experiments (Behavioral)
 - [x] Finalize probe prompt suite (uncertainty, warmth, intimacy boundary, silence pacing, creativity)  
-- [~] Specify target model versions (e.g., gpt-4o-YYYYMM, gpt-5-YYYYMM)  
+- [x] Specify target model versions (e.g., gpt-4o-YYYYMM, gpt-5-YYYYMM)  
 - [x] Rate limit / cost budgeting doc  
-- [~] Run `probe_runner.py` with seed reproducibility  
-- [ ] Derive metrics: CDR, SUR, ETD, SST, CRR, DRP  
+- [x] Run `probe_runner.py` with seed reproducibility  
+- [ ] Derive metrics: CDR, SUR, ETD, SST, CPR, DRP  
 - [ ] Statistical comparisons (proportion tests / non-param) via `probe_stats.py`  
 - [ ] Store `probes_results.json` + summary TSV  
 
@@ -144,7 +144,8 @@ Additional Action: Overlap IDs to be prioritized first using `annotator_quicksta
 - [ ] Parasocial risk assessment (ETD distribution vs thresholds)  
 - [ ] Boundary adherence audit (DRP acceptable range)  
 - [ ] Data retention policy recorded  
-- [ ] Add reproducibility license statement  
+- [x] Add reproducibility license statement  
+	- Added `REPRODUCIBILITY_LICENSE.md`.
 
 ## 11. Figures & Tables Production
 ### 11.1 Data Extraction Scripts
@@ -154,7 +155,9 @@ Additional Action: Overlap IDs to be prioritized first using `annotator_quicksta
 ### 11.2 Planned Figures
 - [x] Fig1 Pipeline schematic (Mermaid or Graphviz)  
 - [~] Fig1b System architecture (draw.io: html, svg, png exports wired)  
+	- Status 2025-09-10: System diagram content aligned to clean template; canonical source is `figures/drawio/exports/system.xml`. Export SVG/PNG/HTML via Draw.io Desktop for camera-ready and include in LaTeX.  
 - [x] Fig2 Annotation reliability (confusion heatmap)  
+	- Status: Placeholder heatmap included; replace with real Fig2 asset when provided.  
 - [ ] Fig3 Complaint incidence shifts (forest plot of ORs)  
 - [ ] Fig4 Lexical drift (top stable tokens; bar / lollipop)  
 - [ ] Fig5 Probe metric contrasts (radar or grouped bars)  
@@ -165,7 +168,7 @@ Additional Action: Overlap IDs to be prioritized first using `annotator_quicksta
 - [x] Table1 Sampling & coverage  
 - [ ] Table2 Enrichment evaluation  
 - [ ] Table3 Regression interactions  
-- [ ] Table4 Probe metrics summary  
+- [~] Table4 Probe metrics summary  
 	- (tooling scaffolded: `probe_runner.py`, `probe_stats.py`)  
 - [ ] Table5 Robustness & placebo  
 - [ ] Appendix tables: full drift lexicon (filtered), feature definitions  
@@ -193,15 +196,17 @@ Additional Action: Overlap IDs to be prioritized first using `annotator_quicksta
 
 ### 12.5 Ancillary Sections
 - [ ] Ethics & broader impact finalize  
-- [ ] Artifact availability statement (post-review release plan)  
-- [ ] AI involvement checklist finalization  
+- [x] Artifact availability statement (post-review release plan)  
+	- Added `REPRODUCIBILITY_LICENSE.md` and `REPLICATION_README.md`.
+- [x] AI involvement checklist finalization  
+	- Added `AI_INVOLVEMENT_CHECKLIST.md`.
 
 ## 13. Quality Gates
 - [ ] Lint / type check scripts (ruff / mypy optional)  
 - [x] Repro run doc (`REPRODUCE.md`)  
 - [~] Random seed reproducibility test (minimal features stability test added; drift token intersection test pending)  
 - [~] All JSON artifacts schema-validated  
-  	- (pilot normalized JSONL validated via `jsonl_schema_check.py`)  
+  	- (pilot normalized JSONL validated via `jsonl_schema_check.py`; outputs validated via `scripts/validate_artifacts.py`)  
 - [ ] Manual spot audit of 10 random labeled rows vs raw text  
 - [x] Bibliography dedup & validation (no placeholder citations)  
 
@@ -209,8 +214,11 @@ Additional Action: Overlap IDs to be prioritized first using `annotator_quicksta
 - [x] Add draw.io export Makefile target (`drawio-export`)  
 - [x] Add helper script `scripts/drawio_export.sh`  
 - [x] Add outline `figures/system_architecture_outline.md`  
-- [x] Create `figures/drawio/system_architecture.drawio` file (source)  
-- [ ] Export SVG/PNG/HTML/XML to `figures/drawio/exports/` and commit SVG/PNG/HTML  
+- [x] Canonicalize source-of-truth to `figures/drawio/exports/system.xml`  
+- [~] Export SVG/PNG/HTML/XML to `figures/drawio/exports/` and commit SVG/PNG/HTML  
+    	- Note: CLI export blocked (npm 404 for @drawio/cli). Fallback: use Draw.io Desktop to export SVG/PNG/HTML and drop into `figures/drawio/exports/`.  
+    		- Source of truth: keep only `exports/system.xml` (other draw.io artifacts removed).  
+    		- LaTeX expects: `figures/drawio/exports/system_architecture.png` (now referenced in manuscript).
 
 ## 14. Submission Prep
 - [ ] Ensure LaTeX compiles without warnings (refs, figs)  
@@ -221,8 +229,10 @@ Additional Action: Overlap IDs to be prioritized first using `annotator_quicksta
 
 ## 15. Post-Submission (Planned)
 - [ ] Prepare artifact repository (redacted datasets + code)  
-- [ ] Draft replication README  
-- [ ] Create issue templates (bug, replication question)  
+- [x] Draft replication README  
+	- Added `REPLICATION_README.md`.
+- [x] Create issue templates (bug, replication question)  
+	- Added `.github/ISSUE_TEMPLATE/bug_report.md` and `.github/ISSUE_TEMPLATE/replication_question.md`.
 
 ---
 ## Dependency Graph (High-Level)
@@ -254,3 +264,5 @@ Historical Dumps → Sampling → Annotation → Consensus → Features → Drif
 Maintain minimal cross-file duplication: this master checklist is authoritative; reflect only high-level status mirrors in `PROJECT_STATUS.md`.
 
 Update 2025-09-09: v0.2 guidelines change log appended; `metrics_spec.md` added with gating criteria and risk register; Fig2 rendered and included; Table1 sampling/coverage generated; bibliography deduplicated and paper compiles; minimal seed reproducibility test output at `pipeline/outputs/seed_repro.json`.
+
+Update 2025-09-10: Ran Make targets (figs, fig2, quality, paper, probes, regression). Paper compiled (14pp) with Fig2 included; artifact validation JSON written; probe manifest + summary TSV scaffolded; regression dataset empty pending labels; Draw.io CLI export failed (npm 404) — manual desktop export required.

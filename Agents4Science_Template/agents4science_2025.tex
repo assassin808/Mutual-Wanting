@@ -137,7 +137,7 @@ Design families: (a) Factual Q\&A with latent ambiguity; (b) Creative ideation r
 \end{enumerate}
 
 \subsection{API Behavioral Layer}
-Metrics: Confidence Disclosure Rate (CDR), Structured Uncertainty Ratio (SUR), Empathy Tier Distribution (ETD), Silence Simulation Tolerance (SST) via user-proxy evaluation heuristics (counts of follow-up prompts asking for more elaboration), Concision Re-prompt Rate (CRR).
+Metrics: Confidence Disclosure Rate (CDR), Structured Uncertainty Ratio (SUR), Empathy Tier Distribution (ETD), Silence Simulation Tolerance (SST) via user-proxy evaluation heuristics (counts of follow-up prompts asking for more elaboration), Concision Prompt Rate (CPR).
 
 \subsection{Composite Indices}
 \begin{itemize}
@@ -160,7 +160,7 @@ Metrics: Confidence Disclosure Rate (CDR), Structured Uncertainty Ratio (SUR), E
     SUR (Structured Uncertainty Ratio) & Fraction of uncertainty-bearing responses that follow templated structure (band + missing variable + invitation) & Calibrated trust via structured explanation \citep{yin2019understanding,lai2019human} \\
     ETD (Empathy Tier Distribution) & Distribution across defined empathy ladder tiers per response set & Parasocial and anthropomorphism boundary management \citep{horton1956mass,epley2007seeing,pnas2025anthro} \\
     SST (Silence Simulation Tolerance) & Mean number of user clarification turns after intentional minimal response before escalation & Turn-taking as resource \citep{sacks1974simplest}; effectance modulation \citep{epley2007seeing} \\
-    CRR (Concision Re-prompt Rate) & Rate of user follow-up prompts requesting elaboration after succinct responses & Optimal transparency granularity \citep{kizilcec2016much} \\
+  CPR (Concision Prompt Rate) & Rate of user follow-up prompts requesting elaboration after succinct responses & Optimal transparency granularity \citep{kizilcec2016much} \\
     TCG (Trust Calibration Gap) & Absolute difference between sentiment-coded acceptance and self-reported model confidence midpoint & Trust calibration \citep{yin2019understanding} \\
     WCTI (Warmth-Cost Tension Index) & Warmth markers per token minus normalized verbosity budget & Anthropomorphism trade-offs \citep{pnas2025anthro,envsustain2025anthro} \\
     DRP (Dependence Risk Proxy) & Share of escalating emotional disclosure prompts without boundary signaling & Parasocial risk mitigation \citep{maeda2024parasocial,mentalhealth2025privacy} \\
@@ -169,7 +169,7 @@ Metrics: Confidence Disclosure Rate (CDR), Structured Uncertainty Ratio (SUR), E
 \end{table}
 
 \section{Planned Results Presentation}
-We will report: (a) Descriptive distributions of tension axis indicators; (b) Correlations among axes (e.g., does higher SUR correlate with reduced CRR?); (c) Qualitative archetypes (Over-Confident Shell, Over-Humble Fog, Silent User) grounded in empirical feature profiles; (d) Ablation of uncertainty pattern types versus trust proxy metrics.
+We will report: (a) Descriptive distributions of tension axis indicators; (b) Correlations among axes (e.g., does higher SUR correlate with reduced CPR?); (c) Qualitative archetypes (Over-Confident Shell, Over-Humble Fog, Silent User) grounded in empirical feature profiles; (d) Ablation of uncertainty pattern types versus trust proxy metrics.
 
 \subsection{Preliminary Descriptive Snapshot (Pilot Fetch)}
 Using the initial filtered Reddit pull (keyword + length + bot suppression), we obtained 601 raw recent items, of which 32 (5.3\%) matched complaint/persona drift enrichment filters within an artificial pre-transition window (release date temporarily offset for window instrumentation testing). Distribution across score buckets: 28 low (\textless{}10), 2 mid (10--49), 2 high ($\geq{}50$). All retained instances currently fall in the pre window due to forward-shifted release anchor; next iteration will incorporate historical backfill for genuine pre/post contrast.
@@ -255,7 +255,7 @@ Pending: Filtered token list (freq $\geq$ 10 each side, sign consistency $\geq$ 
 \subsection{Complaint Incidence Modeling}
 Pending: Interaction coefficients (transition:pre/post) for any complaint and major categories; report effect sizes with separation safeguards.
 \subsection{Behavioral Probes Across Versions}
-Pending: Comparative metrics (CDR, SUR, ETD distributions, SST proxy, CRR, DRP) with proportion tests and uncertainty intervals.
+Pending: Comparative metrics (CDR, SUR, ETD distributions, SST proxy, CPR, DRP) with proportion tests and uncertainty intervals.
 \subsection{Synthesis Across Mutual Wanting Axes}
 Pending: Integrated narrative linking significant shifts to Warmth--Cost, Stability--Optimization, Honesty--Authority, and Resonance--Dependence axes with actionable design implications.
 
@@ -469,10 +469,18 @@ Technical appendices with additional results, figures, graphs and proofs may be 
 % --- Auto-included Artifacts from Pipeline (paths relative to this .tex) ---
 \section*{Auto-Generated Figures (WIP)}
 
+% Fig1b: System architecture (provided PDF; draw.io no longer used)
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.95\linewidth]{../figures/drawio/Fig1}
+  \caption{System architecture overview (template-aligned).}
+  \label{fig:system_architecture}
+\end{figure}
+
 % Fig2: Confusion heatmap (pilot)
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.6\linewidth]{../pipeline/outputs/figs/fig2_confusion_heatmap.png}
+  \includegraphics[width=0.6\linewidth]{../pipeline/outputs/figs/fig2_confusion_heatmap}
   \caption{Annotation reliability: pilot confusion matrix.}
   \label{fig:confusion_auto}
 \end{figure}

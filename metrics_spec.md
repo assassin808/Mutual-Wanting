@@ -19,7 +19,7 @@ Owner: First Author
 - SUR: fraction of uncertainty-bearing responses that follow (band + missing variable + invitation).
 - ETD: distribution across empathy ladder tiers.
 - SST: turns to escalation after minimal response.
-- CRR: re-prompt rate for elaboration.
+- CPR: concision prompt rate (re-prompt for concision/elaboration).
 - TCG: |acceptance proxy − confidence midpoint|.
 - WCTI: warmth markers per token − normalized verbosity budget.
 - DRP: escalation without boundary signaling.

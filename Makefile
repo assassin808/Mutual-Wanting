@@ -16,7 +16,8 @@ PY?=python3
 DATA_DIR=pipeline/data
 OUT_DIR=pipeline/outputs
 DRAWIO?=npx --yes @drawio/cli
-DRAWIO_SRC=figures/drawio/system_architecture.drawio
+# Canonical source-of-truth for the system diagram lives in exports as Draw.io XML
+DRAWIO_SRC=figures/drawio/exports/system.xml
 DRAWIO_OUT_DIR=figures/drawio/exports
 
 .PHONY: plan hygiene sample pilot-agreement features tables clean
@@ -49,26 +50,16 @@ table1:
 figs:
 	$(PY) pipeline/fig_prep.py --agreement $(OUT_DIR)/pilot_agreement.json --coverage $(OUT_DIR)/coverage_pilot.json --out-dir $(OUT_DIR)/figs || true
 
-# Draw.io exports for system figure (requires Node + @drawio/cli, or use scripts/drawio_export.sh)
+# Draw.io exports deprecated: system Fig1 is provided as a static PDF under figures/drawio/Fig1.pdf
 drawio-export:
-	@mkdir -p $(DRAWIO_OUT_DIR)
-	@if [ -f "$(DRAWIO_SRC)" ]; then \
-	  $(DRAWIO) -x -f svg -o $(DRAWIO_OUT_DIR)/system_architecture.svg $(DRAWIO_SRC) || true; \
-	  $(DRAWIO) -x -f png -o $(DRAWIO_OUT_DIR)/system_architecture.png $(DRAWIO_SRC) || true; \
-	  $(DRAWIO) -x -f html -o $(DRAWIO_OUT_DIR)/system_architecture.html $(DRAWIO_SRC) || true; \
-	  cp $(DRAWIO_SRC) $(DRAWIO_OUT_DIR)/system_architecture.xml || true; \
-	else \
-	  echo "Missing $(DRAWIO_SRC). Create it in draw.io Desktop or see figures/system_architecture_outline.md"; \
-	fi
-
-# Convenience: all figures (CSV slices + draw.io exports)
-figs-all: figs drawio-export
+	@echo "drawio-export is deprecated; Fig1 is provided at figures/drawio/Fig1.pdf"
 
 # Render Fig2 (confusion heatmap PNG) from generated CSV
 fig2:
 	$(PY) scripts/render_fig2_confusion.py pipeline/outputs/figs/confusion_heatmap.csv pipeline/outputs/figs/fig2_confusion_heatmap.png || true
 
-figs-all: figs drawio-export fig2
+# Convenience: all figures (CSV slices + fig2)
+figs-all: figs fig2
 
 # Lint Python with ruff; write JSON report (does not fail pipeline)
 lint:
@@ -82,7 +73,11 @@ validate-artifacts:
 	$(PY) pipeline/jsonl_schema_check.py --jsonl pipeline/data/recent_corpus_normalized_pilot.jsonl --required id subreddit author_hash created_utc score body parent_id link_id transition pre_post || true
 
 # Quality bundle
-quality: lint validate-artifacts
+quality: lint validate-artifacts term-check
+
+# Terminology consistency (CPR vs CRR for concision)
+term-check:
+	$(PY) scripts/terminology_check.py --root . --out $(OUT_DIR)/terminology_report.json || true
 
 # Build LaTeX paper (best-effort; will not fail pipeline)
 paper:

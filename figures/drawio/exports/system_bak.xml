@@ -35,7 +35,7 @@
         <mxCell id="Ha57X-n4wVW4nX6HSlQa-8" value="&lt;b&gt;Data Source:&lt;/b&gt; Reddit Discourse Corpus&lt;br&gt;&lt;i&gt;(Subreddits related to AI, GPT, prompt engineering)&lt;/i&gt;" style="whiteSpace=wrap;html=1;align=left;" parent="1" vertex="1">
           <mxGeometry x="520" y="770" width="260" height="60" as="geometry" />
         </mxCell>
-  <mxCell id="Ha57X-n4wVW4nX6HSlQa-9" value="&lt;b&gt;Analysis Plan:&lt;/b&gt;&lt;br&gt;&lt;ul style=&quot;margin-left: 20px;&quot;&gt;&lt;li&gt;Thematic Mining&lt;/li&gt;&lt;li&gt;Expectancy Violation Extraction&lt;/li&gt;&lt;li&gt;Persona Drift Lexicon&lt;/li&gt;&lt;li&gt;Stance Clustering&lt;/li&gt;&lt;/ul&gt;" style="whiteSpace=wrap;html=1;align=left;" parent="1" vertex="1">
+        <mxCell id="Ha57X-n4wVW4nX6HSlQa-9" value="&lt;b&gt;Analysis Plan:&lt;/b&gt;&lt;br&gt;&lt;ul style=&quot;margin-left: 20px;&quot;&gt;&lt;li&gt;Thematic Mining (BERTopic)&lt;/li&gt;&lt;li&gt;Expectancy Violation Extraction&lt;/li&gt;&lt;li&gt;Persona Drift Lexicon Building&lt;/li&gt;&lt;li&gt;Stance Clustering&lt;/li&gt;&lt;/ul&gt;" style="whiteSpace=wrap;html=1;align=left;" parent="1" vertex="1">
           <mxGeometry x="520" y="850" width="260" height="110" as="geometry" />
         </mxCell>
         <mxCell id="Ha57X-n4wVW4nX6HSlQa-10" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="Ha57X-n4wVW4nX6HSlQa-6" target="Ha57X-n4wVW4nX6HSlQa-8" edge="1">
@@ -53,7 +53,7 @@
         <mxCell id="Ha57X-n4wVW4nX6HSlQa-12" value="&lt;b&gt;Data Source:&lt;/b&gt; API Prompt Probe Suite&lt;br&gt;&lt;i&gt;(Across historical &amp;amp; current GPT variants)&lt;/i&gt;" style="whiteSpace=wrap;html=1;align=left;" parent="1" vertex="1">
           <mxGeometry x="1200" y="770" width="260" height="60" as="geometry" />
         </mxCell>
-  <mxCell id="Ha57X-n4wVW4nX6HSlQa-13" value="&lt;b&gt;Analysis Plan (Metrics):&lt;/b&gt;&lt;br&gt;&lt;ul style=&quot;margin-left: 20px;&quot;&gt;&lt;li&gt;Confidence Disclosure Rate (CDR)&lt;/li&gt;&lt;li&gt;Structured Uncertainty Ratio (SUR)&lt;/li&gt;&lt;li&gt;Empathy Tier Distribution (ETD)&lt;/li&gt;&lt;li&gt;Silence Simulation Tolerance (SST)&lt;/li&gt;&lt;li&gt;Concision Prompt Rate (CPR)&lt;/li&gt;&lt;li&gt;Dependence Risk Proxy (DRP)&lt;/li&gt;&lt;/ul&gt;" style="whiteSpace=wrap;html=1;align=left;" parent="1" vertex="1">
+        <mxCell id="Ha57X-n4wVW4nX6HSlQa-13" value="&lt;b&gt;Analysis Plan (Metrics):&lt;/b&gt;&lt;br&gt;&lt;ul style=&quot;margin-left: 20px;&quot;&gt;&lt;li&gt;Confidence Disclosure Rate (CDR)&lt;/li&gt;&lt;li&gt;Structured Uncertainty Ratio (SUR)&lt;/li&gt;&lt;li&gt;Empathy Tier Distribution (ETD)&lt;/li&gt;&lt;li&gt;Silence Simulation Tolerance (SST)&lt;/li&gt;&lt;/ul&gt;" style="whiteSpace=wrap;html=1;align=left;" parent="1" vertex="1">
           <mxGeometry x="1200" y="850" width="260" height="110" as="geometry" />
         </mxCell>
         <mxCell id="Ha57X-n4wVW4nX6HSlQa-14" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="Ha57X-n4wVW4nX6HSlQa-7" target="Ha57X-n4wVW4nX6HSlQa-12" edge="1">
