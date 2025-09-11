@@ -56,10 +56,18 @@ drawio-export:
 
 # Render Fig2 (confusion heatmap PNG) from generated CSV
 fig2:
-	$(PY) scripts/render_fig2_confusion.py pipeline/outputs/figs/confusion_heatmap.csv pipeline/outputs/figs/fig2_confusion_heatmap.png || true
+	$(PY) scripts/render_fig2_confusion.py pipeline/outputs/figs/confusion_heatmap.csv pipeline/outputs/figs/fig2_confusion_heatmap.png --out-pdf pipeline/outputs/figs/fig2_confusion_heatmap.pdf || true
+
+# Fig3: forest plot from regression interactions TSV
+fig3:
+	$(PY) scripts/render_fig3_forest.py pipeline/outputs/tables/regression_interactions.tsv pipeline/outputs/figs/fig3_regression_forest.png --out-pdf pipeline/outputs/figs/fig3_regression_forest.pdf || true
+
+# Fig5: probe metric contrasts from probes_summary.tsv
+fig5:
+	$(PY) scripts/render_fig5_probes.py pipeline/outputs/tables/probes_summary.tsv pipeline/outputs/figs/fig5_probe_contrasts.png --out-pdf pipeline/outputs/figs/fig5_probe_contrasts.pdf || true
 
 # Convenience: all figures (CSV slices + fig2)
-figs-all: figs fig2
+figs-all: figs fig2 fig3 fig5
 
 # Lint Python with ruff; write JSON report (does not fail pipeline)
 lint:

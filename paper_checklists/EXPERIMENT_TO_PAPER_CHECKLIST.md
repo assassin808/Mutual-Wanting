@@ -155,12 +155,14 @@ Additional Action: Overlap IDs to be prioritized first using `annotator_quicksta
 ### 11.2 Planned Figures
 - [x] Fig1 Pipeline schematic (Mermaid or Graphviz)  
 - [x] Fig1b System architecture (provided PDF; draw.io deprecated)  
-	- Status 2025-09-11: Included `figures/drawio/Fig1.pdf` directly in LaTeX; no draw.io export required. TeX warns about PDF 1.7 vs 1.5 (non-blocking); optional downsave later.  
+	- Status 2025-09-11: Included `figures/drawio/Fig1.pdf` directly in LaTeX; PDF version cleaned.  
 - [x] Fig2 Annotation reliability (confusion heatmap)  
-	- Status: Placeholder heatmap included; replace with real Fig2 asset when provided.  
-- [ ] Fig3 Complaint incidence shifts (forest plot of ORs)  
+	- Status: Placeholder renderer implemented; included in LaTeX.  
+- [x] Fig3 Complaint incidence shifts (forest plot of ORs)  
+	- Status 2025-09-11: Placeholder renderer implemented; included in LaTeX.
 - [ ] Fig4 Lexical drift (top stable tokens; bar / lollipop)  
-- [ ] Fig5 Probe metric contrasts (radar or grouped bars)  
+- [x] Fig5 Probe metric contrasts (radar or grouped bars)  
+	- Status 2025-09-11: Placeholder renderer implemented; included in LaTeX.
 - [ ] Fig6 Lexical–theme coupling scatter  
 - [ ] Appendix: Drift token stability distribution (hist)  
 
