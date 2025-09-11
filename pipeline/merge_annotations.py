@@ -24,7 +24,7 @@ TIE_TOKEN = '__TIE__'
 MISSING = ''
 
 PRIMARY_COL = 'primary_tag'
-ID_COL = 'comment_id'
+ID_COL = 'id'
 
 
 def load(path: str) -> Dict[str, Dict[str,str]]:

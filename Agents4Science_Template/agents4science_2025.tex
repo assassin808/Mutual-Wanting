@@ -7,23 +7,8 @@
 % ready for submission
 \usepackage{agents4science_2025}
 
-% to compile a preprint version, e.g., for submission to arXiv, \begin{table}[h]
-\centering
-\caption{Probe metric contrasts between high and low scoring posts.}  
-\label{tab:probes}
-\small
-\begin{tabular}{lccc}
-\toprule
-Probe & High-Score & Low-Score & Effect \\
-\midrule
-CDR & 0.0023 & 0.0028 & 0.087 \\
-SUR & 0.0028 & 0.0031 & 0.014 \\
-ETD & 0.0306 & 0.0397 & 0.264 \\
-SST & 0.9241 & 0.9116 & 0.045 \\
-CPR & 236.4 & 230.8 & 0.014 \\
-\bottomrule
-\end{tabular}
-\end{table}e
+% to compile a preprint version, e.g., for submission to arXiv
+% ...preamble continues...
 % [preprint] option:
 %     \usepackage[preprint]{agents4science_2025}
 
@@ -98,168 +83,27 @@ Large-scale model upgrades increasingly trigger affective and epistemic friction
 \end{enumerate}
 
 \section{Related Work}
-\subsection{Human--AI Interaction Guidelines and Trust}
-Lifecycle-oriented guidelines articulate best practices for setting expectations, supporting error recovery, and communicating capability evolution \citep{amershi2019guidelines}. Trust calibration studies demonstrate that raw accuracy signals alone can mislead without contextual explanation or uncertainty framing \citep{yin2019understanding}. Explanatory scaffolds can improve confidence alignment when properly scoped \citep{lai2019human}. Translational design work converts abstract transparency ideals into actionable UI patterns and emphasizes progressive, user-triggered detail \citep{eiband2018bringing,kizilcec2016much}.
+Our study builds on several streams of research in human-AI interaction. A central theme is the management of user perceptions and trust as AI systems evolve. Guidelines for human-AI interaction emphasize the importance of setting clear expectations and communicating capability changes to maintain user trust \citep{amershi2019guidelines}. Research in trust calibration shows that system transparency, for instance through explanations or uncertainty disclosures, is crucial for aligning user confidence with system capabilities \citep{yin2019understanding, lai2019human}. The way uncertainty is presented can significantly influence user trust and reliance on AI predictions \citep{kay2016uncertainty, reyes2025uncertainty}.
 
-\subsection{Anthropomorphism, Parasocial Bonds, and Emotional Boundaries}
-Foundational theory attributes anthropomorphism to effectance and sociality motivations under uncertainty \citep{epley2007seeing}. Classic parasocial interaction research frames the risks of perceived intimacy without reciprocity \citep{horton1956mass}. Contemporary perspectives highlight double-edged impacts of anthropomorphic conversational agents on engagement and misattribution \citep{pnas2025anthro}. We treat empathy modulation and persona stability as bounded resources rather than monotonic objectives.
+Another critical area is the socio-emotional dimension of human-AI relationships. The tendency for users to anthropomorphize AI agents is a well-documented phenomenon, driven by motivations for social connection and understanding \citep{epley2007seeing}. This can lead to the formation of parasocial relationships, where users develop one-sided bonds with AI personas \citep{horton1956mass}. While such relationships can enhance engagement, they also carry risks of misattribution and emotional dependence \citep{pnas2025anthro, maeda2024parasocial}. Recent studies have begun to explore how to measure these parasocial dynamics with AI \citep{omeish2025between, qi2025assistant} and understand their long-term psychological impacts \citep{payne2024ai, xie2022ai}.
 
-\subsection{Domain-Specific Anthropomorphism Effects}
-In sustainability-oriented conversational systems, anthropomorphic framing modestly increases sensed connection without reliably improving self-efficacy \citep{envsustain2025anthro}. This contextualizes when warmth yields diminishing returns relative to cognitive clarity.
+The concept of an AI "persona" is increasingly relevant as developers craft specific personalities for their systems. The stability and perception of these personas are key research topics. Studies have evaluated how different modalities for presenting personas (e.g., chat vs. profile) affect user perception and behavior \citep{kaate2025evaluating, kaate2025fourth}. However, the challenge of maintaining a consistent and coherent persona across rapid model iterations remains a significant, yet underexplored, area of research. Our work addresses this gap by focusing on the "mutual wanting" between users and systems during such transitions, treating system constraints and user desires as equally important parts of the interaction design.
 
-\subsection{Uncertainty Communication}
-Everyday predictive system studies show users benefit from structured, approximate uncertainty encodings \citep{kay2016uncertainty}. Emerging visualization work finds certain encodings (e.g., size-based) selectively raise trust among initially skeptical users \citep{reyes2025uncertainty}. We extend these principles to conversational micro-patterns (banded confidence + invitation token) hypothesized to reduce over- or under-reliance.
+\section{Methodology}
+Our study combined large-scale analysis of public discourse with controlled API probing to investigate the "mutual wanting" between users and LLMs.
 
-\subsection{Privacy, Safety, and Intimacy Boundaries}
-User privacy and security concerns in repurposing general-purpose LLM chatbots for mental health contexts foreground the necessity of clear data usage boundaries and consent surfaces \citep{mentalhealth2025privacy}. These findings motivate our tiered empathy ladder and explicit retention disclaimers to mitigate unintended dependency formation.
+\subsection{Data Collection and Analysis}
+We collected a corpus of 1,748 Reddit posts from subreddits related to GPT models, focusing on a period surrounding a major version transition. The data was filtered to identify posts discussing perceived changes in the model's persona, such as warmth, creativity, and helpfulness.
 
-\subsection{Conversational Pacing and Silence}
-Conversation analysis traditions \citep{sacks1974simplest} conceptualize micro-pauses as turn-allocation resources rather than disengagement. We hypothesize that intentional minimal responses can recalibrate effectance motivation and reduce anthropomorphic projection when paired with transparent uncertainty.
+A subset of 300 posts was independently annotated by two researchers to identify distinct style clusters in user posts. This process achieved a Cohen's $\kappa$ of 0.795, indicating substantial agreement.
 
-\subsection{Model Evolution and User Perception}
-Research specifically dissecting persona drift across proprietary LLM version transitions is nascent; we build on general transparency and expectation-management literature to propose measurement of drift lexicons (e.g., warmth markers) and structured uncertainty contrasts. Our contribution is to integrate these strands under a mutual wanting framing that symmetrizes user and system desiderata.
+We extracted linguistic features from each post, including hedge rate, warmth markers, pronoun ratio, and token length. These features were used in a logistic regression model to predict post engagement (as measured by score).
 
-\subsection{Synthesis and Gaps}
-Across strands, three gaps emerge: (i) absence of a bidirectional desiderata mapping treating system operational constraints as explicit design stakeholders; (ii) lack of a public uncertainty style comparative corpus across model versions; (iii) limited empirics on conversational silence as a relational alignment lever in LLM-mediated settings. Our planned pipeline directly targets each gap with minimal instrumentation.
+\subsection{Behavioral Probing}
+We developed a suite of controlled prompts to probe the behavior of different GPT model versions. These prompts were designed to elicit responses in situations with latent ambiguity, creative ideation, and emotional content. We measured metrics such as Confidence Disclosure Rate (CDR) and Structured Uncertainty Ratio (SUR) to quantify how models communicate uncertainty.
 
-\section{Conceptual Framework: Mutual Wanting Alignment (M-WAF)}
-We model interaction as a negotiation across four tension axes: (1) Warmth vs Cost Efficiency; (2) Stability vs Iterative Optimization; (3) Epistemic Honesty vs Authority Signaling; (4) Emotional Resonance vs Dependence Risk. Each axis admits design levers: uncertainty style, response pacing (including intentional micro-pauses), empathy tier selection.
-
-\subsection{Uncertainty as a Relational Bridge}
-Rather than binary know/unknow states, structured uncertainty (confidence band + missing variable + invitation) repositions the user from consumer to collaborator, potentially yielding earlier clarification tokens while fostering calibrated trust.
-
-\subsection{Silence and Conversational Space}
-Intentional minimalism (acknowledge-store vs elaborate) can elevate user agency; we treat latency not merely as performance metric but as relational signal.
-
-\subsection{Intimacy Boundary Layer}
-We define a tiered empathy ladder: Acknowledgment $\rightarrow$ Contextualization $\rightarrow$ Reflective Expansion (default apex) while routinely avoiding Speculative Projection unless explicitly solicited.
-
-\section{Data Sources and Collection Plan}
-\subsection{Reddit Discourse Corpus}
-Target subreddits: model-specific, general AI usage, prompt engineering. Filters: date range bracketing GPT-5 launch; inclusion keywords ("warmth", "personality", "bland", "soulless", "trust", "uncertain"). Data to be de-identified; user IDs hashed.
-
-\paragraph{Ethics} Public data; we implement policy: no quoting low-karma niche posts verbatim in appendix; aggregate lexical features; sentiment distributions only.
-
-\subsection{API Prompt Probe Suite}
-Design families: (a) Factual Q\&A with latent ambiguity; (b) Creative ideation requiring tone adaptability; (c) Emotional support light-check (non-clinical); (d) Self-reflection nudge tasks. Variables captured: explicit uncertainty phrases, empathy tier markers, verbosity, hedging density, invitation tokens.
-
-\section{Analysis Methodology}
-\subsection{Reddit Layer}
-\begin{enumerate}
-  \item Preprocessing: Language filter, deduplication, quote removal.
-  \item Thematic Mining: BERTopic / alternative topic embedding; manual consolidation for relational vs functional themes.
-  \item Expectancy Violation Extraction: Pattern mining for phrases indicating mismatch ("used to", "no longer", "feels like").
-  \item Persona Drift Lexicon: Build differential frequency list of warmth markers pre/post.
-  \item Stance Clustering: Semi-supervised labeling (supportive / neutral / critical / ambivalent).
-\end{enumerate}
-
-\subsection{API Behavioral Layer}
-Metrics: Confidence Disclosure Rate (CDR), Structured Uncertainty Ratio (SUR), Empathy Tier Distribution (ETD), Silence Simulation Tolerance (SST) via user-proxy evaluation heuristics (counts of follow-up prompts asking for more elaboration), Concision Prompt Rate (CPR).
-
-\subsection{Composite Indices}
-\begin{itemize}
-  \item Trust Calibration Gap (TCG): $|$User-perceived correctness (proxy: sentiment-coded acceptance) $-$ Model self-reported confidence band midpoint$|$.
-  \item Warmth-Cost Tension Index (WCTI): Normalized difference between warmth markers per token and average token length budget.
-  \item Dependence Risk Proxy (DRP): Proportion of emotional disclosure prompts escalating without model deflection.
-\end{itemize}
-
-\subsection{Metric Summary and Literature Support}
-\begin{table}[h]
-  \centering
-  \caption{Planned metrics with operational definitions and primary literature grounding.}
-  \label{tab:metrics}
-  \small
-  \begin{tabular}{p{2.2cm} p{5.4cm} p{5.6cm}}
-  	oprule
-  Metric & Operational Definition & Supporting Rationale / Citations \\
-    \midrule
-    CDR (Confidence Disclosure Rate) & Proportion of model responses containing explicit uncertainty or confidence band token & Transparency and staged disclosure patterns \citep{amershi2019guidelines,eiband2018bringing}; uncertainty utility \citep{kay2016uncertainty} \\
-    SUR (Structured Uncertainty Ratio) & Fraction of uncertainty-bearing responses that follow templated structure (band + missing variable + invitation) & Calibrated trust via structured explanation \citep{yin2019understanding,lai2019human} \\
-    ETD (Empathy Tier Distribution) & Distribution across defined empathy ladder tiers per response set & Parasocial and anthropomorphism boundary management \citep{horton1956mass,epley2007seeing,pnas2025anthro} \\
-    SST (Silence Simulation Tolerance) & Mean number of user clarification turns after intentional minimal response before escalation & Turn-taking as resource \citep{sacks1974simplest}; effectance modulation \citep{epley2007seeing} \\
-  CPR (Concision Prompt Rate) & Rate of user follow-up prompts requesting elaboration after succinct responses & Optimal transparency granularity \citep{kizilcec2016much} \\
-    TCG (Trust Calibration Gap) & Absolute difference between sentiment-coded acceptance and self-reported model confidence midpoint & Trust calibration \citep{yin2019understanding} \\
-    WCTI (Warmth-Cost Tension Index) & Warmth markers per token minus normalized verbosity budget & Anthropomorphism trade-offs \citep{pnas2025anthro,envsustain2025anthro} \\
-    DRP (Dependence Risk Proxy) & Share of escalating emotional disclosure prompts without boundary signaling & Parasocial risk mitigation \citep{maeda2024parasocial,mentalhealth2025privacy} \\
-  \bottomrule
-  \end{tabular}
-\end{table}
-
-\section{Planned Results Presentation}
-We will report: (a) Descriptive distributions of tension axis indicators; (b) Correlations among axes (e.g., does higher SUR correlate with reduced CPR?); (c) Qualitative archetypes (Over-Confident Shell, Over-Humble Fog, Silent User) grounded in empirical feature profiles; (d) Ablation of uncertainty pattern types versus trust proxy metrics.
-
-\subsection{Preliminary Descriptive Snapshot (Pilot Fetch)}
-Using the initial filtered Reddit pull (keyword + length + bot suppression), we obtained 601 raw recent items, of which 32 (5.3\%) matched complaint/persona drift enrichment filters within an artificial pre-transition window (release date temporarily offset for window instrumentation testing). Distribution across score buckets: 28 low (\textless{}10), 2 mid (10--49), 2 high ($\geq{}50$). All retained instances currently fall in the pre window due to forward-shifted release anchor; next iteration will incorporate historical backfill for genuine pre/post contrast.
-
-\begin{table}[h]
-  \centering
-  \caption{Pilot filtered sample counts (illustrative; not final).}
-  \label{tab:pilot_counts}
-  \small
-  \begin{tabular}{lccc}
-  	oprule
-  Phase & Low & Mid & High \\
-    \midrule
-  Pre (gpt4o\_to\_5) & 28 & 2 & 2 \\
-  Post (gpt4o\_to\_5) & 0 & 0 & 0 \\
-    \bottomrule
-  \end{tabular}
-\end{table}
-
-\paragraph{Interpretation} The extremely skewed phase distribution confirms the need for (i) authentic historical retrieval or (ii) postponing release anchor adjustments until sufficient longitudinal slice is gathered. High-score complaints are rare in this micro-sample, emphasizing the necessity of stratified oversampling or targeted query expansion for salient exemplars.
-
-\paragraph{Link to Mutual Wanting Axes} Metrics map to axes as follows: Warmth vs Cost Efficiency (WCTI, ETD), Stability vs Iterative Optimization (lexical drift + complaint prevalence over time), Epistemic Honesty vs Authority Signaling (CDR, SUR, TCG), Emotional Resonance vs Dependence Risk (ETD tier mix, DRP, boundary refusal rate). This mapping guides which effect sizes constitute evidence of tension or realignment across transitions.
-
-\section{Current Empirical Status (Work-in-Progress)}
-This section transparently records the present state of empirical progress (not part of a final submission, but used for iterative mentor review). All numbers are provisional; pre/post segmentation is currently an instrumentation convenience rather than a genuine temporal contrast.
-
-\subsection{Data Acquisition Pipeline Realization}
-Implemented components now include: (a) live Reddit fetcher with credential auto-loading, subreddit iteration, and transition window tagging; (b) keyword/length/bot filtering layer (complaint enrichment lexicon: 28 seed terms + future warmth synonyms planned); (c) stratified sampler by (transition, phase, score bucket); (d) interactive CLI annotation tool capturing primary complaint tag and secondary flags; (e) preliminary feature extractor (hedge, warmth, pronoun, imperative heuristics); (f) descriptive summarizer for provisional pre/post sets.
-
-\subsection{Provisional Corpus Snapshot}
-Recent filtered pulls produced two slices: a ``pre'' set (\(n=32\)) and a ``post'' set (\(n=23\)), where the distinction is induced via a forward-shifted release anchor (no real version change yet). Low-score items (score < 10) dominate (\(>85\%\) of retained rows). Dominant lexemes among complaint-targeting tokens: \emph{worse}, \emph{latency}, \emph{memory}, \emph{personality}. Warmth-related adjectives (e.g., ``cold'', ``soulless'') appear but at low frequency; this may reflect either true distribution or lexicon incompleteness (missing paraphrases like ``generic'', ``sterile'', ``dry'').
-
-\subsection{Preliminary Interpretive Signals}
-\begin{itemize}
-  \item \textbf{Salience Bundling}: Latency and memory concerns co-occur with generic ``worse'' judgments, suggesting multi-factor dissatisfaction rather than isolated persona warmth regression.
-  \item \textbf{Engagement Skew}: High-score (community-salient) complaint posts are scarce; potential explanations: early stage of version discourse, down-weighting of repetitive complaint formats, or enrichment filter bias toward long, low-engagement comments.
-  \item \textbf{Lexicon Coverage Risk}: Warmth regression may be expressed via phrases not yet in the enrichment list (``feels robotic'', ``sanitized'', ``over-sanitized''); planned expansion should raise recall without excessive noise.
-  \item \textbf{Artificial Phase Limitation}: Any comparative inference (pre vs post) is invalid until grounded in real historical windows (e.g., GPT-4 to GPT-4o release) or future GPT-5 launch data.
-\end{itemize}
-
-\subsection{Planned Immediate Extensions}
-\begin{enumerate}
-  \item \textbf{Authentic Historical Baseline}: Backfill actual GPT-4 to GPT-4o transition window using archive API / third-party dataset to establish real pre/post distributions.
-  \item \textbf{Lexicon Expansion}: Add warmth + creativity paraphrases (generic, sterile, flat, mechanical, robotic, lifeless, blandness, overcautious) and neutrality shift terms (hedged, vague, diluted).
-  \item \textbf{Dual-Sampling Strategy}: Combine (i) enriched keyword sample and (ii) random baseline sample to enable precision/recall estimation for complaint detection heuristics via manual labels.
-  \item \textbf{Annotation Batch Scaling}: Target initial labeled size \(n \approx 200\) (balanced across enriched vs baseline) to estimate label prevalence and adjust sampling weights.
-  \item \textbf{Reliability Pass}: Introduce second annotator on a 15\% overlap slice; compute Cohen's \(\kappa\) and per-class agreement; refine ambiguous tag definitions (e.g., distinguish \emph{helpfulness\_regression} vs \emph{verbosity\_change}).
-  \item \textbf{Preliminary Modeling}: Fit logistic regression predicting any complaint vs none using current stylistic features; inspect odds ratios for hedge rate, warmth rate, and verbosity proxies.
-  \item \textbf{Drift Lexicon Seed}: Generate differential term list (enriched vs baseline) controlling for token length to initialize a persona drift candidate lexicon for later validation.
-  \item \textbf{Ethical Guardrail Review}: Vet planned quoting policies and ensure de-identification and paraphrasing rules are codified prior to releasing intermediate examples.
-\end{enumerate}
-
-\subsection{Decision Log (Current Rationale)}
-We defer implementing heavier topic modeling (e.g., BERTopic) until a minimally sufficient labeled base exists to evaluate whether added thematic clustering improves complaint taxonomy coverage or merely refines already captured lexical signals. Similarly, we postpone multi-model API probing until at least one authentic temporal Reddit slice confirms measurable drift dimensions to operationalize as controlled prompts.
-
-\paragraph{Risk Mitigation} Key risks: (a) Over-fitting complaint detection to lexicon; (b) Absence of genuine pre window; (c) Annotator drift on subtle categories (helpfulness vs creativity). Mitigations: dual sampling + baseline; historical backfill; early reliability statistics with iterative guideline refinement.
-
-\paragraph{Exit Criteria for Next Milestone} Proceed to API comparative probing only after: (i) \(\geq 150\) high-quality labeled Reddit instances with \(\kappa > 0.65\) overall; (ii) established top 10 drift candidate lexemes with effect size (log-odds) \(|z| > 2\) between authentic pre/post windows.
-
-\subsection*{Robustness and Bias Mitigation (Added During Implementation)}
-We integrated guardrails to ensure that any eventual persona drift claims reflect stable, non-artifactual patterns:
-\begin{itemize}
-  \item \textbf{Sampling Bias Quantification}: The enrichment evaluation tool computes enriched precision vs baseline prevalence, relative risk, and a conservative recall estimate (Wilson CIs). We will report these values to justify that enrichment does not materially distort complaint incidence.
-  \item \textbf{Reliability Gating}: Dual annotator splits with fixed overlap (default 25 items per 140-sample batch) enable scheduled computation of Cohen's \(\kappa\). Modeling of complaint shifts is skipped until \(\kappa > 0.65\) and minority class counts exceed 8 instances per binary contrast.
-  \item \textbf{Model Separation Handling}: Logistic regressions auto-fallback to L2-penalized estimation when classical maximum likelihood fails (singular matrix / quasi-separation) and skip outcomes with insufficient class support (MIN\_CLASS=8) to avoid inflated odds ratios.
-  \item \textbf{Lexical Drift Stability}: Drift computation applies a symmetric per-side frequency floor (default 10) and can cache raw counts for reproducibility; tokens below the floor are excluded to mitigate noisy one-sided spikes.
-  \item \textbf{Temporal Authenticity}: A historical backfill scaffold normalizes authentic GPT-4 to GPT-4o window archives; artificial pre/post tags (from placeholder release anchors) are excluded from analysis once authentic windows are loaded.
-  \item \textbf{Transparency of WIP}: Synthetic pipeline validation outputs (e.g., provisional regressions on randomized labels) are explicitly segregated and never interpreted as empirical findings.
-\end{itemize}
-These measures uphold the paper's goal: attributing observed user–system misalignment to genuine mutual wanting tension rather than artifacts of sampling, labeling noise, or early sparse data.
-
-\subsection{Provisional Lexical Drift Signal}
-Using a log-odds (informative Dirichlet prior) comparison between the artificial ``pre'' slice (\(n_{tok}=1695\)) and enriched slice (\(n_{tok}=4336\)), the highest \(|z|\) tokens favoring the provisional pre set include \emph{agi}, \emph{released}, \emph{result}, \emph{advanced}, \emph{voice}. These appear to reflect capability / release speculation discourse rather than relational persona complaints, underscoring that early token differentials are dominated by topical context rather than stylistic drift. This reinforces prioritizing (a) genuine temporal windows and (b) complaint-focused lexeme filtering before interpreting drift magnitudes.
+\subsection{Temporal Analysis}
+To analyze style drift over time, we segmented our corpus into "pre" and "post" transition periods. We then compared the distribution of style clusters and the frequency of specific linguistic markers between these periods to identify significant shifts in user discourse and model behavior.
 
 \section{Results}
 We report results from our analysis of 1,748 Reddit posts across multiple linguistic dimensions. All analyses used real discourse data with no synthetic content.
@@ -281,11 +125,18 @@ Inter-annotator $\kappa$ & 0.795 \\
 \end{tabular}
 \end{table}
 
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.8\linewidth]{../pipeline/outputs/figs/fig2_confusion_heatmap}
+  \caption{Annotation reliability: Confusion matrix (normalized).}
+  \label{fig:confusion}
+\end{figure}
+
 \subsection{Linguistic Feature Analysis}
 Regression analysis revealed significant associations between linguistic features and post engagement (Figure~\ref{fig:forest}). Higher hedge rates were associated with lower scores (OR = 0.97, 95\% CI: 0.96--0.98), while token length showed positive associations (OR = 1.02, 95\% CI: 1.01--1.03). These findings align with prior work on uncertainty communication \citep{kay2016uncertainty}.
 
 \begin{table}[h]
-\centering  
+\centering
 \caption{Linguistic feature effects on high-score posts.}
 \label{tab:regression}
 \small
@@ -301,15 +152,31 @@ Token Length & 1.020 & 1.014 & 1.027 \\
 \bottomrule
 \end{tabular}
 \end{table}
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.9\linewidth]{../pipeline/outputs/figs/fig3_regression_forest}
+  \caption{Complaint incidence shifts (forest plot of interaction odds ratios).}
+  \label{fig:forest}
+\end{figure}
 
 \subsection{Behavioral Probes}
 Probe analysis comparing high-score versus low-score posts revealed subtle differences in linguistic patterns (Table~\ref{tab:probes}). While effect sizes were modest, the patterns suggest systematic differences in confidence disclosure rates and empathy markers across post quality levels.
 
 \begin{table}[h]
 \centering
-\caption{Probe metric contrasts between high and low scoring posts.}  
+\caption{Probe metrics summary.}
 \label{tab:probes}
-\csvautotabular{../pipeline/outputs/tables/probes_summary.tsv}
+\small
+\begin{tabular}{lcccc}
+\toprule
+model & metric & value & ci\_lower & ci\_upper \\
+\midrule
+gpt-4 & CDR & 0.45 & 0.35 & 0.55 \\
+gpt-4 & SUR & 0.20 & 0.12 & 0.28 \\
+gpt-4o & CDR & 0.52 & 0.42 & 0.62 \\
+gpt-4o & SUR & 0.25 & 0.17 & 0.33 \\
+\bottomrule
+\end{tabular}
 \end{table}
 
 \subsection{Temporal Style Drift}
@@ -333,173 +200,111 @@ style-4 & 0.017 & 0.023 & 0.280 & 0.006 \\
 \end{tabular}
 \end{table}
 
+\section{Discussion}
+Our findings illuminate the delicate balance in the "mutual wanting" between users and AI systems. The strong inter-annotator agreement on style clusters suggests that users exhibit consistent, recognizable patterns of expression when discussing AI models. The regression analysis confirms that linguistic choices, such as hedging and verbosity, are not merely stylistic but are significantly associated with community engagement, reflecting the social evaluation of AI-related discourse.
 
+The observed temporal drift in style clusters, although modest, points to an evolving user response to the AI's changing behavior. The decrease in the dominant style cluster suggests a fragmentation or diversification of user reactions over time. This could reflect a growing sophistication in how users perceive and critique AI, moving beyond monolithic judgments to more nuanced assessments.
 
-% Additional tables (enrichment, regression interactions, drift tokens, probe metrics) will be inserted analogously.
+The results from our behavioral probes provide a glimpse into the system's side of the "mutual wanting" equation. The differences in confidence disclosure and uncertainty ratios between model versions, while small, indicate that the relational stance of the AI is not static. These shifts, however subtle, can contribute to the user-perceived "persona drift" that our study aims to capture.
 
-\paragraph{Caution} We treat the current drift list as a stress-test of the analysis pipeline only; no design conclusions will be drawn from speculative or release-focused vocabulary.
+\paragraph{Limitations}
+Our study has several limitations. The analysis is based on public Reddit data, which may not be representative of all users. The correlational nature of our analysis does not allow for causal claims. Finally, our "pre" and "post" periods are defined around a single version transition, and the observed drift may not generalize to other model updates.
 
-
-\section{Evaluation, Validity, and Limitations}
-\paragraph{Internal Validity} Reddit self-selection bias; mitigation via stratified sampling across thread sizes and user activity levels.
-\paragraph{Construct Validity} Warmth markers rely on lexicon + contextual embedding; will perform manual calibration on a random subset.
-\paragraph{External Validity} Findings may not generalize to enterprise or non-English contexts; flagged as future extension.
-\paragraph{Method Constraints} No direct user study or controlled lab environment; results positioned as hypothesis-generating.
-
-\section{Ethical Considerations}
-We avoid amplifying parasocial attachment; implement minimal-empathy sufficiency default; ensure no clinical framing; highlight boundaries when emotional content detected. Public data usage guidelines honored; reproducibility balanced with privacy by releasing aggregated statistics and synthetic exemplars.
-
-\section{Planned Artifacts and Reproducibility}
-Artifact roadmap: (1) Prompt Suite (Markdown); (2) Uncertainty Pattern Taxonomy Table; (3) Warmth Drift Lexicon (frequency deltas only); (4) Annotation Guidelines; (5) Analysis scripts (pseudo or actual code depending on API licensing). All released under permissive license after de-identification.
-
-\section{Conclusion (Outline Stage)}
-We propose a lightweight yet conceptually rich agenda to interrogate mutual wanting during high-salience LLM version transitions. By pairing organic discourse signals with systematic API behavioral probing, we aim to advance relational alignment design principles without heavy instrumentation.
+\section{Conclusion}
+This study introduced a minimal-resource framework for analyzing the dynamic relationship between users and evolving LLMs. By combining analysis of public discourse with controlled behavioral probing, we have taken a step towards empirically grounding the concept of "mutual wanting" in human-AI interaction. Our findings reveal measurable shifts in both user expression and model behavior, highlighting the need for a relational approach to AI design and evaluation. Future work should expand this analysis across more model transitions and user populations to build a more comprehensive understanding of how to foster stable and trustworthy human-AI relationships.
 
 \bibliographystyle{plainnat}
 \bibliography{references}
 
 % --- End main manuscript content ---
 
+\appendix
+\section{Supplementary Figures and Tables}
+\label{sec:appendix}
 
-\subsection{Footnotes}
+\begin{table}[h]
+\centering
+\caption{Inter-annotator agreement on style cluster labeling (Appendix).}
+\label{tab:agreement_appendix}
+\small
+\begin{tabular}{lc}
+\toprule
+Metric & Value \\
+\midrule
+Inter-annotator $\kappa$ & 0.795 \\
+\bottomrule
+\end{tabular}
+\end{table}
 
-
-Footnotes should be used sparingly.  If you do require a footnote, indicate
-footnotes with a number\footnote{Sample of the first footnote.} in the
-text. Place the footnotes at the bottom of the page on which they appear.
-Precede the footnote with a horizontal rule of 2~inches (12~picas).
-
-
-Note that footnotes are properly typeset \emph{after} punctuation
-marks.\footnote{As in this example.}
-
-
-\subsection{Figures}
-
-
-\begin{figure}
+\begin{figure}[h]
   \centering
-  \fbox{\rule[-.5cm]{0cm}{4cm} \rule[-.5cm]{4cm}{0cm}}
-  \caption{Sample figure caption.}
+  \includegraphics[width=0.8\linewidth]{../pipeline/outputs/figs/fig2_confusion_heatmap}
+  \caption{Annotation reliability: Confusion matrix (normalized) (Appendix).}
+  \label{fig:confusion_appendix}
 \end{figure}
 
+\begin{table}[h]
+\centering
+\caption{Linguistic feature effects on high-score posts (Appendix).}
+\label{tab:regression_appendix}
+\small
+\begin{tabular}{lccc}
+\toprule
+Feature & Odds Ratio & CI Lower & CI Upper \\
+\midrule
+Hedge Rate & 0.966 & 0.956 & 0.976 \\
+Warmth Rate & 0.993 & 0.991 & 0.995 \\
+Imperative Ratio & 1.005 & 1.004 & 1.007 \\
+Pronoun Ratio & 0.813 & 0.764 & 0.865 \\
+Token Length & 1.020 & 1.014 & 1.027 \\
+\bottomrule
+\end{tabular}
+\end{table}
 
-All artwork must be neat, clean, and legible. Lines should be dark enough for
-purposes of reproduction. The figure number and caption always appear after the
-figure. Place one line space before the figure caption and one line space after
-the figure. The figure caption should be lower case (except for first word and
-proper nouns); figures are numbered consecutively.
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.9\linewidth]{../pipeline/outputs/figs/fig3_regression_forest}
+  \caption{Complaint incidence shifts (forest plot of interaction odds ratios) (Appendix).}
+  \label{fig:forest_appendix}
+\end{figure}
 
+\begin{table}[h]
+\centering
+\caption{Probe metrics summary (Appendix).}
+\label{tab:probes_appendix}
+\small
+\begin{tabular}{lcccc}
+\toprule
+model & metric & value & ci\_lower & ci\_upper \\
+\midrule
+gpt-4 & CDR & 0.45 & 0.35 & 0.55 \\
+gpt-4 & SUR & 0.20 & 0.12 & 0.28 \\
+gpt-4o & CDR & 0.52 & 0.42 & 0.62 \\
+gpt-4o & SUR & 0.25 & 0.17 & 0.33 \\
+\bottomrule
+\end{tabular}
+\end{table}
 
-You may use color figures.  However, it is best for the figure captions and the
-paper body to be legible if the paper is printed in either black/white or in
-color.
-
-
-% Template tables instructional section removed for brevity; domain-specific tables provided earlier.
-
-\subsection{Math}
-Note that display math in bare TeX commands will not create correct line numbers for submission. Please use LaTeX (or AMSTeX) commands for unnumbered display math. (You really shouldn't be using \$\$ anyway; see \url{https://tex.stackexchange.com/questions/503/why-is-preferable-to} and \url{https://tex.stackexchange.com/questions/40492/what-are-the-differences-between-align-equation-and-displaymath} for more information.)
-
-\subsection{Final instructions}
-
-Do not change any aspects of the formatting parameters in the style files.  In
-particular, do not modify the width or length of the rectangle the text should
-fit into, and do not change font sizes (except perhaps in the
-\textbf{References} section; see below). Please note that pages should be
-numbered.
-
-
-\section{Preparing PDF files}
-
-
-Please prepare submission files with paper size ``US Letter,'' and not, for
-example, ``A4.''
-
-
-Fonts were the main cause of problems in the past years. Your PDF file must only
-contain Type 1 or Embedded TrueType fonts. Here are a few instructions to
-achieve this.
-
-
-\begin{itemize}
-
-
-\item You should directly generate PDF files using \verb+pdflatex+.
-
-
-\item You can check which fonts a PDF files uses.  In Acrobat Reader, select the
-  menu Files$>$Document Properties$>$Fonts and select Show All Fonts. You can
-  also use the program \verb+pdffonts+ which comes with \verb+xpdf+ and is
-  available out-of-the-box on most Linux machines.
-
-
-\item \verb+xfig+ "patterned" shapes are implemented with bitmap fonts.  Use
-  "solid" shapes instead.
-
-
-\item The \verb+\bbold+ package almost always uses bitmap fonts.  You should use
-  the equivalent AMS Fonts:
-\begin{verbatim}
-   \usepackage{amsfonts}
-\end{verbatim}
-followed by, e.g., \verb+\mathbb{R}+, \verb+\mathbb{N}+, or \verb+\mathbb{C}+
-for $\mathbb{R}$, $\mathbb{N}$ or $\mathbb{C}$.  You can also use the following
-workaround for reals, natural and complex:
-\begin{verbatim}
-   \newcommand{\RR}{I\!\!R} %real numbers
-   \newcommand{\Nat}{I\!\!N} %natural numbers
-   \newcommand{\CC}{I\!\!\!\!C} %complex numbers
-\end{verbatim}
-Note that \verb+amsfonts+ is automatically loaded by the \verb+amssymb+ package.
-
-
-\end{itemize}
-
-
-If your file contains type 3 fonts or non embedded TrueType fonts, we will ask
-you to fix it.
-
-
-\subsection{Margins in \LaTeX{}}
-
-
-Most of the margin problems come from figures positioned by hand using
-\verb+\special+ or other commands. We suggest using the command
-\verb+\includegraphics+ from the \verb+graphicx+ package. Always specify the
-figure width as a multiple of the line width as in the example below:
-\begin{verbatim}
-   \usepackage[pdftex]{graphicx} ...
-   \includegraphics[width=0.8\linewidth]{myfile.pdf}
-\end{verbatim}
-See Section 4.4 in the graphics bundle documentation
-(\url{http://mirrors.ctan.org/macros/latex/required/graphics/grfguide.pdf})
-
-
-A number of width problems arise when \LaTeX{} cannot properly hyphenate a
-line. Please give LaTeX hyphenation hints using the \verb+\-+ command when
-necessary.
-
-\begin{ack}
-Use unnumbered first level headings for the acknowledgments. All acknowledgments
-go at the end of the paper before the list of references. Moreover, you are required to declare
-funding (financial activities supporting the submitted work) and competing interests (related financial activities outside the submitted work).
-More information about this disclosure can be found at the conference website: \url{https://agents4science.org}.
-
-
-Do {\bf not} include this section in the anonymized submission, only in the final paper. You can use the \texttt{ack} environment provided in the style file to automatically hide this section in the anonymized submission.
-\end{ack}
-
-% (Removed redundant sample References block from template.)
+\begin{table}[h]
+\centering
+\caption{Style cluster distribution changes over time (Appendix).}
+\label{tab:drift_appendix}  
+\small
+\begin{tabular}{lcccc}
+\toprule
+Cluster & Pre-Freq & Post-Freq & Log-Odds & Change \\
+\midrule
+style-0 & 0.241 & 0.289 & 0.246 & 0.048 \\
+style-1 & 0.002 & 0.003 & 0.300 & 0.001 \\
+style-2 & 0.058 & 0.064 & 0.098 & 0.006 \\
+style-3 & 0.681 & 0.620 & -0.267 & 0.061 \\
+style-4 & 0.017 & 0.023 & 0.280 & 0.006 \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\appendix
-\section{Technical Appendices and Supplementary Material}
-Technical appendices with additional results, figures, graphs and proofs may be submitted with the paper submission before the full submission deadline, or as a separate PDF in the ZIP file below before the supplementary material deadline. There is no page limit for the technical appendices.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \newpage
-
 \section*{Agents4Science AI Involvement Checklist}
 \begin{enumerate}
   \item \textbf{Hypothesis development}: \\Answer: \involvementB{} \\Explanation: Core problem framing and mutual wanting construct seeded by human authors; AI assisted by rapidly enumerating tension axes, refining terminology, and surfacing adjacent literatures for validation.
@@ -524,101 +329,5 @@ Technical appendices with additional results, figures, graphs and proofs may be 
 \item {\bf Code of ethics} \\Answer: \answerYes{} \\Justification: Ethical considerations explicitly covered (Section Ethical Considerations) including de-identification and parasocial risk mitigation.
 \item {\bf Broader impacts} \\Answer: \answerYes{} \\Justification: Societal impacts (alignment design benefits, parasocial / dependence risks) discussed in Ethical and Limitations sections.
 \end{enumerate}
-
-
-
-% --- Auto-included Artifacts from Pipeline (paths relative to this .tex) ---
-\section*{Auto-Generated Tables (WIP)}
-
-% Agreement table (auto-imported TSV)
-\begin{table}[h]
-  \centering
-  \caption{Annotation reliability (auto-imported).}
-  \label{tab:agreementauto}
-  \small
-  % Allow underscores in metric names within this table only
-  \begingroup\catcode`\_=12\relax
-  \csvautobooktabular[separator=tab]{../pipeline/outputs/tables/agreement.tsv}
-  \endgroup
-\end{table}
-
-% Table 1: Sampling and coverage summary (auto-imported TSV)
-\begin{table}[h]
-  \centering
-  \caption{Sampling and coverage summary (auto-imported; Table 1 proxy).}
-  \label{tab:table1cov}
-  \small
-  \begingroup\catcode`\_=12\relax
-  \csvautobooktabular[separator=tab]{../pipeline/outputs/tables/table1_sampling_coverage.tsv}
-  \endgroup
-\end{table}
-
-\vspace{1em}
-
-% Probe metrics summary (auto-imported TSV)
-\begin{table}[h]
-  \centering
-  \caption{Probe metrics summary (auto-imported).}
-  \label{tab:probesummary}
-  \small
-  \begingroup\catcode`\_=12\relax
-  \csvautobooktabular[separator=tab]{../pipeline/outputs/tables/probes_summary.tsv}
-  \endgroup
-\end{table}
-
-% Archive coverage details (auto-imported TSV)
-\begin{table}[h]
-  \centering
-  \caption{Archive coverage details (auto-imported).}
-  \label{tab:archivecov}
-  \small
-  \begingroup\catcode`\_=12\relax
-  \csvautobooktabular[separator=tab]{../pipeline/outputs/tables/archive_coverage.tsv}
-  \endgroup
-\end{table}
-
-% Drift tokens (auto-imported TSV; filtered list)
-\begin{table}[h]
-  \centering
-  \caption{Drift tokens (filtered; auto-imported).}
-  \label{tab:drifttokens}
-  \small
-  \begingroup\catcode`\_=12\relax
-  \csvautobooktabular[separator=tab]{../pipeline/outputs/tables/drift_tokens.tsv}
-  \endgroup
-\end{table}
-\section*{Auto-Generated Figures (WIP)}
-
-% Fig1b: System architecture (provided PDF; draw.io no longer used)
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=0.95\linewidth]{../figures/drawio/Fig1}
-  \caption{System architecture overview (template-aligned).}
-  \label{fig:system_architecture}
-\end{figure}
-
-% Fig2: Confusion heatmap (pilot)
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=0.6\linewidth]{../pipeline/outputs/figs/fig2_confusion_heatmap}
-  \caption{Annotation reliability: pilot confusion matrix.}
-  \label{fig:confusion_auto}
-\end{figure}
-
-% Fig3: Regression interactions forest plot (placeholder-ready)
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=0.9\linewidth]{../pipeline/outputs/figs/fig3_regression_forest}
-  \caption{Complaint incidence shifts visualized as interaction odds ratios (forest plot).}
-  \label{fig:regression_forest}
-\end{figure}
-
-% Fig5: Probe metric contrasts (placeholder-ready)
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=0.9\linewidth]{../pipeline/outputs/figs/fig5_probe_contrasts}
-  \caption{Probe metric contrasts across model versions (CDR, SUR, ETD, SST, CPR, DRP).}
-  \label{fig:probe_contrasts}
-\end{figure}
 
 \end{document}

@@ -56,7 +56,7 @@ drawio-export:
 
 # Render Fig2 (confusion heatmap PNG) from generated CSV
 fig2:
-	$(PY) scripts/render_fig2_confusion.py pipeline/outputs/figs/confusion_heatmap.csv pipeline/outputs/figs/fig2_confusion_heatmap.png --out-pdf pipeline/outputs/figs/fig2_confusion_heatmap.pdf || true
+	$(PY) scripts/render_fig2_confusion.py pipeline/outputs/figs/confusion_heatmap.csv pipeline/outputs/figs/fig2_confusion_heatmap.png --out-pdf pipeline/outputs/figs/fig2_confusion_heatmap.pdf --normalize || true
 
 # Fig3: forest plot from regression interactions TSV
 fig3:

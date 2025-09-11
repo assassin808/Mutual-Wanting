@@ -45,7 +45,7 @@ def load_interactions(tsv: Path) -> pd.DataFrame:
 
 def forest_plot(df: pd.DataFrame, out_png: Path, out_pdf: Path | None = None) -> None:
     plt.close("all")
-    fig, ax = plt.subplots(figsize=(6, max(2.5, 0.4 * max(1, len(df)))))
+    fig, ax = plt.subplots(figsize=(8, max(3.0, 0.5 * max(1, len(df)))))
     if df.empty:
         ax.axis("off")
         ax.text(0.5, 0.6, "Fig3: Regression interactions (forest)", ha="center", va="center", fontsize=12)

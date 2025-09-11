@@ -32,6 +32,12 @@ def load_matrix(path: str) -> Tuple[List[str], List[str], np.ndarray]:
     if set(["true", "pred", "count"]).issubset(df.columns):
         pivot = df.pivot_table(index="true", columns="pred", values="count", fill_value=0)
         return [str(x) for x in pivot.index], [str(x) for x in pivot.columns], pivot.to_numpy(dtype=float)
+    # wide-format matrix: first column as row labels, remaining as value columns
+    if len(df.columns) > 2 and not set(["true","pred","count"]).issubset(df.columns):
+        rows = [str(x) for x in df.iloc[:,0]]
+        cols = [str(x) for x in df.columns[1:]]
+        mat = df.iloc[:,1:].to_numpy(dtype=float)
+        return rows, cols, mat
     # alt naming (label_a/label_b)
     col_true = "true" if "true" in df.columns else ("label_a" if "label_a" in df.columns else df.columns[0])
     col_pred = "pred" if "pred" in df.columns else ("label_b" if "label_b" in df.columns else df.columns[1])
