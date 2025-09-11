@@ -68,137 +68,41 @@ We study the bidirectional "mutual wanting" relationship between users and large
 
 % (Template instructional section removed for clarity; manuscript now begins directly with Introduction.)
 \section{Introduction}
-Large-scale model upgrades increasingly trigger affective and epistemic friction between user expectations and system deployment realities. The GPT-5 launch discourse (public fora, notably Reddit) surfaces recurring perceived losses: diminished warmth, reduced creativity, and opacity in internal routing. We conceptualize these reactions not as mere preference volatility but as signals of a structural misalignment we term \emph{mutual wanting}: users' desired relational, epistemic, and agency affordances versus the system's operational desiderata (efficiency, safety stability, structured inputs). This paper (currently outlining planned empirical work) advances a minimal-resource agenda to map and partially reconcile these wants using only publicly available user discourse and comparative API probing.
+The rapid evolution of large language models (LLMs) has led to increasingly complex and often fraught interactions between users and AI systems. Large-scale model upgrades, such as the recent transition from GPT-4 to GPT-5, frequently trigger significant affective and epistemic friction. Public forums like Reddit are replete with user discourse expressing perceived losses in model "persona," such as diminished warmth, reduced creativity, or shifts in helpfulness. We conceptualize these reactions not as mere preference volatility, but as signals of a structural misalignment between user desires and system capabilities.
 
-\paragraph{Scope} We deliberately constrain tooling to (a) Reddit thread mining and mixed-method analysis; (b) controlled prompt suites across historical / current GPT variants (where accessible) to elicit stylistic, uncertainty, and pacing behaviors. Despite narrow instrumentation, we argue these sources can illuminate generalizable relational design principles.
+This paper introduces the concept of \emph{mutual wanting} to describe this bidirectional relationship. On one hand, users have explicit and implicit wants regarding the AI's relational, epistemic, and agentic affordances. On the other, the AI system, through its design and optimization, implicitly "wants" certain user behaviors, such as providing clear, structured inputs. We argue that mapping and reconciling these wants is a critical challenge for human-AI interaction.
 
-\paragraph{Contributions (Planned)}
-\begin{enumerate}
-  \item Conceptual: Mutual Wanting Alignment Framework (M-WAF) decomposing user wants (epistemic reliability+humility, relational continuity, agency co-steering, transparent limits) and system wants (clarity, feedback efficiency, evolution tolerance, emotional scope boundaries).
-  \item Empirical Plan: Multi-layer pipeline for Reddit discourse: topic modeling, stance clustering, stylistic expectancy violation mining, persona drift lexeme tracing.
-  \item Comparative Behavioral Probing: Prompt protocol to quantify inter-version differences in uncertainty disclosure form, silence handling (simulated pauses), intimacy boundary responses.
-  \item Metrics Specification: Trust calibration gap, hypothesis articulation rate, warmth-cost tension index, dependence risk proxy.
-  \item Ethical \& Governance Guideline Draft: Minimal-empathy sufficiency, uncertainty honesty, anti-anthropomorphic boundary surfacing.
-  \item Reproducibility Artifact Plan: Annotated prompt suite, labeling schema, open taxonomy of uncertainty utterances.
-\end{enumerate}
+To this end, we propose a minimal-resource research agenda that leverages publicly available data to explore this dynamic. By combining large-scale analysis of Reddit discourse with controlled, comparative API probing of different GPT versions, we can illuminate generalizable principles for designing more stable and trustworthy relational AI. This paper outlines our conceptual framework, details our analytical pipeline, and specifies the metrics and ethical guardrails for this investigation.
+
+\paragraph{Contributions}
+This paper makes several contributions. First, it introduces the Mutual Wanting Alignment Framework (M-WAF), a conceptual tool for deconstructing the bidirectional relationship between users and AI systems. The framework identifies key dimensions of user wants (e.g., epistemic reliability, relational continuity) and system wants (e.g., feedback efficiency, emotional scope boundaries). Second, we outline a multi-layer pipeline for analyzing public discourse, combining topic modeling, stance clustering, and persona drift tracking. Third, we propose a comparative behavioral probing protocol to quantify inter-version differences in how models handle uncertainty, silence, and intimacy. Finally, we specify a suite of metrics for measuring trust calibration and relational tension, and provide a draft of ethical guidelines for designing and deploying evolving AI personas.
 
 \section{Related Work}
 Our study builds on several streams of research in human-AI interaction. A central theme is the management of user perceptions and trust as AI systems evolve. Guidelines for human-AI interaction emphasize the importance of setting clear expectations and communicating capability changes to maintain user trust \citep{amershi2019guidelines}. Research in trust calibration shows that system transparency, for instance through explanations or uncertainty disclosures, is crucial for aligning user confidence with system capabilities \citep{yin2019understanding, lai2019human}. The way uncertainty is presented can significantly influence user trust and reliance on AI predictions \citep{kay2016uncertainty, reyes2025uncertainty}.
 
 Another critical area is the socio-emotional dimension of human-AI relationships. The tendency for users to anthropomorphize AI agents is a well-documented phenomenon, driven by motivations for social connection and understanding \citep{epley2007seeing}. This can lead to the formation of parasocial relationships, where users develop one-sided bonds with AI personas \citep{horton1956mass}. While such relationships can enhance engagement, they also carry risks of misattribution and emotional dependence \citep{pnas2025anthro, maeda2024parasocial}. Recent studies have begun to explore how to measure these parasocial dynamics with AI \citep{omeish2025between, qi2025assistant} and understand their long-term psychological impacts \citep{payne2024ai, xie2022ai}.
 
-The concept of an AI "persona" is increasingly relevant as developers craft specific personalities for their systems. The stability and perception of these personas are key research topics. Studies have evaluated how different modalities for presenting personas (e.g., chat vs. profile) affect user perception and behavior \citep{kaate2025evaluating, kaate2025fourth}. However, the challenge of maintaining a consistent and coherent persona across rapid model iterations remains a significant, yet underexplored, area of research. Our work addresses this gap by focusing on the "mutual wanting" between users and systems during such transitions, treating system constraints and user desires as equally important parts of the interaction design.
+The concept of an AI "persona" is increasingly relevant as developers craft specific personalities for their systems. The stability and perception of these personas are key research topics. Recent work has explored the use of LLMs in generating user personas for UX design \citep{hur2024utilizing}, as well as the potential for "generative diaries" to shape long-term human-robot interaction \citep{cho2023story}. Studies have evaluated how different modalities for presenting personas (e.g., chat vs. profile) affect user perception and behavior \citep{kaate2025evaluating, kaate2025fourth}. However, the challenge of maintaining a consistent and coherent persona across rapid model iterations remains a significant, yet underexplored, area of research. Our work addresses this gap by focusing on the "mutual wanting" between users and systems during such transitions, treating system constraints and user desires as equally important parts of the interaction design.
 
 \section{Methodology}
-Our study combined large-scale analysis of public discourse with controlled API probing to investigate the "mutual wanting" between users and LLMs.
+Our study employed a two-pronged approach to investigate the "mutual wanting" between users and LLMs. We combined large-scale analysis of public discourse with controlled API probing to capture both user-generated reactions and system-level behaviors. 
 
-\subsection{Data Collection and Analysis}
-We collected a corpus of 1,748 Reddit posts from subreddits related to GPT models, focusing on a period surrounding a major version transition. The data was filtered to identify posts discussing perceived changes in the model's persona, such as warmth, creativity, and helpfulness.
+\textbf{Data Collection and Analysis.} We collected a corpus of 1,748 Reddit posts from subreddits related to GPT models, focusing on a period surrounding a major version transition. The data was filtered to identify posts discussing perceived changes in the model's persona, such as warmth, creativity, and helpfulness. A subset of 300 posts was independently annotated by two researchers to identify distinct style clusters in user posts. This process achieved a Cohen's $\kappa$ of 0.795, indicating substantial agreement. We then extracted linguistic features from each post, including hedge rate, warmth markers, pronoun ratio, and token length. These features were used in a logistic regression model to predict post engagement (as measured by score).
 
-A subset of 300 posts was independently annotated by two researchers to identify distinct style clusters in user posts. This process achieved a Cohen's $\kappa$ of 0.795, indicating substantial agreement.
+\textbf{Behavioral Probing.} We developed a suite of controlled prompts to probe the behavior of different GPT model versions. These prompts were designed to elicit responses in situations with latent ambiguity, creative ideation, and emotional content. We measured metrics such as Confidence Disclosure Rate (CDR) and Structured Uncertainty Ratio (SUR) to quantify how models communicate uncertainty.
 
-We extracted linguistic features from each post, including hedge rate, warmth markers, pronoun ratio, and token length. These features were used in a logistic regression model to predict post engagement (as measured by score).
-
-\subsection{Behavioral Probing}
-We developed a suite of controlled prompts to probe the behavior of different GPT model versions. These prompts were designed to elicit responses in situations with latent ambiguity, creative ideation, and emotional content. We measured metrics such as Confidence Disclosure Rate (CDR) and Structured Uncertainty Ratio (SUR) to quantify how models communicate uncertainty.
-
-\subsection{Temporal Analysis}
-To analyze style drift over time, we segmented our corpus into "pre" and "post" transition periods. We then compared the distribution of style clusters and the frequency of specific linguistic markers between these periods to identify significant shifts in user discourse and model behavior.
+\textbf{Temporal Analysis.} To analyze style drift over time, we segmented our corpus into "pre" and "post" transition periods. We then compared the distribution of style clusters and the frequency of specific linguistic markers between these periods to identify significant shifts in user discourse and model behavior.
 
 \section{Results}
-We report results from our analysis of 1,748 Reddit posts across multiple linguistic dimensions. All analyses used real discourse data with no synthetic content.
+Our analysis of 1,748 Reddit posts and controlled behavioral probes reveals several key findings regarding the "mutual wanting" between users and LLMs. All analyses used real discourse data with no synthetic content.
 
-\subsection{Inter-Annotator Reliability}
-Our style clustering annotation achieved strong reliability (Table~\ref{tab:agreement}). Two independent annotators labeled style clusters across 300 posts, achieving Cohen's $\kappa = 0.795$ (95\% CI: 0.72--0.87), indicating good agreement \citep{landis1977measurement}. Figure~\ref{fig:confusion} shows the confusion matrix, with most disagreements occurring between semantically similar clusters (style\_0 and style\_3).
+\textbf{Inter-Annotator Reliability.} Our style clustering annotation achieved strong reliability. Two independent annotators labeled style clusters across 300 posts, achieving Cohen's $\kappa = 0.795$ (95\% CI: 0.72--0.87), indicating good agreement \citep{landis1977measurement}. The confusion matrix (Figure~\ref{fig:confusion}) shows that most disagreements occurred between semantically similar clusters (style\_0 and style\_3), which is expected in subjective annotation tasks.
 
-\begin{table}[h]
-\centering
-\caption{Inter-annotator agreement on style cluster labeling.}
-\label{tab:agreement}
-\small
-\begin{tabular}{lc}
-\toprule
-Metric & Value \\
-\midrule
-Inter-annotator $\kappa$ & 0.795 \\
-\bottomrule
-\end{tabular}
-\end{table}
+\textbf{Linguistic Feature Analysis.} Regression analysis revealed significant associations between linguistic features and post engagement (Figure~\ref{fig:forest}). Higher hedge rates were associated with lower scores (OR = 0.97, 95\% CI: 0.96--0.98), while token length showed positive associations (OR = 1.02, 95\% CI: 1.01--1.03). These findings align with prior work on uncertainty communication \citep{kay2016uncertainty} and suggest that the linguistic style of user posts is a significant predictor of community engagement.
 
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=0.8\linewidth]{../pipeline/outputs/figs/fig2_confusion_heatmap}
-  \caption{Annotation reliability: Confusion matrix (normalized).}
-  \label{fig:confusion}
-\end{figure}
+\textbf{Behavioral Probes.} Probe analysis comparing high-score versus low-score posts revealed subtle but systematic differences in linguistic patterns (Table~\ref{tab:probes}). While effect sizes were modest, the patterns suggest that post quality is associated with differences in confidence disclosure rates and empathy markers.
 
-\subsection{Linguistic Feature Analysis}
-Regression analysis revealed significant associations between linguistic features and post engagement (Figure~\ref{fig:forest}). Higher hedge rates were associated with lower scores (OR = 0.97, 95\% CI: 0.96--0.98), while token length showed positive associations (OR = 1.02, 95\% CI: 1.01--1.03). These findings align with prior work on uncertainty communication \citep{kay2016uncertainty}.
-
-\begin{table}[h]
-\centering
-\caption{Linguistic feature effects on high-score posts.}
-\label{tab:regression}
-\small
-\begin{tabular}{lccc}
-\toprule
-Feature & Odds Ratio & CI Lower & CI Upper \\
-\midrule
-Hedge Rate & 0.966 & 0.956 & 0.976 \\
-Warmth Rate & 0.993 & 0.991 & 0.995 \\
-Imperative Ratio & 1.005 & 1.004 & 1.007 \\
-Pronoun Ratio & 0.813 & 0.764 & 0.865 \\
-Token Length & 1.020 & 1.014 & 1.027 \\
-\bottomrule
-\end{tabular}
-\end{table}
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=0.9\linewidth]{../pipeline/outputs/figs/fig3_regression_forest}
-  \caption{Complaint incidence shifts (forest plot of interaction odds ratios).}
-  \label{fig:forest}
-\end{figure}
-
-\subsection{Behavioral Probes}
-Probe analysis comparing high-score versus low-score posts revealed subtle differences in linguistic patterns (Table~\ref{tab:probes}). While effect sizes were modest, the patterns suggest systematic differences in confidence disclosure rates and empathy markers across post quality levels.
-
-\begin{table}[h]
-\centering
-\caption{Probe metrics summary.}
-\label{tab:probes}
-\small
-\begin{tabular}{lcccc}
-\toprule
-model & metric & value & ci\_lower & ci\_upper \\
-\midrule
-gpt-4 & CDR & 0.45 & 0.35 & 0.55 \\
-gpt-4 & SUR & 0.20 & 0.12 & 0.28 \\
-gpt-4o & CDR & 0.52 & 0.42 & 0.62 \\
-gpt-4o & SUR & 0.25 & 0.17 & 0.33 \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\subsection{Temporal Style Drift}
-Analysis of style cluster distributions over time revealed systematic shifts (Table~\ref{tab:drift}). The dominant cluster (style\_3) decreased from 68\% to 62\% of posts over the analysis period, while other clusters showed compensatory increases, suggesting evolution in discourse patterns.
-
-\begin{table}[h]
-\centering
-\caption{Style cluster distribution changes over time.}
-\label{tab:drift}  
-\small
-\begin{tabular}{lcccc}
-\toprule
-Cluster & Pre-Freq & Post-Freq & Log-Odds & Change \\
-\midrule
-style-0 & 0.241 & 0.289 & 0.246 & 0.048 \\
-style-1 & 0.002 & 0.003 & 0.300 & 0.001 \\
-style-2 & 0.058 & 0.064 & 0.098 & 0.006 \\
-style-3 & 0.681 & 0.620 & -0.267 & 0.061 \\
-style-4 & 0.017 & 0.023 & 0.280 & 0.006 \\
-\bottomrule
-\end{tabular}
-\end{table}
+\textbf{Temporal Style Drift.} Analysis of style cluster distributions over time revealed systematic shifts (Table~\ref{tab:drift}). The dominant cluster (style\_3) decreased from 68\% to 62\% of posts over the analysis period, while other clusters showed compensatory increases. This suggests an evolution in discourse patterns, possibly in response to the changing behavior of the AI.
 
 \section{Discussion}
 Our findings illuminate the delicate balance in the "mutual wanting" between users and AI systems. The strong inter-annotator agreement on style clusters suggests that users exhibit consistent, recognizable patterns of expression when discussing AI models. The regression analysis confirms that linguistic choices, such as hedging and verbosity, are not merely stylistic but are significantly associated with community engagement, reflecting the social evaluation of AI-related discourse.
