@@ -63,12 +63,15 @@ def table_enrichment(data, outdir: Path):
 
 
 def table_regress(data, outdir: Path):
-    if not data:
+    if not data or not isinstance(data, dict):
         return
     # Summarize only interaction coefficients (transition:pre_post) where available
     header=['outcome','estimator','positive','negative','interaction_coef','interaction_p']
     rows=[]
     for outcome, res in data.items():
+        if not isinstance(res, dict):
+            rows.append([outcome, 'skipped', '', '', '', ''])
+            continue
         if 'skipped' in res:
             rows.append([outcome,'skipped',res.get('positive'),res.get('negative'),'',''])
             continue

@@ -154,8 +154,8 @@ Additional Action: Overlap IDs to be prioritized first using `annotator_quicksta
 
 ### 11.2 Planned Figures
 - [x] Fig1 Pipeline schematic (Mermaid or Graphviz)  
-- [~] Fig1b System architecture (draw.io: html, svg, png exports wired)  
-	- Status 2025-09-10: System diagram content aligned to clean template; canonical source is `figures/drawio/exports/system.xml`. Export SVG/PNG/HTML via Draw.io Desktop for camera-ready and include in LaTeX.  
+- [x] Fig1b System architecture (provided PDF; draw.io deprecated)  
+	- Status 2025-09-11: Included `figures/drawio/Fig1.pdf` directly in LaTeX; no draw.io export required. TeX warns about PDF 1.7 vs 1.5 (non-blocking); optional downsave later.  
 - [x] Fig2 Annotation reliability (confusion heatmap)  
 	- Status: Placeholder heatmap included; replace with real Fig2 asset when provided.  
 - [ ] Fig3 Complaint incidence shifts (forest plot of ORs)  
