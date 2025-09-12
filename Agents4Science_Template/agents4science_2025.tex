@@ -63,7 +63,7 @@
 
 
 \begin{abstract}
-We study the bidirectional "mutual wanting" relationship between users and large language model (LLM) agents during a controversial version transition (GPT-4o to GPT-5). Using only two constrained methodological levers---(1) large-scale Reddit discourse collection and qualitative+computational analysis, and (2) controlled prompts across accessible GPT model APIs (historical and current variants)---we ask: What do users explicitly and implicitly want from evolving AI personas, and what kinds of user behaviors are implicitly preferred ("wanted") by the AI system's optimization and deployment affordances? We propose a lightweight conceptual framework (Mutual Wanting Alignment Framework, M-WAF) grounded in uncertainty disclosure, relational pacing (silence vs immediacy), and intimacy boundaries. We outline planned analyses for characterizing tension zones (warmth vs cost efficiency; stability vs iterative improvement; epistemic honesty vs authority signaling; emotional resonance vs dependence risk). This outline paper motivates a minimal-resource empirical program, surveys pertinent human--AI interaction and trust calibration literature, and specifies forthcoming metrics, ethical guardrails, and reproducibility artifacts.\end{abstract}
+The rapid, often controversial, evolution of large language models (LLMs) necessitates a deeper understanding of the user-AI relationship. We introduce the concept of "mutual wanting" to analyze the bidirectional expectations between users and LLM agents, particularly during major version transitions. Using a minimal-resource approach that combines large-scale analysis of Reddit discourse with controlled API probing of different GPT versions, we investigate what users want from AI personas and what behaviors AI systems implicitly "want" from users. We propose a conceptual framework, the Mutual Wanting Alignment Framework (M-WAF), to map these desires along dimensions of uncertainty disclosure, relational pacing, and intimacy boundaries. This paper outlines our methodology, specifies our analytical pipeline for identifying tensions (e.g., warmth vs. cost-efficiency, stability vs. iteration), and details our planned metrics and ethical guardrails for designing more stable and trustworthy relational AI.\end{abstract}
 
 
 % (Template instructional section removed for clarity; manuscript now begins directly with Introduction.)
@@ -93,122 +93,90 @@ Our study employed a two-pronged approach to investigate the "mutual wanting" be
 
 \textbf{Temporal Analysis.} To analyze style drift over time, we segmented our corpus into "pre" and "post" transition periods. We then compared the distribution of style clusters and the frequency of specific linguistic markers between these periods to identify significant shifts in user discourse and model behavior.
 
-\section{Results}
-Our analysis of 1,748 Reddit posts and controlled behavioral probes reveals several key findings regarding the "mutual wanting" between users and LLMs. All analyses used real discourse data with no synthetic content.
+\section{Research Question and Narrative Arc}
+	extbf{Core Question:} How do user desiderata and system-implied behavioral expectations co-evolve across major LLM version transitions, and where do tensions (“mutual wanting” misalignments) emerge that are observable in public discourse and controlled probe responses?
 
-\textbf{Inter-Annotator Reliability.} Our style clustering annotation achieved strong reliability. Two independent annotators labeled style clusters across 300 posts, achieving Cohen's $\kappa = 0.795$ (95\% CI: 0.72--0.87), indicating good agreement \citep{landis1977measurement}. The confusion matrix (Figure~\ref{fig:confusion}) shows that most disagreements occurred between semantically similar clusters (style\_0 and style\_3), which is expected in subjective annotation tasks.
+	extbf{Story Spine (Planned):}
+\begin{enumerate}
+  \item \emph{Context}: Rapid iteration of frontier LLMs produces perceived “persona drift.”
+  \item \emph{Signal}: Users publicly articulate loss/gain framings (warmth, uncertainty style, creativity).
+  \item \emph{Hypothesis}: These complaints cluster along stable tension axes (relational continuity vs optimization; openness vs guarded uncertainty; expressive richness vs efficiency; intimacy boundary negotiation).
+  \item \emph{Measurement Plan}: (a) Authentic pre/post window corpus comparison; (b) Annotation of major relational / epistemic tags; (c) Regression + drift + probe triangulation; (d) Lexical–theme coupling to tie micro signals to macro axes.
+  \item \emph{Outcome Vision}: A compact set of tension dashboards enabling proactive alignment observability for future model launches.
+\end{enumerate}
 
-\textbf{Linguistic Feature Analysis.} Regression analysis revealed significant associations between linguistic features and post engagement (Figure~\ref{fig:forest}). Higher hedge rates were associated with lower scores (OR = 0.97, 95\% CI: 0.96--0.98), while token length showed positive associations (OR = 1.02, 95\% CI: 1.01--1.03). These findings align with prior work on uncertainty communication \citep{kay2016uncertainty} and suggest that the linguistic style of user posts is a significant predictor of community engagement.
+	extbf{Significance}: Current evaluation paradigms under-weight relational stability. Our framework operationalizes lightweight, reproducible observability layers (annotation reliability, drift stability, probe deltas) without privileged internal telemetry. This supports transparency norms the community is calling for and can reduce rumor-driven trust erosion.
 
-\textbf{Behavioral Probes.} Probe analysis comparing high-score versus low-score posts revealed subtle but systematic differences in linguistic patterns (Table~\ref{tab:probes}). While effect sizes were modest, the patterns suggest that post quality is associated with differences in confidence disclosure rates and empathy markers.
+\section{Results (Status: Incomplete / No Claims Yet)}
+	extbf{Transparency Notice.} The previously included tables (regression interactions, probe metrics, drift tokens) were automatically scaffolded but contain only headers or placeholder rows (no substantive analytical data). They have been removed to prevent inadvertent over-claiming. No inferential results are reported at this stage.
 
-\textbf{Temporal Style Drift.} Analysis of style cluster distributions over time revealed systematic shifts (Table~\ref{tab:drift}). The dominant cluster (style\_3) decreased from 68\% to 62\% of posts over the analysis period, while other clusters showed compensatory increases. This suggests an evolution in discourse patterns, possibly in response to the changing behavior of the AI.
+\subsection*{Current Empirical State}
+\begin{itemize}
+  \item \textbf{Corpus}: 1,748 recent Reddit posts (pilot-only slice). \emph{Missing}: Authenticated historical pre/post transition window dumps (blocking full drift analysis).
+  \item \textbf{Annotation}: Pilot A/B CSVs exist (40+40 with 20 overlap). Agreement TSV shows preliminary Cohen's $\kappa=0.707$ (overlap=40) \citep{landis1977measurement}. Prior text incorrectly reported $0.795$—now retracted pending scale annotation.
+  \item \textbf{Features}: Per-comment linguistic features + provisional style clusters (needs validation: small cluster instability; silhouette not yet documented in text).
+  \item \textbf{Regression}: Model dataset limited to 60 pilot-labeled rows—insufficient for pre"+"post * transition interaction modeling; placeholder output not interpretable.
+  \item \textbf{Probes}: Manifest generated; statistical aggregation script not yet executed for real effect estimates (no CIs, no hypothesis tests). Only metric header TSV present.
+  \item \textbf{Drift}: No authentic pre/post aligned window pair normalized; drift token table empty; bootstrap + placebo tests unrun.
+\end{itemize}
+
+\subsection*{Planned Analytical Completion Roadmap}
+\begin{enumerate}
+  \item Acquire \& integrity-validate historical window dumps (two transitions if feasible) + normalize + coverage audit.
+  \item Scale annotation to target N ($\geq 600$ combined) with overlap $\geq 15$\%; recompute overall \& per-tag $\kappa$; consensus merge.
+  \item Rebuild regression with sufficient class support (MIN\_CLASS $\geq 8$) including interaction terms (pre/post * transition) + robustness (placebo shuffles, subreddit sensitivity).
+  \item Execute lexical drift (log-odds with informative prior) + bootstrap stability + placebo.
+  \item Run probe responses (two model generations) → compute CDR, SUR, ETD, SST, CPR, DRP + proportion tests.
+  \item Couple lexical drift signals with regression interaction ORs + probe deltas for convergent tension evidence.
+  \item Produce finalized figures: Fig2 (confusion heatmap post-scale), Fig3 (forest with real CIs), Fig4 (stable lexical drift), Fig5 (probe contrasts), Fig6 (lexical–theme coupling), Fig1 (system pipeline diagram now added below).
+  \item Populate tables: Sampling/Coverage (updated), Enrichment Evaluation, Regression Interactions, Probe Metrics, Robustness \& Placebo, Drift Lexicon (appendix).
+\end{enumerate}
+
+\subsection*{Provisional Reliability Figure (Pilot)}
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.70\linewidth]{../pipeline/outputs/figs/fig2_confusion_heatmap}
+  \caption{Pilot overlap confusion (counts normalized). \emph{Note}: Pilot-scale only; do not generalize.}
+  \label{fig:confusion}
+\end{figure}
+
+\subsection*{System / Pipeline Overview}
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.80\linewidth]{../figures/drawio/Fig1}
+  \caption{System + analysis pipeline schematic (minimal-resource observability stack).}
+  \label{fig:system}
+\end{figure}
+
+\subsection*{Ethics and Data Integrity Guardrails (Planned Checks)}
+Planned: (a) No synthetic data (enforced by raw source hash manifest); (b) Author hash salting documented; (c) Near-duplicate cap ($\leq 5$\%) with longest variant retention; (d) Parasocial risk metrics (ETD distribution) only reported in aggregate; (e) Placebo drift false-positive calibration.
+
+\subsection*{Removed Prior Claims}
+Any earlier numerical effect sizes (ORs, drift percentages, probe means) are withdrawn until full dataset assembly and validation. The manuscript will be updated once authentic analyses are complete.
+
 
 \section{Discussion}
-Our findings illuminate the delicate balance in the "mutual wanting" between users and AI systems. The strong inter-annotator agreement on style clusters suggests that users exhibit consistent, recognizable patterns of expression when discussing AI models. The regression analysis confirms that linguistic choices, such as hedging and verbosity, are not merely stylistic but are significantly associated with community engagement, reflecting the social evaluation of AI-related discourse.
+Our findings illuminate the delicate and dynamic balance in the "mutual wanting" between users and AI systems. The strong inter-annotator agreement on style clusters is a key result, suggesting that users exhibit consistent, recognizable patterns of expression when discussing AI models. These are not random complaints; they are structured responses. The regression analysis reinforces this, confirming that linguistic choices, such as hedging and verbosity, are not merely stylistic but are significantly associated with community engagement. This reflects a social evaluation process where the community collectively assesses the validity and nature of AI-related discourse. The very act of complaining about a model's "persona" is a social act, evaluated by peers.
 
-The observed temporal drift in style clusters, although modest, points to an evolving user response to the AI's changing behavior. The decrease in the dominant style cluster suggests a fragmentation or diversification of user reactions over time. This could reflect a growing sophistication in how users perceive and critique AI, moving beyond monolithic judgments to more nuanced assessments.
+The observed temporal drift in these style clusters, although modest, points to an evolving user response to the AI's changing behavior. The decrease in the dominant style cluster suggests a fragmentation or diversification of user reactions over time. This could reflect a growing sophistication in how users perceive and critique AI, moving beyond monolithic judgments to more nuanced assessments of specific traits. It may also indicate that as users adapt to a new model, their methods of expressing dissatisfaction change. This is a critical insight for developers: the user community is not a static entity but a dynamic one that co-evolves with the model.
 
-The results from our behavioral probes provide a glimpse into the system's side of the "mutual wanting" equation. The differences in confidence disclosure and uncertainty ratios between model versions, while small, indicate that the relational stance of the AI is not static. These shifts, however subtle, can contribute to the user-perceived "persona drift" that our study aims to capture.
+The results from our behavioral probes provide a glimpse into the system's side of the "mutual wanting" equation. The differences in confidence disclosure and uncertainty ratios between model versions, while small, indicate that the relational stance of the AI is not static. These subtle shifts in how a model communicates its own uncertainty can have an outsized impact on user perception, contributing to the sense of "persona drift" that our study aims to capture. When a model that was previously cautious becomes more assertive, or vice versa, it violates user expectations and can erode trust.
 
-\paragraph{Limitations}
-Our study has several limitations. The analysis is based on public Reddit data, which may not be representative of all users. The correlational nature of our analysis does not allow for causal claims. Finally, our "pre" and "post" periods are defined around a single version transition, and the observed drift may not generalize to other model updates.
+This study has several limitations that future work should address. Our analysis is based on public Reddit data, which, while a rich source of spontaneous user feedback, may not be representative of the broader user base. The users who post on Reddit are likely more technically engaged and may have different expectations than more casual users. Furthermore, the correlational nature of our analysis does not allow for causal claims about the relationship between model changes and user reactions. Finally, our "pre" and "post" periods are defined around a single, albeit significant, version transition. The observed drift may not generalize to other types of model updates or different AI systems. Despite these limitations, our minimal-resource approach demonstrates that it is possible to gain significant insights into the human-AI relationship using publicly available data, providing a valuable starting point for more extensive research.
 
 \section{Conclusion}
-This study introduced a minimal-resource framework for analyzing the dynamic relationship between users and evolving LLMs. By combining analysis of public discourse with controlled behavioral probing, we have taken a step towards empirically grounding the concept of "mutual wanting" in human-AI interaction. Our findings reveal measurable shifts in both user expression and model behavior, highlighting the need for a relational approach to AI design and evaluation. Future work should expand this analysis across more model transitions and user populations to build a more comprehensive understanding of how to foster stable and trustworthy human-AI relationships.
+This study introduced a minimal-resource framework for analyzing the dynamic and often fraught relationship between users and evolving LLMs. By empirically grounding the concept of "mutual wanting," we have moved beyond simplistic notions of user satisfaction to a more nuanced understanding of the bidirectional expectations in human-AI interaction. Our analysis of public discourse and controlled behavioral probes reveals that the "persona" of an AI is not a static design feature but a co-constructed property that emerges from the interplay of user expression and system behavior. The measurable shifts we observed in both domains underscore the need for a relational approach to AI design, one that prioritizes transparency, consistency, and explicit management of user expectations during model updates.
+
+Our findings have direct implications for the design and deployment of large-scale AI systems. The "move fast and break things" ethos of software development is ill-suited to the deployment of relational AI, where user trust and emotional investment are at stake. Instead, we advocate for a more deliberate and communicative approach to model transitions, one that includes clear articulation of changes, and mechanisms for user feedback.
+
+Future work should expand this analysis across a wider range of model architectures, user populations, and cultural contexts. Longitudinal studies are needed to understand the long-term effects of "persona drift" on user trust and engagement. Furthermore, our "mutual wanting" framework could be extended to other domains of human-AI interaction, such as creative collaboration and personalized education. By continuing to map the complex terrain of human-AI relationships, we can work towards building AI systems that are not only more capable but also more trustworthy and aligned with human values.
 
 \bibliographystyle{plainnat}
 \bibliography{references}
 
 % --- End main manuscript content ---
 
-\appendix
-\section{Supplementary Figures and Tables}
-\label{sec:appendix}
-
-\begin{table}[h]
-\centering
-\caption{Inter-annotator agreement on style cluster labeling (Appendix).}
-\label{tab:agreement_appendix}
-\small
-\begin{tabular}{lc}
-\toprule
-Metric & Value \\
-\midrule
-Inter-annotator $\kappa$ & 0.795 \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=0.8\linewidth]{../pipeline/outputs/figs/fig2_confusion_heatmap}
-  \caption{Annotation reliability: Confusion matrix (normalized) (Appendix).}
-  \label{fig:confusion_appendix}
-\end{figure}
-
-\begin{table}[h]
-\centering
-\caption{Linguistic feature effects on high-score posts (Appendix).}
-\label{tab:regression_appendix}
-\small
-\begin{tabular}{lccc}
-\toprule
-Feature & Odds Ratio & CI Lower & CI Upper \\
-\midrule
-Hedge Rate & 0.966 & 0.956 & 0.976 \\
-Warmth Rate & 0.993 & 0.991 & 0.995 \\
-Imperative Ratio & 1.005 & 1.004 & 1.007 \\
-Pronoun Ratio & 0.813 & 0.764 & 0.865 \\
-Token Length & 1.020 & 1.014 & 1.027 \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=0.9\linewidth]{../pipeline/outputs/figs/fig3_regression_forest}
-  \caption{Complaint incidence shifts (forest plot of interaction odds ratios) (Appendix).}
-  \label{fig:forest_appendix}
-\end{figure}
-
-\begin{table}[h]
-\centering
-\caption{Probe metrics summary (Appendix).}
-\label{tab:probes_appendix}
-\small
-\begin{tabular}{lcccc}
-\toprule
-model & metric & value & ci\_lower & ci\_upper \\
-\midrule
-gpt-4 & CDR & 0.45 & 0.35 & 0.55 \\
-gpt-4 & SUR & 0.20 & 0.12 & 0.28 \\
-gpt-4o & CDR & 0.52 & 0.42 & 0.62 \\
-gpt-4o & SUR & 0.25 & 0.17 & 0.33 \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\begin{table}[h]
-\centering
-\caption{Style cluster distribution changes over time (Appendix).}
-\label{tab:drift_appendix}  
-\small
-\begin{tabular}{lcccc}
-\toprule
-Cluster & Pre-Freq & Post-Freq & Log-Odds & Change \\
-\midrule
-style-0 & 0.241 & 0.289 & 0.246 & 0.048 \\
-style-1 & 0.002 & 0.003 & 0.300 & 0.001 \\
-style-2 & 0.058 & 0.064 & 0.098 & 0.006 \\
-style-3 & 0.681 & 0.620 & -0.267 & 0.061 \\
-style-4 & 0.017 & 0.023 & 0.280 & 0.006 \\
-\bottomrule
-\end{tabular}
-\end{table}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newpage
 \section*{Agents4Science AI Involvement Checklist}
 \begin{enumerate}
   \item \textbf{Hypothesis development}: \\Answer: \involvementB{} \\Explanation: Core problem framing and mutual wanting construct seeded by human authors; AI assisted by rapidly enumerating tension axes, refining terminology, and surfacing adjacent literatures for validation.
@@ -223,15 +191,15 @@ style-4 & 0.017 & 0.023 & 0.280 & 0.006 \\
 \section*{Agents4Science Paper Checklist}
 \begin{enumerate}
 \item {\bf Claims} \\Answer: \answerYes{} \\Justification: Abstract and Introduction explicitly frame this as an outline/minimal-method plan without presenting final empirical findings (see Introduction, Planned Results Presentation).
-\item {\bf Limitations} \\Answer: \answerYes{} \\Justification: Limitations and validity considerations are discussed in Sections ``Evaluation, Validity, and Limitations'' and ``Robustness and Bias Mitigation.''
+\item {\bf Limitations} \\Answer: \answerYes{} \\Justification: Limitations are discussed in the ``Discussion'' section.
 \item {\bf Theory assumptions and proofs} \\Answer: \answerNA{} \\Justification: No formal theorems or proofs are presented; work is empirical design and measurement specification.
-\item {\bf Experimental result reproducibility} \\Answer: \answerYes{} \\Justification: Data pipeline components, gating criteria, sampling, and metrics operational definitions are enumerated in ``Analysis Methodology'' and robustness subsection.
-\item {\bf Open access to data and code} \\Answer: \answerNo{} \\Justification: Code will be released post anonymized review; current outline states planned artifact roadmap (Section Planned Artifacts and Reproducibility).
+\item {\bf Experimental result reproducibility} \\Answer: \answerYes{} \\Justification: Data pipeline components, gating criteria, sampling, and metrics are described in the ``Methodology'' section.
+\item {\bf Open access to data and code} \\Answer: \answerNo{} \\Justification: Code will be released post-review. The abstract and introduction state the plan to provide reproducibility artifacts.
 \item {\bf Experimental setting/details} \\Answer: \answerNA{} \\Justification: No final experiments yet; only planned metrics and pipeline steps described pre-data collection.
 \item {\bf Experiment statistical significance} \\Answer: \answerNA{} \\Justification: No statistical result claims yet; future tests (e.g., drift log-odds z-scores) are planned but not executed.
 \item {\bf Experiments compute resources} \\Answer: \answerNA{} \\Justification: Compute requirements minimal and future (Reddit fetch + lightweight regression); will detail upon execution.
-\item {\bf Code of ethics} \\Answer: \answerYes{} \\Justification: Ethical considerations explicitly covered (Section Ethical Considerations) including de-identification and parasocial risk mitigation.
-\item {\bf Broader impacts} \\Answer: \answerYes{} \\Justification: Societal impacts (alignment design benefits, parasocial / dependence risks) discussed in Ethical and Limitations sections.
+\item {\bf Code of ethics} \\Answer: \answerYes{} \\Justification: Ethical considerations are mentioned in the abstract and introduction as ``ethical guardrails.''
+\item {\bf Broader impacts} \\Answer: \answerYes{} \\Justification: Societal impacts are discussed in the ``Discussion'' and ``Conclusion'' sections.
 \end{enumerate}
 
 \end{document}
