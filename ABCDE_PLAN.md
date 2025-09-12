@@ -29,10 +29,20 @@ E. Expanded Citation & Narrative Integration
 - Lack of author identifiers prevents full replication of hashing step (may proceed omitting until data obtained; mark limitation).
 
 ## Next Actions
-1. Generate window reconstruction stub script (`scripts/reconstruct_window.py`).
-2. Create coverage wrapper script (`scripts/compute_coverage_wrapper.py`).
-3. Add sampling spec stub.
-4. Add citation augment list.
+1. (Done) Window reconstruction script `scripts/reconstruct_window.py` created.
+2. (Done) Coverage wrapper `scripts/compute_coverage_wrapper.py` created.
+3. (Done) Sampling spec stub `SCALE_SAMPLING_SPEC.md` added.
+4. (Done) Citation augment list `CITATION_AUGMENT_LIST.md` added.
+5. NEXT: Determine timestamp boundaries for first transition and run reconstruction.
 
 ## Provenance
 Created: $(date placeholder)
+
+## Progress Updates
+2025-09-12:
+- Reconstructed gpt4_to_4o pre/post windows (pre=63, post=197 rows).
+- Normalized with salted author hashing placeholder.
+- Coverage computed (no missing days; sparse counts due to low volumetric capture vs ideal Reddit firehose).
+- Updated `table1_sampling_coverage.tsv` with real counts.
+- Built initial sampling frame (260 combined rows after normalization; token lengths predominantly zero -> indicates `body` field empty for many posts; need to verify ingestion retained body/selftext vs missing field mapping). 
+- Next: Diagnose empty body issue (char/token medians = 0) before sampling/annotation scaling; confirm if source fields use `selftext` vs `body` in ingestion path and patch normalization to preserve content.
