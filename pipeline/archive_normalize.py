@@ -55,7 +55,12 @@ def normalize(path: str, out_path: str, transition: str, phase: str, salt: str):
             if not cid or sr is None or ts is None:
                 skipped += 1
                 continue
-            body = obj.get('body') or ''
+            # Accept either 'body' (comments) or 'selftext' (submissions). Prefer body if present.
+            raw_body = obj.get('body')
+            if (not raw_body) and ('selftext' in obj):
+                raw_body = obj.get('selftext') or ''
+            body = raw_body or ''
+            empty_flag = 1 if len((body or '').strip()) == 0 else 0
             sc = int(obj.get('score', 0) or 0)
             row = {
                 'id': cid,
@@ -65,6 +70,7 @@ def normalize(path: str, out_path: str, transition: str, phase: str, salt: str):
                 'score': sc,
                 'score_bucket': score_bucket(sc),
                 'body': body,
+                'empty_content': empty_flag,
                 'subreddit': sr,
                 'author_hash': author_hash(str(obj.get('author','anon')), salt),
                 'transition': transition,
