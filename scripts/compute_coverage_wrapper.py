@@ -70,18 +70,41 @@ def main():
     os.makedirs(TABLE_DIR, exist_ok=True)
     table_path = os.path.join(TABLE_DIR, 'table1_sampling_coverage.tsv')
     # Minimal TSV update (overwrite)
-    with open(table_path, 'w', encoding='utf-8', newline='') as tsv:
-        w = csv.writer(tsv, delimiter='\t')
-        w.writerow(['transition','rows_pre','rows_post','days_pre','days_post','missing_pre','missing_post'])
-        w.writerow([
-            args.transition_id,
-            cov['pre']['n_rows'],
-            cov['post']['n_rows'],
-            cov['pre']['days_covered'],
-            cov['post']['days_covered'],
-            len(cov['pre']['missing_days']),
-            len(cov['post']['missing_days'])
-        ])
+    # Append or create
+    existing = []
+    if os.path.exists(table_path):
+        with open(table_path,'r',encoding='utf-8') as f:
+            lines=[ln.strip() for ln in f if ln.strip()]
+        if lines:
+            header=lines[0]
+            for ln in lines[1:]:
+                parts=ln.split('\t')
+                if parts:
+                    existing.append(parts)
+    header_cols=['transition','rows_pre','rows_post','days_pre','days_post','missing_pre','missing_post']
+    row=[
+        args.transition_id,
+        str(cov['pre']['n_rows']),
+        str(cov['post']['n_rows']),
+        str(cov['pre']['days_covered']),
+        str(cov['post']['days_covered']),
+        str(len(cov['pre']['missing_days'])),
+        str(len(cov['post']['missing_days']))
+    ]
+    # Replace if transition exists
+    replaced=False
+    for i,r in enumerate(existing):
+        if r and r[0]==args.transition_id:
+            existing[i]=row
+            replaced=True
+            break
+    if not replaced:
+        existing.append(row)
+    with open(table_path,'w',encoding='utf-8',newline='') as tsv:
+        w=csv.writer(tsv, delimiter='\t')
+        w.writerow(header_cols)
+        for r in existing:
+            w.writerow(r)
     print(f'Coverage table updated: {table_path}')
 
 if __name__ == '__main__':
