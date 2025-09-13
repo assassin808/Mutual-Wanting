@@ -15,14 +15,26 @@ import pandas as pd
 from collections import Counter
 import numpy as np
 from pathlib import Path
+import sys
+import os
+
+# Add pipeline directory to path for imports
+pipeline_dir = Path(__file__).parent.parent / "pipeline"
+sys.path.append(str(pipeline_dir))
+
+try:
+    from reddit_collector import RedditCollector
+except ImportError:
+    print("Warning: Could not import RedditCollector. Will use existing data or examples.")
+    RedditCollector = None
 
 def load_reddit_data():
-    """Load pre/post transition Reddit data."""
+    """Load pre/post transition Reddit data. Collect new data if needed."""
     data_dir = Path("pipeline/data")
     
-    # Load existing data if available
-    pre_file = data_dir / "gpt4_retirement_chatgpt_pre.jsonl"
-    post_file = data_dir / "gpt4_retirement_chatgpt_post.jsonl"
+    # Load existing data if available (updated for GPT-5 era)
+    pre_file = data_dir / "gpt5_release_chatgpt_pre.jsonl"
+    post_file = data_dir / "gpt5_release_chatgpt_post.jsonl"
     
     pre_posts = []
     post_posts = []
@@ -34,6 +46,28 @@ def load_reddit_data():
     if post_file.exists():
         with open(post_file) as f:
             post_posts = [json.loads(line) for line in f if line.strip()]
+    
+    # If no data exists, try to collect it
+    if (not pre_posts or not post_posts) and RedditCollector:
+        print("No existing Reddit data found. Collecting new data...")
+        collector = RedditCollector()
+        
+        try:
+            all_comments = collector.collect_all_data(time_filter='year', limit_per_subreddit=200)
+            if all_comments:
+                results = collector.save_data(all_comments, data_dir)
+                
+                # Reload the newly collected data
+                if Path(results['pre_file']).exists():
+                    with open(results['pre_file']) as f:
+                        pre_posts = [json.loads(line) for line in f if line.strip()]
+                
+                if Path(results['post_file']).exists():
+                    with open(results['post_file']) as f:
+                        post_posts = [json.loads(line) for line in f if line.strip()]
+        except Exception as e:
+            print(f"Failed to collect Reddit data: {e}")
+            print("Using minimal example data for demonstration.")
     
     print(f"Loaded {len(pre_posts)} pre-transition posts")
     print(f"Loaded {len(post_posts)} post-transition posts")

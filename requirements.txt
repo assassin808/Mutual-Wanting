@@ -1,6 +1,22 @@
+# Core data processing
 pyyaml>=6.0
 pandas>=2.0
+numpy>=1.24.0
 tabulate>=0.9.0
 scikit-learn>=1.4
 matplotlib>=3.8
 seaborn>=0.13
+
+# API clients
+praw>=7.7.0                # Reddit API
+openai>=1.0.0              # OpenAI/OpenRouter API
+python-dotenv>=1.0.0       # Environment variables
+
+# Data collection and analysis
+requests>=2.31.0
+nltk>=3.8                  # Text processing
+textstat>=0.7.0           # Text statistics
+wordcloud>=1.9.0          # Visualization (optional)
+
+# Reliability analysis
+krippendorff>=0.5.0       # Inter-annotator agreement (alternative to Cohen's kappa)

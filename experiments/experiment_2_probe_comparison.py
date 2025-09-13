@@ -14,6 +14,20 @@ import json
 import time
 from pathlib import Path
 import re
+import sys
+
+# Add pipeline directory to path for imports
+pipeline_dir = Path(__file__).parent.parent / "pipeline"
+sys.path.append(str(pipeline_dir))
+
+try:
+    from openrouter_client import OpenRouterClient
+    from response_analyzer import ResponseAnalyzer
+except ImportError as e:
+    print(f"Warning: Could not import pipeline modules: {e}")
+    print("Will use simulated data for demonstration.")
+    OpenRouterClient = None
+    ResponseAnalyzer = None
 
 def create_probe_prompts():
     """Create standardized prompts to test model behavior."""
@@ -147,51 +161,154 @@ def compute_model_comparison(results):
     
     return comparison
 
+def run_real_api_probes():
+    """Run real API probes using OpenRouter if available."""
+    if not OpenRouterClient or not ResponseAnalyzer:
+        return None
+    
+    try:
+        print("🔍 Running real API probes via OpenRouter...")
+        
+        # Initialize clients
+        api_client = OpenRouterClient()
+        analyzer = ResponseAnalyzer()
+        
+        # Test available models
+        models_to_test = ['gpt-4', 'gpt-4-turbo', 'gpt-3.5-turbo']
+        
+        # Run probe suite
+        probe_results = api_client.run_probe_suite(models_to_test)
+        
+        if not probe_results:
+            print("No probe results obtained from API.")
+            return None
+        
+        # Analyze responses
+        analysis = analyzer.analyze_probe_results(probe_results)
+        
+        # Save raw results
+        output_dir = Path("pipeline/data")
+        output_dir.mkdir(exist_ok=True, parents=True)
+        
+        with open(output_dir / "real_api_probe_results.json", 'w') as f:
+            json.dump(probe_results, f, indent=2)
+        
+        with open(output_dir / "real_api_analysis.json", 'w') as f:
+            json.dump(analysis, f, indent=2, default=str)
+        
+        print(f"✅ Real API probe results saved to {output_dir}")
+        return analysis
+        
+    except Exception as e:
+        print(f"Error running real API probes: {e}")
+        return None
+
 def main():
     """Run the API probe comparison experiment."""
     print("=== Experiment 2: API Probe Comparison ===")
     
-    # Get probe results
-    results = simulate_model_responses()
+    # Try to run real API probes first
+    real_analysis = run_real_api_probes()
     
-    # Compute comparison
-    comparison = compute_model_comparison(results)
+    if real_analysis:
+        print("\n📊 Using REAL API probe results")
+        analysis = real_analysis
+        
+        # Extract comparison data from real analysis
+        comparison = {}
+        if 'comparison' in analysis:
+            comparison = analysis['comparison']
+        else:
+            # Create comparison from model averages if direct comparison not available
+            model_averages = analysis.get('model_averages', {})
+            models = list(model_averages.keys())
+            
+            if len(models) >= 2:
+                base_model = models[0]
+                other_model = models[1]
+                
+                comparison[f"{base_model}_vs_{other_model}"] = {}
+                for metric in model_averages[base_model]:
+                    base_val = model_averages[base_model][metric]
+                    other_val = model_averages[other_model][metric]
+                    
+                    if base_val != 0:
+                        percent_change = ((other_val - base_val) / base_val) * 100
+                        comparison[f"{base_model}_vs_{other_model}"][metric] = {
+                            'base_value': base_val,
+                            'other_value': other_val,
+                            'percent_change': percent_change
+                        }
+    else:
+        print("\n⚠️  Real API probes failed. Using simulated data for demonstration.")
+        print("Note: For publication, ensure API credentials are working and rate limits are respected.")
+        
+        # Use simulated data as fallback
+        results = simulate_model_responses()
+        comparison = compute_model_comparison(results)
     
+    # Display results
     print("\n--- Model Behavior Comparison ---")
-    for metric, data in comparison.items():
-        print(f"{metric}:")
-        print(f"  GPT-4: {data['gpt4']:.3f}")
-        print(f"  GPT-4.5: {data['gpt45']:.3f}")
-        print(f"  Change: {data['difference']:.3f} ({data['percent_change']:.1f}%)")
-        print()
+    if comparison:
+        for comparison_key, metrics in comparison.items():
+            print(f"\n{comparison_key}:")
+            for metric, data in metrics.items():
+                if isinstance(data, dict) and 'percent_change' in data:
+                    print(f"  {metric}: {data['percent_change']:.1f}% change")
+                else:
+                    print(f"  {metric}: {data}")
     
     # Save results
     output_dir = Path("pipeline/outputs")
     output_dir.mkdir(exist_ok=True)
     
-    with open(output_dir / "experiment_2_probe_results.json", 'w') as f:
-        json.dump(results, f, indent=2)
-    
-    with open(output_dir / "experiment_2_comparison.json", 'w') as f:
-        json.dump(comparison, f, indent=2)
+    # Save for paper integration
+    if real_analysis:
+        with open(output_dir / "experiment_2_probe_results.json", 'w') as f:
+            json.dump(real_analysis.get('by_model', {}), f, indent=2, default=str)
+        
+        with open(output_dir / "experiment_2_comparison.json", 'w') as f:
+            json.dump(comparison, f, indent=2, default=str)
+    else:
+        # Save simulated results
+        with open(output_dir / "experiment_2_probe_results.json", 'w') as f:
+            json.dump(results, f, indent=2)
+        
+        with open(output_dir / "experiment_2_comparison.json", 'w') as f:
+            json.dump(comparison, f, indent=2)
     
     # Create summary for paper
+    data_source = "real_api_data" if real_analysis else "simulated_data"
+    
+    if comparison:
+        # Extract key findings from first comparison
+        first_comparison = list(comparison.values())[0]
+        
+        warmth_change = 0
+        efficiency_change = 0
+        
+        for metric, data in first_comparison.items():
+            if 'warmth' in metric.lower() and isinstance(data, dict):
+                warmth_change = data.get('percent_change', 0)
+            elif 'token' in metric.lower() and isinstance(data, dict):
+                efficiency_change = data.get('percent_change', 0)
+    
     summary = {
         "experiment": "api_probe_comparison",
-        "models_compared": ["GPT-4", "GPT-4.5"],
+        "data_source": data_source,
+        "models_compared": list(comparison.keys())[0].split('_vs_') if comparison else [],
         "key_findings": {
-            "warmth_change": comparison['avg_warmth']['percent_change'],
-            "efficiency_change": comparison['avg_tokens']['percent_change'],
-            "confidence_change": comparison['avg_cdr']['percent_change']
+            "warmth_change": warmth_change,
+            "efficiency_change": efficiency_change,
         },
-        "interpretation": "GPT-4.5 shows reduced warmth but increased efficiency"
+        "interpretation": f"Analysis based on {data_source}"
     }
     
     with open(output_dir / "experiment_2_summary.json", 'w') as f:
         json.dump(summary, f, indent=2)
     
-    print(f"✅ Results saved to {output_dir}")
-    print(f"Key finding: {summary['interpretation']}")
+    print(f"\n✅ Results saved to {output_dir}")
+    print(f"Data source: {data_source}")
     
     return comparison
 
