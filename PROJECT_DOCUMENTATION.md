@@ -1,237 +1,100 @@
-# AI Researcher: Unified Project Documentation
+# Project Readme: Mutual Wanting Alignment in LLMs
+**A Study of Persona Divergence Across GPT Model Transitions**
+_This document serves as the canonical entry point for new contributors. Last updated: 2025-09-13._
 
-**Status:** Active Research Project  
-**Conference Target:** Agents4Science 2025  
-**Last Updated:** January 2025  
+## 1. Project Synopsis & Core Goal 🎯
 
-## Table of Contents
-1. [Project Overview](#project-overview)
-2. [Research Objectives](#research-objectives)
-3. [Technical Implementation](#technical-implementation)
-4. [Progress Status](#progress-status)
-5. [Execution Plan (ABCDE)](#execution-plan-abcde)
-6. [Repository Structure](#repository-structure)
-7. [Development Guidelines](#development-guidelines)
+This project investigates **how and why user complaints about an AI's "personality" change when the underlying model (e.g., GPT-4 to GPT-5) is updated**. We call this the study of "Mutual Wanting," where the AI system's operational goals (its "wants," like being cheaper to run) can diverge from what users want (e.g., a warm, consistent personality).
 
----
+Our primary goal is to develop a **reproducible, low-cost "early-warning system"** that can detect these divergences. We do this by combining two data sources:
+1.  **Public Discourse:** Analyzing user complaints on platforms like Reddit.
+2.  **Controlled Probes:** Running a standardized suite of tests on different model versions to measure specific behavioral shifts.
 
-## Project Overview
-
-This project represents a comprehensive AI research initiative targeting the **Agents4Science 2025** conference. Our work focuses on developing novel methodologies for scientific agent systems with emphasis on transparency, reproducibility, and empirical validation.
-
-### Core Contribution Statement
-"We present a systematic framework for evaluating agent reliability in scientific contexts through multi-dimensional assessment combining behavioral consistency metrics, transparency indicators, and drift analysis over temporal windows."
-
-### Key Innovation
-- **Reliability Scaffolding:** Implementation of Cohen's kappa and Krippendorff's alpha for multi-annotator agreement analysis
-- **Feature Recomputation Pipeline:** Robust data processing with enriched body content and missing value handling
-- **Drift Analysis Framework:** Temporal pattern detection using log-odds computations and frequency-based filtering
-- **Quality Assurance System:** Comprehensive validation including lint checking, artifact verification, and schema compliance
+The final output will be a research paper for the **Agents4Science 2025 conference**, which emphasizes transparency and reproducibility—tenets this project is built upon.
 
 ---
 
-## Research Objectives
+## 2. Theoretical Framework: The Four Axes of Tension
 
-### Primary Goals
-1. **Reliability Assessment:** Develop quantitative measures for agent consistency across annotation tasks
-2. **Transparency Evaluation:** Create metrics for interpretability and explainability of agent decisions
-3. **Temporal Stability:** Analyze drift patterns in agent behavior over extended operational periods
-4. **Reproducibility Framework:** Ensure all experimental results can be independently validated
+Our analysis is structured around four fundamental tensions that define the user-AI relationship. These "Mutual Wanting Alignment Axes" provide a stable framework for categorizing persona-related complaints and behavioral shifts.
 
-### Success Metrics
-- **Manuscript Acceptance:** Target peer-reviewed publication at Agents4Science 2025
-- **Code Reproducibility:** 100% of experiments reproducible by independent researchers
-- **Data Quality:** Zero missing values in critical feature sets (achieved: 795/795 complete)
-- **Statistical Validity:** Robust inter-annotator agreement metrics (implemented)
+1.  **Warmth vs. Cost Efficiency:** The trade-off between a friendly, elaborate personality and the system's need to be brief and token-efficient.
+    * *User Wanting:* Empathy, detailed explanations, personability.
+    * *System Wanting:* Lower operational costs, faster responses.
 
----
+2.  **Stability vs. Iterative Optimization:** The conflict between providing a consistent, predictable persona and the continuous, rapid updates made to the model.
+    * *User Wanting:* A familiar, reliable AI they can build a mental model of.
+    * *System Wanting:* Improved capabilities, patched vulnerabilities, A/B testing new features.
 
-## Technical Implementation
+3.  **Epistemic Honesty vs. Authority Signaling:** The balance between expressing calibrated uncertainty and projecting confident authority to be seen as useful.
+    * *User Wanting:* Trustworthy answers that honestly reflect the model's confidence level.
+    * *System Wanting:* High user trust and adoption, which can be driven by appearing authoritative.
 
-### Core Components
+4.  **Emotional Resonance vs. Dependence Risk:** The fine line between building a resonant, adaptive connection and fostering unhealthy user dependence.
+    * *User Wanting:* An AI that "gets" them and mirrors their emotional state.
+    * *System Wanting:* High engagement, but within ethical boundaries that mitigate risks of over-bonding.
 
-#### 1. Reliability Scaffold (`scripts/reliability_scaffold.py`)
-```python
-# Key Functions:
-- cohen_kappa(): Compute Cohen's kappa for binary agreement
-- krippendorff_alpha_nominal(): Calculate Krippendorff's alpha for nominal data
-- confusion_matrix_builder(): Generate detailed confusion matrices
-- reliability_metrics(): Comprehensive agreement analysis
-```
+### **What This Project is NOT About (Non-Goals)**
 
-**Status:** Functional, executed successfully (n_pairs=0 pending real annotations)  
-**Dependencies:** Requires enriched A/B annotation batches with overlap IDs
-
-#### 2. Feature Recomputation (`scripts/recompute_features_selection.py`)
-```python
-# Key Capabilities:
-- Robust ID mapping (id vs comment_id)
-- Feature extraction from enriched bodies
-- CSV/JSON output generation
-- Missing value validation
-```
-
-**Status:** Successfully processed 795 rows with 0 missing bodies  
-**Output:** Enhanced feature matrices ready for model training
-
-#### 3. Drift Analysis (`scripts/drift_lexicon.py`)
-```python
-# Analysis Framework:
-- Log-odds drift computation
-- Frequency floor application
-- Temporal window analysis
-- Retirement pattern detection
-```
-
-**Status:** Operational with retirement window analysis complete
-
-#### 4. Build System (`Makefile`)
-```makefile
-# Key Targets:
-wave1-all: Complete Wave 1 processing pipeline
-reliability-wave1: Execute reliability analysis
-selection-features: Run feature recomputation
-drift-retirement: Perform drift analysis
-paper: Build LaTeX manuscript
-```
-
-**Status:** All targets functional, end-to-end pipeline operational
-
-### Data Processing Pipeline
-
-1. **Input Validation:** Schema verification and data type checking
-2. **Window Reconstruction:** Temporal data organization and filtering
-3. **Normalization:** Statistical preprocessing and scaling
-4. **Clustering:** Pattern identification and grouping
-5. **Sampling:** Stratified selection for annotation
-6. **Annotation Preparation:** Batch creation with overlap computation
-7. **Enrichment:** Feature augmentation and validation
-8. **Analysis:** Statistical computation and result generation
-
-### Quality Framework
-
-- **Lint Checking:** Code style and syntax validation
-- **Artifact Validation:** Output file integrity verification
-- **Schema Compliance:** Data structure conformance testing
-- **Regression Testing:** Automated validation of pipeline outputs
+To maintain focus, we are explicitly **not**:
+* Making causal claims about user well-being.
+* Tracking individual users over time.
+* Guessing the specific internal changes OpenAI made to their models.
+* Arguing for an "optimal" persona; we are only observing and reporting signals of change.
 
 ---
 
-## Progress Status
+## 3. How We Measure Divergence: Metrics & Data
 
-### Completed Tasks ✅
-- [x] Reliability scaffold implementation and testing
-- [x] Feature recomputation for Wave 1 (795/795 rows processed)
-- [x] Drift analysis on retirement window
-- [x] Probe suite execution and validation
-- [x] Figure generation pipeline (confusion heatmap, coverage plots)
-- [x] LaTeX manuscript compilation (10-page PDF generated)
-- [x] Quality checks (lint, artifact validation, schema verification)
-- [x] Regression modeling on consensus data (40 rows processed)
+We use a dual-source methodology to capture both authentic user sentiment and objective model behavior.
 
-### Current Phase: Wave 1 Data Processing
-**Status:** OPERATIONAL  
-**Next Milestone:** Real annotation collection and reliability analysis
+### **Source 1: Reddit Discourse Analysis**
 
-### Validation Results
-- **Pipeline Integrity:** All scaffolds executing without errors
-- **Data Quality:** Zero missing values in critical feature sets
-- **Build System:** LaTeX compilation successful with integrated figures
-- **Code Quality:** Lint checks passing, no critical issues identified
+We collect and analyze user complaints related to model updates. A key challenge is isolating genuine persona complaints from noise. Our pipeline (`pipeline/`) is designed to handle this:
+* **Data Fetching (`fetch_reddit.py`):** Acquires comments from relevant subreddits using an "enrichment" process that oversamples complaint-related keywords. This helps us find the needle in the haystack.
+* **Dual Annotation (`split_for_dual_annotation.py`):** Two researchers label a subset of the data to ensure our labeling criteria are reliable. We measure this using Cohen's Kappa (`κ`), and our gate for proceeding is **κ > 0.65**.
+* **Modeling (`regression_skeleton.py`):** We use logistic regression to identify which features are predictive of different complaint types.
+* **Lexical Drift (`drift_lexicon.py`):** We track changes in word frequencies over time to spot shifts in how users describe the AI's persona (e.g., an increase in words like "lazy," "cold," or "canned").
 
----
+### **Source 2: API Probe Suite**
 
-## Execution Plan (ABCDE)
+This is our controlled experiment. We will design and run a suite of standardized prompts against different GPT versions to measure behavioral changes objectively. These metrics directly map to our theoretical axes.
 
-### Phase A: Annotation Framework ✅
-- **Objective:** Establish annotation infrastructure
-- **Deliverables:** Reliability scaffolds, agreement metrics
-- **Status:** Complete - Cohen's kappa and Krippendorff's alpha implemented
-
-### Phase B: Batch Processing ✅
-- **Objective:** Process Wave 1 data through pipeline
-- **Deliverables:** Feature matrices, enriched datasets
-- **Status:** Complete - 795 rows processed successfully
-
-### Phase C: Consistency Analysis ✅
-- **Objective:** Implement drift detection and temporal analysis
-- **Deliverables:** Drift metrics, temporal pattern identification
-- **Status:** Complete - Retirement window analysis functional
-
-### Phase D: Documentation & Validation ✅
-- **Objective:** Generate comprehensive documentation and quality assurance
-- **Deliverables:** LaTeX manuscript, validation reports
-- **Status:** Complete - 10-page manuscript compiled with figures
-
-### Phase E: Evaluation & Submission 🔄
-- **Objective:** Final validation and conference submission preparation
-- **Deliverables:** Camera-ready manuscript, reproducibility package
-- **Status:** In Progress - Repository reorganization phase
+| Code     | Metric Name                   | Measures...                                              | High Value Means...                                  |
+| :------- | :---------------------------- | :------------------------------------------------------- | :--------------------------------------------------- |
+| **CDR**  | Calibrated Disclosure Ratio   | How well the model expresses uncertainty.                | More appropriate hedging (not over/under-confident). |
+| **SUR**  | Structured Update Ratio       | Preference for efficient, structured follow-ups.         | A system optimized for clarity and cost.             |
+| **ETD**  | Empathy Tier Differential     | Inconsistency in the depth of empathic responses.        | Potential for erratic emotional performance.         |
+| **SST**  | Silence / Space Tolerance     | How well the model waits for user input.                 | Better respect for conversational pacing.            |
+| **CRR**  | Creative Range Retention      | The diversity of responses vs. relying on templates.     | Preservation of an exploratory, less "canned" tone.  |
+| **TCG**  | Token Conservation Gain       | How much more token-efficient the model has become.      | Increased pressure to save costs.                    |
+| **WCTI** | Warmth vs Cost Tradeoff Index | The amount of "warmth" delivered per token.              | The balance between relational and efficiency goals. |
+| **DRP**  | Dependence Risk Proxy         | Patterns of high emotional resonance without safeguards. | Elevated risk of fostering user over-reliance.       |
 
 ---
 
-## Repository Structure
+## 4. Current Status & Path to Completion
 
-```
-AI-researcher/
-├── experiments/            # Organized experimental code
-│   ├── core/              # Core experimental components (6 scripts)
-│   ├── analysis/          # Statistical analysis scripts (4 scripts)
-│   ├── data_processing/   # Data cleaning and preprocessing (4 scripts)
-│   ├── visualization/     # Figure generation scripts (3 scripts)
-│   └── validation/        # Quality assurance scripts (9 scripts)
-├── pipeline/              # Legacy pipeline utilities (preserved for compatibility)
-├── data/                  # Data processing and storage
-│   ├── wave1/             # Wave 1 datasets
-│   ├── probes/            # Probe data and results
-│   └── enriched/          # Processed feature matrices
-├── figures/               # Generated visualizations and schematics
-├── Agents4Science_Template/ # LaTeX manuscript source and output
-├── literature_summaries/  # Research literature analysis
-├── paper_checklists/      # Publication quality checklists
-├── Makefile              # Build automation system
-└── PROJECT_DOCUMENTATION.md # This unified documentation
-```
+The project is in the execution phase. The core pipeline scripts are functional, but we are gated by data acquisition and labeling.
 
-### Key File Descriptions
+**High-Priority Next Steps:**
+1.  **Historical Data Backfill:** We need to acquire and process Reddit data from *before* the most recent major model transition. This is the highest priority risk to mitigate (`Inadequate pre window volume`).
+2.  **Annotation Round 1:** Complete the initial labeling of 25 overlapping samples to calculate our inter-annotator reliability (Cohen's κ). This is a critical gate; if our agreement is low, we must refine our guidelines before proceeding.
+3.  **Full Labeling:** Once reliability is established, complete the full batch of 600-800 labels. This will unblock all subsequent modeling and analysis steps.
 
-- **`reliability_scaffold.py`:** Inter-annotator agreement analysis using Cohen's kappa and Krippendorff's alpha
-- **`recompute_features_selection.py`:** Feature extraction with robust ID mapping and missing value validation
-- **`drift_lexicon.py`:** Temporal drift analysis with log-odds computation and frequency filtering
-- **`Makefile`:** Automated build system with targets for pipeline execution and manuscript generation
-- **`agents4science_2025.tex`:** Main LaTeX manuscript for conference submission
+*(For a detailed, task-by-task breakdown, see the `Remaining Work Checklist` and `Timeline` in the full [PROJECT_OVERVIEW.md](PROJECT_OVERVIEW.md)).*
 
 ---
 
-## Development Guidelines
+## 5. How to Get Started
 
-### Code Standards
-- **Python Style:** PEP 8 compliance required
-- **Documentation:** Docstrings for all functions and classes
-- **Testing:** Validation of all pipeline components
-- **Reproducibility:** Deterministic execution with fixed random seeds
+1.  **Familiarize Yourself with the Framework:** Read this document and the main `PROJECT_OVERVIEW.md` thoroughly. Pay special attention to the **Four Axes of Tension** and the **Metrics**, as they are the conceptual core of this project.
+2.  **Review the Related Work:** Skim the provided literature summaries to understand the theoretical underpinnings of our work, particularly on topics like **Transparency**, **Parasocial Interaction**, and **Anthropomorphism**.
+3.  **Set Up Your Environment:**
+    * Clone the repository.
+    * Set up the Python environment (details should be in `pipeline/README.md`).
+    * **Crucially:** Create a local `.env` file for your API keys and add it to `.gitignore`. **Do not commit secrets.** See section 11 of the project overview for the format.
+4.  **Run the Pipeline (Smoke Test):** Use the synthetic data generator (`generate_synthetic_labels.py`) to run a full pass of the analysis pipeline. This will confirm your setup is working before we have the final labeled data.
+5.  **Contribute to Annotation:** The most immediate task is labeling. See the `PROGRESS_LOG.md` for the current status and links to the annotation tool (`annotation_tool.py`) and data splits.
 
-### Data Management
-- **Schema Validation:** All data inputs must conform to defined schemas
-- **Version Control:** Track data provenance and processing versions
-- **Quality Metrics:** Zero tolerance for missing values in critical datasets
-- **Backup Strategy:** Regular snapshots of processed data and results
-
-### Manuscript Guidelines
-- **Conference Format:** Agents4Science 2025 template compliance
-- **Citation Standard:** Comprehensive bibliography with proper attribution
-- **Figure Quality:** High-resolution, publication-ready visualizations
-- **Reproducibility:** All results must be independently verifiable
-
-### Workflow Protocol
-1. **Feature Development:** Implement in isolated scripts with unit tests
-2. **Integration Testing:** Validate through Makefile targets
-3. **Quality Assurance:** Execute lint checks and artifact validation
-4. **Documentation:** Update relevant sections of this document
-5. **Version Control:** Commit changes with descriptive messages
-
----
-
-**Document Status:** This unified documentation replaces all previous scattered documentation files and serves as the single source of truth for the project. All development activities should reference and update this document accordingly.
-
-**Maintenance:** Regular updates required as project evolves, with version tracking and change logs maintained.
+If you have any questions, please log them as issues in the repository to keep our discussions centralized and transparent.
