@@ -47,4 +47,12 @@ Process:
 Tracking Table (to fill):
 | Citekey | Added to .bib | Inserted in .tex | Section(s) | Notes |
 |---------|---------------|------------------|------------|-------|
+| mitchell2019modelcards | Yes (additions bib) | Intro | Introduction | Transparency documentation |
+| bender2018datastatements | Yes (additions bib) | Intro | Introduction | Dataset transparency |
+| liang2022helm | Yes (additions bib) | Intro | Introduction | Holistic evaluation framing |
+| nass2000machines | Yes (additions bib) | Related Work | Socio-emotional | CASA paradigm |
+| rashkin2018empathetic | Yes (additions bib) | Related Work | Persona consistency | Empathetic dialogs |
+| zhong2020pec | Yes (additions bib) | Related Work | Persona consistency | Persona-based empathetic conversation |
+| artstein2008agreement | Yes (additions bib) | Results (State) | Annotation | Agreement survey |
+| krippendorff2013content | Yes (additions bib) | Results (State) | Annotation | Reliability methodology |
 

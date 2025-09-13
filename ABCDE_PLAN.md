@@ -46,3 +46,15 @@ Created: $(date placeholder)
 - Updated `table1_sampling_coverage.tsv` with real counts.
 - Built initial sampling frame (260 combined rows after normalization; token lengths predominantly zero -> indicates `body` field empty for many posts; need to verify ingestion retained body/selftext vs missing field mapping). 
 - Next: Diagnose empty body issue (char/token medians = 0) before sampling/annotation scaling; confirm if source fields use `selftext` vs `body` in ingestion path and patch normalization to preserve content.
+ - Extended: Added two additional transitions (gpt4o_iterative_mar2025, gpt4_retirement_chatgpt) reconstructed, normalized, coverage audited; coverage table now aggregated for all three.
+ - Implemented clustering across transitions; sampling frames: 260 / 506 / 709 rows (total 1,475 candidates).
+ - Multi-transition stratified sampler produced selection_final.csv (n=795) near target 800.
+ - Prepared dual annotation batch with 15% overlap (119 shared items) -> label_batch1_A/B.csv.
+ - Added scripts: assign_topic_clusters.py, multi_transition_sampling.py, prepare_annotation_batches.py; patched compute_coverage_wrapper for append semantics; patched archive_normalize.py to ingest selftext.
+ - Enriched Wave 1 annotation batches with body text (scripts/enrich_label_batch_bodies.py); all 795 bodies populated; limitation note about earlier empties resolved.
+ - Added citation augmentation file (references_additions.bib) and integrated first wave of transparency, evaluation, persona, and reliability citations into manuscript.
+2025-09-13:
+ - Added reliability scaffold (Cohen's kappa + Krippendorff's alpha) over A/B overlap; emits confusion, labels, counts. Current n_pairs=0 pending annotation.
+ - Recomputed features for Wave 1 selection using enriched bodies (n=795; missing_body=0); emitted per-row CSV and summary.
+ - Seeded lexical drift (log-odds) on gpt4_retirement_chatgpt windows with frequency floor for stability; JSON artifact written.
+ - Added Makefile targets: reliability-wave1, selection-features, drift-retirement, figdata-wave1, fig2-wave1 to streamline execution.

@@ -179,3 +179,56 @@ near-clean:
 clean:
 	rm -f $(OUT_DIR)/*.json $(OUT_DIR)/*.csv
 	rm -rf $(OUT_DIR)/tables
+
+# --- New convenience targets for Wave 1 scaffolds ---
+.PHONY: reliability-wave1 selection-features drift-retirement
+
+reliability-wave1:
+	$(PY) scripts/reliability_scaffold.py \
+	  --a pipeline/data/label_batch1_A_enriched.csv \
+	  --b pipeline/data/label_batch1_B_enriched.csv \
+	  --overlap pipeline/data/label_batch1_overlap_ids.txt \
+	  --label-col primary_tag \
+	  --out $(OUT_DIR)/annotation/reliability_wave1.json || true
+
+selection-features:
+	$(PY) scripts/recompute_features_selection.py \
+	  --selection $(OUT_DIR)/annotation/selection_final.csv \
+	  --enriched pipeline/data/label_batch1_enriched.csv \
+	  --out-json $(OUT_DIR)/annotation/selection_features_summary.json \
+	  --out-csv $(OUT_DIR)/annotation/selection_features.csv \
+	  --selection-id-col id --enriched-id-col comment_id || true
+
+drift-retirement:
+	$(PY) pipeline/drift_lexicon.py \
+	  --pre pipeline/data/gpt4_retirement_chatgpt_pre.jsonl \
+	  --post pipeline/data/gpt4_retirement_chatgpt_post.jsonl \
+	  --out-json pipeline/data/drift_log_odds_restricted.json \
+	  --freq-floor 10 --top 25 || true
+
+# Generate figure-ready CSVs from reliability JSON and render Fig2 (once labels exist)
+.PHONY: figdata-wave1 fig2-wave1 wave1-all wave1-progress wave1-progress-a wave1-progress-b
+figdata-wave1:
+	$(PY) pipeline/fig_prep.py --agreement $(OUT_DIR)/annotation/reliability_wave1.json --coverage $(OUT_DIR)/coverage_pilot.json --out-dir $(OUT_DIR)/figs || true
+
+fig2-wave1: figdata-wave1
+	$(PY) scripts/render_fig2_confusion.py $(OUT_DIR)/figs/confusion_heatmap.csv $(OUT_DIR)/figs/fig2_confusion_heatmap.png --out-pdf $(OUT_DIR)/figs/fig2_confusion_heatmap.pdf --normalize || true
+
+# Convenience: run Wave 1 scaffolds end-to-end
+wave1-all: selection-features reliability-wave1 figdata-wave1 drift-retirement
+
+wave1-progress-a:
+	$(PY) scripts/wave1_progress.py \
+	  --csv pipeline/data/label_batch1_A_enriched.csv \
+	  --overlap-ids pipeline/data/label_batch1_overlap_ids.txt \
+	  --id-col comment_id \
+	  --out $(OUT_DIR)/annotation/wave1_A_progress.json || true
+
+wave1-progress-b:
+	$(PY) scripts/wave1_progress.py \
+	  --csv pipeline/data/label_batch1_B_enriched.csv \
+	  --overlap-ids pipeline/data/label_batch1_overlap_ids.txt \
+	  --id-col comment_id \
+	  --out $(OUT_DIR)/annotation/wave1_B_progress.json || true
+
+wave1-progress: wave1-progress-a wave1-progress-b

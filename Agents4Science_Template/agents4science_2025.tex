@@ -68,7 +68,7 @@ The rapid, often controversial, evolution of large language models (LLMs) necess
 
 % (Template instructional section removed for clarity; manuscript now begins directly with Introduction.)
 \section{Introduction}
-The rapid evolution of large language models (LLMs) has led to increasingly complex and often fraught interactions between users and AI systems. Large-scale model upgrades, such as the recent transition from GPT-4 to GPT-5, frequently trigger significant affective and epistemic friction. Public forums like Reddit are replete with user discourse expressing perceived losses in model "persona," such as diminished warmth, reduced creativity, or shifts in helpfulness. We conceptualize these reactions not as mere preference volatility, but as signals of a structural misalignment between user desires and system capabilities.
+The rapid evolution of large language models (LLMs) has led to increasingly complex and often fraught interactions between users and AI systems. Large-scale model upgrades frequently trigger affective and epistemic friction that is poorly captured by narrow leaderboards. Public forums like Reddit surface perceived losses in model "persona" (warmth, creativity, helpfulness) that resemble socio-relational expectation violations rather than simple preference noise. This motivates a broader observability lens aligned with emerging holistic evaluation movements \citep{liang2022helm} and transparency documentation practices (model cards, data statements) \citep{mitchell2019modelcards, bender2018datastatements}. We conceptualize these reactions not as mere preference volatility, but as signals of a structural misalignment between user desires and system capabilities.
 
 This paper introduces the concept of \emph{mutual wanting} to describe this bidirectional relationship. On one hand, users have explicit and implicit wants regarding the AI's relational, epistemic, and agentic affordances. On the other, the AI system, through its design and optimization, implicitly "wants" certain user behaviors, such as providing clear, structured inputs. We argue that mapping and reconciling these wants is a critical challenge for human-AI interaction.
 
@@ -80,7 +80,7 @@ This paper makes several contributions. First, it introduces the Mutual Wanting 
 \section{Related Work}
 Our study builds on several streams of research in human-AI interaction. A central theme is the management of user perceptions and trust as AI systems evolve. Guidelines for human-AI interaction emphasize the importance of setting clear expectations and communicating capability changes to maintain user trust \citep{amershi2019guidelines}. Research in trust calibration shows that system transparency, for instance through explanations or uncertainty disclosures, is crucial for aligning user confidence with system capabilities \citep{yin2019understanding, lai2019human}. The way uncertainty is presented can significantly influence user trust and reliance on AI predictions \citep{kay2016uncertainty, reyes2025uncertainty}.
 
-Another critical area is the socio-emotional dimension of human-AI relationships. The tendency for users to anthropomorphize AI agents is a well-documented phenomenon, driven by motivations for social connection and understanding \citep{epley2007seeing}. This can lead to the formation of parasocial relationships, where users develop one-sided bonds with AI personas \citep{horton1956mass}. While such relationships can enhance engagement, they also carry risks of misattribution and emotional dependence \citep{pnas2025anthro, maeda2024parasocial}. Recent studies have begun to explore how to measure these parasocial dynamics with AI \citep{omeish2025between, qi2025assistant} and understand their long-term psychological impacts \citep{payne2024ai, xie2022ai}.
+Another critical area is the socio-emotional dimension of human-AI relationships. The tendency for users to anthropomorphize AI agents is well-documented \citep{epley2007seeing} and consistent with the CASA paradigm that humans apply social scripts to computational systems \citep{nass2000machines}. This can lead to parasocial dynamics \citep{horton1956mass} whose stability depends on persona consistency \citep{rashkin2018empathetic, zhong2020pec}. While such relationships can enhance engagement, they carry risks of misattribution and emotional dependence \citep{pnas2025anthro, maeda2024parasocial}. Recent studies probe how to measure these parasocial dynamics with AI \citep{omeish2025between, qi2025assistant} and track long-term psychological impacts \citep{payne2024ai, xie2022ai}.
 
 The concept of an AI "persona" is increasingly relevant as developers craft specific personalities for their systems. The stability and perception of these personas are key research topics. Recent work has explored the use of LLMs in generating user personas for UX design \citep{hur2024utilizing}, as well as the potential for "generative diaries" to shape long-term human-robot interaction \citep{cho2023story}. Studies have evaluated how different modalities for presenting personas (e.g., chat vs. profile) affect user perception and behavior \citep{kaate2025evaluating, kaate2025fourth}. However, the challenge of maintaining a consistent and coherent persona across rapid model iterations remains a significant, yet underexplored, area of research. Our work addresses this gap by focusing on the "mutual wanting" between users and systems during such transitions, treating system constraints and user desires as equally important parts of the interaction design.
 
@@ -111,13 +111,34 @@ Our study employed a two-pronged approach to investigate the "mutual wanting" be
 	extbf{Transparency Notice.} The previously included tables (regression interactions, probe metrics, drift tokens) were automatically scaffolded but contain only headers or placeholder rows (no substantive analytical data). They have been removed to prevent inadvertent over-claiming. No inferential results are reported at this stage.
 
 \subsection*{Current Empirical State}
+\noindent\textbf{Window Coverage and Sampling (Table~\ref{tab:coverage}).} Three pre/post transition windows have been reconstructed, normalized, and coverage-audited with zero missing days in any span. Total normalized corpus size across the six windows is 1,475 posts (pre: 404; post: 1,071) spread across the three transitions used for large-N sampling. Table~\ref{tab:coverage} reports per-transition row counts and day coverage (all pre windows are 14-day slices; all post windows 28-day slices by design).
+
+\begin{table}[htbp]
+  \centering
+  \caption{Reconstructed transition windows: row counts and day coverage (all missing day counts = 0). Rows reflect normalized JSONL entries after basic hygiene (no additional filtering yet).}
+  \label{tab:coverage}
+  \begin{tabular}{lrrrrrr}
+  	oprule
+    Transition & Rows (pre) & Rows (post) & Days (pre) & Days (post) & Miss (pre) & Miss (post) \\
+    \midrule
+    gpt4\_retirement\_chatgpt & 209 & 500 & 14 & 28 & 0 & 0 \\
+    gpt4\_to\_4o & 63 & 197 & 14 & 28 & 0 & 0 \\
+    gpt4o\_iterative\_mar2025 & 132 & 374 & 14 & 28 & 0 & 0 \\
+  \midrule
+  	extbf{Total} & 404 & 1,071 & -- & -- & 0 & 0 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
 \begin{itemize}
-  \item \textbf{Corpus}: 1,748 recent Reddit posts (pilot-only slice). \emph{Missing}: Authenticated historical pre/post transition window dumps (blocking full drift analysis).
-  \item \textbf{Annotation}: Pilot A/B CSVs exist (40+40 with 20 overlap). Agreement TSV shows preliminary Cohen's $\kappa=0.707$ (overlap=40) \citep{landis1977measurement}. Prior text incorrectly reported $0.795$—now retracted pending scale annotation.
-  \item \textbf{Features}: Per-comment linguistic features + provisional style clusters (needs validation: small cluster instability; silhouette not yet documented in text).
-  \item \textbf{Regression}: Model dataset limited to 60 pilot-labeled rows—insufficient for pre"+"post * transition interaction modeling; placeholder output not interpretable.
-  \item \textbf{Probes}: Manifest generated; statistical aggregation script not yet executed for real effect estimates (no CIs, no hypothesis tests). Only metric header TSV present.
-  \item \textbf{Drift}: No authentic pre/post aligned window pair normalized; drift token table empty; bootstrap + placebo tests unrun.
+  \item \textbf{Corpus}: 1,475 normalized posts across 3 GPT transition windows (Table~\ref{tab:coverage}); all windows have complete day coverage (0 missing). Counts are pre-hygiene beyond normalization (no near-duplicate or sensitive-content filtering yet applied to these specific windows).
+  \item \textbf{Sampling}: Stratified multi-transition selection executed (target 800, realized 795) balancing transition, pre/post, cluster, and length strata; manifest logged (deterministic seed). Selection forms the basis of large-N annotation Wave 1.
+  \item \textbf{Annotation}: Wave 1 master batch (n=795) plus dual annotator splits prepared with 15\% planned overlap (119 shared items). Bodies enriched post-normalization (all non-empty rows now populated). Pilot overlap reliability was $\kappa=0.707$ (Cohen) \citep{landis1977measurement}; full Wave 1 will also report Krippendorff's $\alpha$ for robustness \citep{artstein2008agreement, krippendorff2013content} once overlap labels are complete.
+  \item \textbf{Clustering}: Topic/style clusters assigned per transition via TF--IDF + heuristic KMeans ($k=9,13,16$ respectively); stability not yet validated (silhouette / re-sample agreement pending).
+  \item \textbf{Features}: Core per-row linguistic + structural features available from prior pilot module; integration with new windows pending recompute pass post-annotation enrichment.
+  \item \textbf{Regression}: Deferred until consensus labels obtained; current design requires minimum per-tag support (MIN\_CLASS $\geq 8$) and interaction (pre/post * transition) degrees of freedom.
+  \item \textbf{Probes}: Prompt suite + manifest in place; collection of comparative responses across model generations not yet executed (no CDR/SUR/ETD computations).
+  \item \textbf{Drift}: Lexical drift, bootstrap stability, and placebo tests queued; will operate on label-enriched and filtered corpus (post near-duplicate cap) to avoid bias from empty-content rows.
 \end{itemize}
 
 \subsection*{Planned Analytical Completion Roadmap}
