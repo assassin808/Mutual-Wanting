@@ -1,5 +1,5 @@
 probes:
-	$(PY) pipeline/probe_runner.py --prompts pipeline/probes/prompts.yaml --out $(OUT_DIR)/probes_manifest.json || true
+	$(PY) experiments/validation/probe_runner.py --prompts pipeline/probes/prompts.yaml --out $(OUT_DIR)/probes_manifest.json || true
 	$(PY) pipeline/probe_stats.py --manifest $(OUT_DIR)/probes_manifest.json --out-json $(OUT_DIR)/probes_results.json --out-tsv $(OUT_DIR)/tables/probes_summary.tsv || true
 
 
@@ -56,15 +56,15 @@ drawio-export:
 
 # Render Fig2 (confusion heatmap PNG) from generated CSV
 fig2:
-	$(PY) scripts/render_fig2_confusion.py pipeline/outputs/figs/confusion_heatmap.csv pipeline/outputs/figs/fig2_confusion_heatmap.png --out-pdf pipeline/outputs/figs/fig2_confusion_heatmap.pdf --normalize || true
+	$(PY) experiments/visualization/render_fig2_confusion.py pipeline/outputs/figs/confusion_heatmap.csv pipeline/outputs/figs/fig2_confusion_heatmap.png --out-pdf pipeline/outputs/figs/fig2_confusion_heatmap.pdf --normalize || true
 
 # Fig3: forest plot from regression interactions TSV
 fig3:
-	$(PY) scripts/render_fig3_forest.py pipeline/outputs/tables/regression_interactions.tsv pipeline/outputs/figs/fig3_regression_forest.png --out-pdf pipeline/outputs/figs/fig3_regression_forest.pdf || true
+	$(PY) experiments/visualization/render_fig3_forest.py pipeline/outputs/tables/regression_interactions.tsv pipeline/outputs/figs/fig3_regression_forest.png --out-pdf pipeline/outputs/figs/fig3_regression_forest.pdf || true
 
 # Fig5: probe metric contrasts from probes_summary.tsv
 fig5:
-	$(PY) scripts/render_fig5_probes.py pipeline/outputs/tables/probes_summary.tsv pipeline/outputs/figs/fig5_probe_contrasts.png --out-pdf pipeline/outputs/figs/fig5_probe_contrasts.pdf || true
+	$(PY) experiments/visualization/render_fig5_probes.py pipeline/outputs/tables/probes_summary.tsv pipeline/outputs/figs/fig5_probe_contrasts.png --out-pdf pipeline/outputs/figs/fig5_probe_contrasts.pdf || true
 
 # Convenience: all figures (CSV slices + fig2)
 figs-all: figs fig2 fig3 fig5
@@ -77,15 +77,15 @@ lint:
 
 # Validate JSON artifacts in outputs; and JSONL schema for pilot normalized
 validate-artifacts:
-	$(PY) scripts/validate_artifacts.py --dir $(OUT_DIR) --out $(OUT_DIR)/artifact_validation.json || true
-	$(PY) pipeline/jsonl_schema_check.py --jsonl pipeline/data/recent_corpus_normalized_pilot.jsonl --required id subreddit author_hash created_utc score body parent_id link_id transition pre_post || true
+	$(PY) experiments/validation/validate_artifacts.py --dir $(OUT_DIR) --out $(OUT_DIR)/artifact_validation.json || true
+	$(PY) experiments/validation/jsonl_schema_check.py --jsonl pipeline/data/recent_corpus_normalized_pilot.jsonl --required id subreddit author_hash created_utc score body parent_id link_id transition pre_post || true
 
 # Quality bundle
 quality: lint validate-artifacts term-check
 
 # Terminology consistency (CPR vs CRR for concision)
 term-check:
-	$(PY) scripts/terminology_check.py --root . --out $(OUT_DIR)/terminology_report.json || true
+	$(PY) experiments/validation/terminology_check.py --root . --out $(OUT_DIR)/terminology_report.json || true
 
 # Build LaTeX paper (best-effort; will not fail pipeline)
 paper:
@@ -184,7 +184,7 @@ clean:
 .PHONY: reliability-wave1 selection-features drift-retirement
 
 reliability-wave1:
-	$(PY) scripts/reliability_scaffold.py \
+	$(PY) experiments/core/reliability_scaffold.py \
 	  --a pipeline/data/label_batch1_A_enriched.csv \
 	  --b pipeline/data/label_batch1_B_enriched.csv \
 	  --overlap pipeline/data/label_batch1_overlap_ids.txt \
@@ -192,7 +192,7 @@ reliability-wave1:
 	  --out $(OUT_DIR)/annotation/reliability_wave1.json || true
 
 selection-features:
-	$(PY) scripts/recompute_features_selection.py \
+	$(PY) experiments/core/recompute_features_selection.py \
 	  --selection $(OUT_DIR)/annotation/selection_final.csv \
 	  --enriched pipeline/data/label_batch1_enriched.csv \
 	  --out-json $(OUT_DIR)/annotation/selection_features_summary.json \
@@ -200,7 +200,7 @@ selection-features:
 	  --selection-id-col id --enriched-id-col comment_id || true
 
 drift-retirement:
-	$(PY) pipeline/drift_lexicon.py \
+	$(PY) experiments/analysis/drift_lexicon.py \
 	  --pre pipeline/data/gpt4_retirement_chatgpt_pre.jsonl \
 	  --post pipeline/data/gpt4_retirement_chatgpt_post.jsonl \
 	  --out-json pipeline/data/drift_log_odds_restricted.json \
@@ -212,7 +212,7 @@ figdata-wave1:
 	$(PY) pipeline/fig_prep.py --agreement $(OUT_DIR)/annotation/reliability_wave1.json --coverage $(OUT_DIR)/coverage_pilot.json --out-dir $(OUT_DIR)/figs || true
 
 fig2-wave1: figdata-wave1
-	$(PY) scripts/render_fig2_confusion.py $(OUT_DIR)/figs/confusion_heatmap.csv $(OUT_DIR)/figs/fig2_confusion_heatmap.png --out-pdf $(OUT_DIR)/figs/fig2_confusion_heatmap.pdf --normalize || true
+	$(PY) experiments/visualization/render_fig2_confusion.py $(OUT_DIR)/figs/confusion_heatmap.csv $(OUT_DIR)/figs/fig2_confusion_heatmap.png --out-pdf $(OUT_DIR)/figs/fig2_confusion_heatmap.pdf --normalize || true
 
 # Convenience: run Wave 1 scaffolds end-to-end
 wave1-all: selection-features reliability-wave1 figdata-wave1 drift-retirement

@@ -10,6 +10,9 @@ Essential scripts that form the foundation of the experimental pipeline:
 - **`reliability_scaffold.py`** - Inter-annotator agreement analysis using Cohen's kappa and Krippendorff's alpha
 - **`recompute_features_selection.py`** - Feature extraction and recomputation with robust ID mapping
 - **`multi_transition_sampling.py`** - Sampling framework for annotation batch preparation
+- **`build_sampling_frame.py`** - Sampling frame construction and stratification
+- **`prepare_annotation_batches.py`** - Annotation batch preparation and overlap computation
+- **`enrich_label_batch_bodies.py`** - Label batch enrichment with body content
 
 ### `/analysis/` - Data Analysis Scripts
 Scripts for statistical analysis and pattern detection:
@@ -17,6 +20,14 @@ Scripts for statistical analysis and pattern detection:
 - **`drift_lexicon.py`** - Temporal drift analysis with log-odds computation
 - **`agreement.py`** - Agreement metric computation and validation
 - **`features_and_analysis.py`** - Feature engineering and statistical analysis
+
+### `/data_processing/` - Data Processing Utilities
+Scripts for data cleaning, normalization, and preprocessing:
+
+- **`dedupe_text.py`** - Duplicate text detection and removal
+- **`sensitive_filter.py`** - Sensitive content filtering and logging
+- **`archive_normalize.py`** - Data normalization and standardization
+- **`sampler.py`** - Stratified sampling for annotation preparation
 
 ### `/visualization/` - Figure Generation
 Scripts for creating publication-ready visualizations:
@@ -31,6 +42,9 @@ Scripts for validation and reproducibility testing:
 - **`validate_artifacts.py`** - Artifact integrity checking
 - **`probe_runner.py`** - Probe suite execution and validation
 - **`seed_repro_test.py`** - Reproducibility testing with fixed seeds
+- **`terminology_check.py`** - Terminology consistency validation
+- **`jsonl_schema_check.py`** - JSON schema validation for data files
+- **`feature_leak_check.py`** - Feature leakage detection and prevention
 
 ## Usage
 
