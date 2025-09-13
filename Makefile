@@ -72,7 +72,7 @@ figs-all: figs fig2 fig3 fig5
 # Lint Python with ruff; write JSON report (does not fail pipeline)
 lint:
 	@mkdir -p $(OUT_DIR)
-	ruff check pipeline scripts --output-format=json > $(OUT_DIR)/lint_report.json || true
+	ruff check pipeline experiments --output-format=json > $(OUT_DIR)/lint_report.json || true
 	@echo "Lint report -> $(OUT_DIR)/lint_report.json"
 
 # Validate JSON artifacts in outputs; and JSONL schema for pilot normalized

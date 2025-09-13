@@ -174,22 +174,23 @@ paper: Build LaTeX manuscript
 
 ```
 AI-researcher/
-├── scripts/                 # Core analysis scripts
-│   ├── reliability_scaffold.py      # Agreement metrics
-│   ├── recompute_features_selection.py  # Feature processing
-│   ├── drift_lexicon.py            # Drift analysis
-│   └── multi_transition_sampling.py # Sampling framework
-├── data/                   # Data processing and storage
+├── experiments/            # Organized experimental code
+│   ├── core/              # Core experimental components (6 scripts)
+│   ├── analysis/          # Statistical analysis scripts (4 scripts)
+│   ├── data_processing/   # Data cleaning and preprocessing (4 scripts)
+│   ├── visualization/     # Figure generation scripts (3 scripts)
+│   └── validation/        # Quality assurance scripts (9 scripts)
+├── pipeline/              # Legacy pipeline utilities (preserved for compatibility)
+├── data/                  # Data processing and storage
 │   ├── wave1/             # Wave 1 datasets
 │   ├── probes/            # Probe data and results
 │   └── enriched/          # Processed feature matrices
-├── figures/               # Generated visualizations
-├── latex/                 # Manuscript source and output
-│   ├── agents4science_2025.tex     # Main manuscript
-│   ├── agents4science_2025.pdf     # Compiled output
-│   └── references.bib              # Bibliography
-├── Makefile              # Build automation
-└── PROJECT_DOCUMENTATION.md        # This document
+├── figures/               # Generated visualizations and schematics
+├── Agents4Science_Template/ # LaTeX manuscript source and output
+├── literature_summaries/  # Research literature analysis
+├── paper_checklists/      # Publication quality checklists
+├── Makefile              # Build automation system
+└── PROJECT_DOCUMENTATION.md # This unified documentation
 ```
 
 ### Key File Descriptions
