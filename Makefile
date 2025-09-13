@@ -207,7 +207,7 @@ drift-retirement:
 	  --freq-floor 10 --top 25 || true
 
 # Generate figure-ready CSVs from reliability JSON and render Fig2 (once labels exist)
-.PHONY: figdata-wave1 fig2-wave1 wave1-all wave1-progress wave1-progress-a wave1-progress-b
+.PHONY: figdata-wave1 fig2-wave1 wave1-all
 figdata-wave1:
 	$(PY) pipeline/fig_prep.py --agreement $(OUT_DIR)/annotation/reliability_wave1.json --coverage $(OUT_DIR)/coverage_pilot.json --out-dir $(OUT_DIR)/figs || true
 
@@ -216,19 +216,3 @@ fig2-wave1: figdata-wave1
 
 # Convenience: run Wave 1 scaffolds end-to-end
 wave1-all: selection-features reliability-wave1 figdata-wave1 drift-retirement
-
-wave1-progress-a:
-	$(PY) scripts/wave1_progress.py \
-	  --csv pipeline/data/label_batch1_A_enriched.csv \
-	  --overlap-ids pipeline/data/label_batch1_overlap_ids.txt \
-	  --id-col comment_id \
-	  --out $(OUT_DIR)/annotation/wave1_A_progress.json || true
-
-wave1-progress-b:
-	$(PY) scripts/wave1_progress.py \
-	  --csv pipeline/data/label_batch1_B_enriched.csv \
-	  --overlap-ids pipeline/data/label_batch1_overlap_ids.txt \
-	  --id-col comment_id \
-	  --out $(OUT_DIR)/annotation/wave1_B_progress.json || true
-
-wave1-progress: wave1-progress-a wave1-progress-b
