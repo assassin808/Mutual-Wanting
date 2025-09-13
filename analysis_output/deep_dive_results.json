@@ -1,0 +1,73 @@
+{
+  "performance_analysis": {
+    "pre_count": 133,
+    "post_count": 3412,
+    "pre_sentiment": 0.4735,
+    "post_sentiment": 0.5424374560375146,
+    "sentiment_change": 0.06893745603751461
+  },
+  "model_comparisons": {
+    "pre_mentions": {
+      "gpt-4": 40,
+      "gpt-4o": 41,
+      "gpt-5": 3,
+      "o1": 84,
+      "claude": 179,
+      "gemini": 48
+    },
+    "post_mentions": {
+      "gpt-4": 744,
+      "gpt-4o": 1164,
+      "gpt-5": 1093,
+      "o1": 1375,
+      "claude": 2521,
+      "gemini": 2949
+    }
+  },
+  "emotion_triggers": {
+    "frustration": {
+      "consistency": 16,
+      "accuracy": 132,
+      "censorship": 10,
+      "performance": 47,
+      "features": 12
+    },
+    "disappointment": {
+      "consistency": 0,
+      "accuracy": 41,
+      "censorship": 1,
+      "performance": 18,
+      "features": 5
+    },
+    "anger": {
+      "consistency": 39,
+      "accuracy": 433,
+      "censorship": 41,
+      "performance": 175,
+      "features": 32
+    },
+    "confusion": {
+      "consistency": 6,
+      "accuracy": 86,
+      "censorship": 3,
+      "performance": 38,
+      "features": 7
+    }
+  },
+  "expectations_vs_reality": {
+    "expectation_count": 134,
+    "reality_count": 3369,
+    "expectation_sentiment": 0.6739701492537314,
+    "reality_sentiment": 0.4053517364203028,
+    "gap": -0.26861841283342863
+  },
+  "requests_vs_complaints": {
+    "pre_requests": 52,
+    "post_requests": 1587,
+    "pre_complaints": 56,
+    "post_complaints": 2081,
+    "pre_ratio": 1.0769230769230769,
+    "post_ratio": 1.311279143037177,
+    "ratio_change": 0.2343560661141002
+  }
+}

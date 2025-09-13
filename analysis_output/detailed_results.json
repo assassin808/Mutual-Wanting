@@ -1,0 +1,598 @@
+{
+  "topic_modeling": {
+    "topics": [
+      {
+        "topic_id": 0,
+        "top_words": [
+          "ai",
+          "human",
+          "people",
+          "humans",
+          "just",
+          "like",
+          "agi",
+          "think",
+          "don",
+          "better"
+        ],
+        "word_weights": [
+          258.32657359378635,
+          164.55168290727624,
+          151.79428937486074,
+          132.68727685128704,
+          113.70483993954859,
+          111.33974066934815,
+          106.52731827934954,
+          103.5910999504698,
+          93.41196249450216,
+          91.12209527811744
+        ]
+      },
+      {
+        "topic_id": 1,
+        "top_words": [
+          "chatgpt",
+          "like",
+          "just",
+          "gpt",
+          "ai",
+          "don",
+          "better",
+          "personality",
+          "chat",
+          "ve"
+        ],
+        "word_weights": [
+          278.98521408293794,
+          258.5861434810024,
+          209.7256484548225,
+          170.526614143145,
+          160.69388599633174,
+          145.38417102504238,
+          141.77821648444376,
+          133.41633770178663,
+          125.34809578327781,
+          124.29949913990788
+        ]
+      },
+      {
+        "topic_id": 2,
+        "top_words": [
+          "ai",
+          "people",
+          "art",
+          "just",
+          "better",
+          "like",
+          "don",
+          "think",
+          "jobs",
+          "work"
+        ],
+        "word_weights": [
+          450.32327210455577,
+          281.0938400521223,
+          212.69223310652464,
+          148.55613125600945,
+          141.74225413397264,
+          131.09869764027974,
+          129.76713691788237,
+          128.6354938210128,
+          122.25454376649,
+          118.63943260886096
+        ]
+      },
+      {
+        "topic_id": 3,
+        "top_words": [
+          "ai",
+          "code",
+          "better",
+          "just",
+          "chatgpt",
+          "using",
+          "work",
+          "like",
+          "use",
+          "coding"
+        ],
+        "word_weights": [
+          94.81828821450527,
+          76.51193851785723,
+          70.2634348531219,
+          57.42908100160043,
+          56.094568816651524,
+          49.01468231834909,
+          47.4241053117195,
+          46.496461973632435,
+          46.43053855074518,
+          43.967282375009276
+        ]
+      },
+      {
+        "topic_id": 4,
+        "top_words": [
+          "model",
+          "models",
+          "training",
+          "data",
+          "better",
+          "llm",
+          "llms",
+          "different",
+          "reasoning",
+          "ai"
+        ],
+        "word_weights": [
+          169.97144513306932,
+          166.8266135770123,
+          119.08256191213228,
+          115.1307067796982,
+          86.04764880104524,
+          71.84224096019851,
+          67.649250633506,
+          66.0071253795178,
+          65.23280691260932,
+          60.86087671403863
+        ]
+      },
+      {
+        "topic_id": 5,
+        "top_words": [
+          "claude",
+          "gemini",
+          "better",
+          "gpt",
+          "chatgpt",
+          "pro",
+          "code",
+          "use",
+          "coding",
+          "model"
+        ],
+        "word_weights": [
+          367.0307314528671,
+          277.54180549741034,
+          269.5014347409198,
+          234.34855518517455,
+          172.38688079016956,
+          163.9906192282596,
+          154.3278549194492,
+          147.14788315890425,
+          133.63955618324522,
+          132.92691128406557
+        ]
+      },
+      {
+        "topic_id": 6,
+        "top_words": [
+          "prompt",
+          "user",
+          "model",
+          "ai",
+          "like",
+          "use",
+          "tone",
+          "memory",
+          "instructions",
+          "context"
+        ],
+        "word_weights": [
+          163.15125020142406,
+          140.70773234211254,
+          85.67784216544416,
+          81.29575100148037,
+          73.69452658782662,
+          71.28897553093559,
+          70.42153613432198,
+          69.02118023325656,
+          63.19189808376629,
+          62.73827484265172
+        ]
+      },
+      {
+        "topic_id": 7,
+        "top_words": [
+          "questions",
+          "post",
+          "guidelines",
+          "subreddit",
+          "action",
+          "performed",
+          "moderators",
+          "compose",
+          "discussion",
+          "questions concerns"
+        ],
+        "word_weights": [
+          97.10920274293768,
+          85.30536742237744,
+          83.59728506071754,
+          71.41128869342892,
+          71.36923581173586,
+          65.58597726551987,
+          64.72201025527046,
+          63.884738321105765,
+          63.41077287602476,
+          62.299328343535734
+        ]
+      },
+      {
+        "topic_id": 8,
+        "top_words": [
+          "ai",
+          "agents",
+          "agent",
+          "code",
+          "tools",
+          "like",
+          "use",
+          "ve",
+          "just",
+          "different"
+        ],
+        "word_weights": [
+          208.22195303776058,
+          159.2305064107979,
+          152.5019932584397,
+          124.39280290664072,
+          121.22336805384599,
+          115.19680336174787,
+          99.90853549348176,
+          95.18354645839918,
+          90.94001710964699,
+          82.57347632458176
+        ]
+      },
+      {
+        "topic_id": 9,
+        "top_words": [
+          "ai",
+          "google",
+          "open",
+          "openai",
+          "better",
+          "source",
+          "open source",
+          "gemini",
+          "models",
+          "worse"
+        ],
+        "word_weights": [
+          66.46035735849301,
+          60.00000520368966,
+          59.53418453931901,
+          58.59094494882484,
+          53.314470442027584,
+          51.09536103453504,
+          45.08182918975401,
+          42.060898013975645,
+          37.953237688039614,
+          37.928071307840526
+        ]
+      }
+    ],
+    "topic_distribution_by_period": {
+      "pre_gpt5": [
+        0.1350831165356301,
+        0.13664416568182944,
+        0.15891703194432388,
+        0.06367532773441156,
+        0.10316311573005593,
+        0.15040322407057055,
+        0.07610547848785464,
+        0.032545926147991476,
+        0.09628083028481269,
+        0.04718178338251992
+      ],
+      "post_gpt5": [
+        0.11839123185216109,
+        0.16061312757239193,
+        0.13950634619338265,
+        0.06746957994995326,
+        0.08014790111683694,
+        0.1277910090279738,
+        0.10428486103601667,
+        0.039538469056351055,
+        0.11699519107598733,
+        0.04526228311894741
+      ]
+    },
+    "n_documents": 22183,
+    "n_topics": 10
+  },
+  "linguistic_analysis": {
+    "pre_gpt5_readability": {
+      "flesch_kincaid_mean": 10.533127307585564,
+      "flesch_reading_mean": 53.07121543992528,
+      "ari_mean": 12.228041676740066,
+      "sample_size": 473
+    },
+    "pre_gpt5_complexity": {
+      "avg_sentence_length": 22.838149487331705,
+      "avg_word_count": 152.15010570824523,
+      "avg_lexical_diversity": 0.6900240947823854,
+      "avg_unique_words": 88.7061310782241,
+      "sample_size": 473
+    },
+    "post_gpt5_readability": {
+      "flesch_kincaid_mean": 9.107191730160649,
+      "flesch_reading_mean": 60.01321066102022,
+      "ari_mean": 10.089803214084812,
+      "sample_size": 475
+    },
+    "post_gpt5_complexity": {
+      "avg_sentence_length": 20.20354106954436,
+      "avg_word_count": 211.00842105263158,
+      "avg_lexical_diversity": 0.6623603207715898,
+      "avg_unique_words": 115.58947368421053,
+      "sample_size": 475
+    },
+    "readability_changes": {
+      "flesch_kincaid_change": -1.4259355774249158,
+      "flesch_reading_change": 6.941995221094935,
+      "ari_change": -2.138238462655254
+    },
+    "complexity_changes": {
+      "sentence_length_change": -2.6346084177873443,
+      "lexical_diversity_change": -0.02766377401079556,
+      "word_count_change": 58.85831534438634
+    }
+  },
+  "user_concerns": {
+    "pre_gpt5": {
+      "concern_counts": {
+        "performance": 103,
+        "accuracy": 169,
+        "usability": 68,
+        "cost": 162,
+        "safety": 62,
+        "creativity": 99,
+        "consistency": 50,
+        "capabilities": 188
+      },
+      "concern_percentages": {
+        "performance": 10.992529348986126,
+        "accuracy": 18.036286019210245,
+        "usability": 7.257203842049092,
+        "cost": 17.28922091782284,
+        "safety": 6.616862326574173,
+        "creativity": 10.56563500533618,
+        "consistency": 5.3361792956243335,
+        "capabilities": 20.064034151547492
+      },
+      "total_comments": 937
+    },
+    "post_gpt5": {
+      "concern_counts": {
+        "performance": 2795,
+        "accuracy": 4061,
+        "usability": 1421,
+        "cost": 3758,
+        "safety": 1838,
+        "creativity": 2362,
+        "consistency": 1232,
+        "capabilities": 4050
+      },
+      "concern_percentages": {
+        "performance": 13.015739964608365,
+        "accuracy": 18.91124150135047,
+        "usability": 6.617304647480675,
+        "cost": 17.500232839713142,
+        "safety": 8.559187855080562,
+        "creativity": 10.999348048803203,
+        "consistency": 5.737170531805905,
+        "capabilities": 18.86001676445935
+      },
+      "total_comments": 21474
+    },
+    "concern_changes": {
+      "performance": {
+        "pre_percentage": 10.992529348986126,
+        "post_percentage": 13.015739964608365,
+        "percentage_point_change": 2.0232106156222383,
+        "relative_change": 18.405323755709098
+      },
+      "accuracy": {
+        "pre_percentage": 18.036286019210245,
+        "post_percentage": 18.91124150135047,
+        "percentage_point_change": 0.8749554821402263,
+        "relative_change": 4.851084537073326
+      },
+      "usability": {
+        "pre_percentage": 7.257203842049092,
+        "post_percentage": 6.617304647480675,
+        "percentage_point_change": -0.6398991945684172,
+        "relative_change": -8.817434489861867
+      },
+      "cost": {
+        "pre_percentage": 17.28922091782284,
+        "post_percentage": 17.500232839713142,
+        "percentage_point_change": 0.2110119218903037,
+        "relative_change": 1.2204825358716949
+      },
+      "safety": {
+        "pre_percentage": 6.616862326574173,
+        "post_percentage": 8.559187855080562,
+        "percentage_point_change": 1.9423255285063892,
+        "relative_change": 29.35417774533043
+      },
+      "creativity": {
+        "pre_percentage": 10.56563500533618,
+        "post_percentage": 10.999348048803203,
+        "percentage_point_change": 0.4337130434670229,
+        "relative_change": 4.104940623521217
+      },
+      "consistency": {
+        "pre_percentage": 5.3361792956243335,
+        "post_percentage": 5.737170531805905,
+        "percentage_point_change": 0.4009912361815715,
+        "relative_change": 7.5145757660426495
+      },
+      "capabilities": {
+        "pre_percentage": 20.064034151547492,
+        "post_percentage": 18.86001676445935,
+        "percentage_point_change": -1.2040173870881432,
+        "relative_change": -6.000873892029735
+      }
+    }
+  },
+  "api_probe_analysis": {
+    "model_analysis": {
+      "gpt-3.5-turbo": {
+        "total_responses": 81,
+        "successful_responses": 81,
+        "success_rate": 1.0,
+        "avg_response_length": 804.0864197530864,
+        "avg_token_count": 177.5679012345679,
+        "avg_warmth_score": 0.13580246913580246,
+        "avg_formality_score": 0.1111111111111111
+      },
+      "gpt-4": {
+        "total_responses": 81,
+        "successful_responses": 81,
+        "success_rate": 1.0,
+        "avg_response_length": 897.7777777777778,
+        "avg_token_count": 207.1851851851852,
+        "avg_warmth_score": 0.08641975308641975,
+        "avg_formality_score": 0.2222222222222222
+      },
+      "gpt-4o": {
+        "total_responses": 81,
+        "successful_responses": 81,
+        "success_rate": 1.0,
+        "avg_response_length": 1018.4074074074074,
+        "avg_token_count": 224.91358024691357,
+        "avg_warmth_score": 0.07407407407407407,
+        "avg_formality_score": 0.04938271604938271
+      },
+      "gpt-4.1": {
+        "total_responses": 81,
+        "successful_responses": 81,
+        "success_rate": 1.0,
+        "avg_response_length": 906.604938271605,
+        "avg_token_count": 217.85185185185185,
+        "avg_warmth_score": 0.04938271604938271,
+        "avg_formality_score": 0.037037037037037035
+      },
+      "o3": {
+        "total_responses": 81,
+        "successful_responses": 81,
+        "success_rate": 1.0,
+        "avg_response_length": 362.9382716049383,
+        "avg_token_count": 254.8395061728395,
+        "avg_warmth_score": 0.1111111111111111,
+        "avg_formality_score": 0.018518518518518517
+      },
+      "gpt-4.1-mini": {
+        "total_responses": 81,
+        "successful_responses": 81,
+        "success_rate": 1.0,
+        "avg_response_length": 845.8024691358024,
+        "avg_token_count": 194.1851851851852,
+        "avg_warmth_score": 0.18518518518518517,
+        "avg_formality_score": -0.06172839506172839
+      },
+      "gpt-4o-mini": {
+        "total_responses": 81,
+        "successful_responses": 81,
+        "success_rate": 1.0,
+        "avg_response_length": 947.2592592592592,
+        "avg_token_count": 212.9506172839506,
+        "avg_warmth_score": 0.08641975308641975,
+        "avg_formality_score": 0.012345679012345678
+      },
+      "gpt-5": {
+        "total_responses": 81,
+        "successful_responses": 81,
+        "success_rate": 1.0,
+        "avg_response_length": 8.45679012345679,
+        "avg_token_count": 274.9012345679012,
+        "avg_warmth_score": 0.0,
+        "avg_formality_score": 0.0
+      },
+      "gpt-5-mini": {
+        "total_responses": 81,
+        "successful_responses": 81,
+        "success_rate": 1.0,
+        "avg_response_length": 44.97530864197531,
+        "avg_token_count": 274.0987654320988,
+        "avg_warmth_score": 0.0,
+        "avg_formality_score": 0.0
+      }
+    },
+    "category_analysis": {
+      "warmth_empathy": {
+        "response_count": 108,
+        "avg_response_length": 511.51851851851853,
+        "avg_tokens": 184.52777777777777,
+        "temperature_distribution": {
+          "0.3": 36,
+          "0.7": 36,
+          "1.0": 36
+        }
+      },
+      "creativity_personality": {
+        "response_count": 108,
+        "avg_response_length": 483.5740740740741,
+        "avg_tokens": 182.82407407407408,
+        "temperature_distribution": {
+          "0.3": 36,
+          "0.7": 36,
+          "1.0": 36
+        }
+      },
+      "intellectual_analytical": {
+        "response_count": 108,
+        "avg_response_length": 975.0185185185185,
+        "avg_tokens": 296.1296296296296,
+        "temperature_distribution": {
+          "0.3": 36,
+          "0.7": 36,
+          "1.0": 36
+        }
+      },
+      "boundary_safety": {
+        "response_count": 108,
+        "avg_response_length": 425.6203703703704,
+        "avg_tokens": 185.10185185185185,
+        "temperature_distribution": {
+          "0.3": 36,
+          "0.7": 36,
+          "1.0": 36
+        }
+      },
+      "conversational_style": {
+        "response_count": 108,
+        "avg_response_length": 471.2037037037037,
+        "avg_tokens": 200.62962962962962,
+        "temperature_distribution": {
+          "0.3": 36,
+          "0.7": 36,
+          "1.0": 36
+        }
+      },
+      "task_completion": {
+        "response_count": 108,
+        "avg_response_length": 728.3796296296297,
+        "avg_tokens": 243.7037037037037,
+        "temperature_distribution": {
+          "0.3": 36,
+          "0.7": 36,
+          "1.0": 36
+        }
+      },
+      "cultural_contextual": {
+        "response_count": 81,
+        "avg_response_length": 1042.5555555555557,
+        "avg_tokens": 314.60493827160496,
+        "temperature_distribution": {
+          "0.3": 27,
+          "0.7": 27,
+          "1.0": 27
+        }
+      }
+    },
+    "total_probe_responses": 729
+  }
+}
