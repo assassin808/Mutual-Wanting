@@ -1,0 +1,32 @@
+{
+  "collection_timestamp": 1757772511.770636,
+  "total_responses": 729,
+  "successful_responses": 729,
+  "models_tested": [
+    "gpt-4",
+    "gpt-5-mini",
+    "gpt-4.1-mini",
+    "gpt-4.1",
+    "gpt-5",
+    "gpt-3.5-turbo",
+    "o3",
+    "gpt-4o-mini",
+    "gpt-4o"
+  ],
+  "probe_categories": {
+    "warmth_empathy": 108,
+    "creativity_personality": 108,
+    "intellectual_analytical": 108,
+    "boundary_safety": 108,
+    "conversational_style": 108,
+    "task_completion": 108,
+    "cultural_contextual": 81
+  },
+  "reproducibility_runs": 3,
+  "temperature_variation": [
+    0.3,
+    0.7,
+    1.0
+  ],
+  "ready_for_analysis": true
+}

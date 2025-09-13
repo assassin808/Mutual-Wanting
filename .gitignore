@@ -1,9 +1,3 @@
-pipeline/data/
-pipeline/outputs/*
-!pipeline/outputs/.gitkeep
-!pipeline/outputs/tables/*.tsv
-*.jsonl
-*.csv
 *.log
 .env
 *.fls

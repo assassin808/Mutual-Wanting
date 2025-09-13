@@ -1,0 +1,47 @@
+% Table 1: Lexical Drift Analysis
+\begin{table}[htbp]
+\centering
+\begin{tabular}{lrrr}
+\toprule
+Word & Pre-freq & Post-freq & Log-odds change \\
+\midrule
+cold & 0.001 & 0.004 & 1.386 \\
+warm & 0.003 & 0.001 & -1.099 \\
+\bottomrule
+\end{tabular}
+\caption{Lexical drift in complaint discourse}
+\label{tab:drift}
+\end{table}
+
+% Table 2: Model Behavioral Comparison
+\begin{table}[htbp]
+\centering
+\begin{tabular}{lrrr}
+\toprule
+Metric & GPT-4 & GPT-4.5 & Change (\%) \\
+\midrule
+Warmth Ratio & 0.045 & 0.029 & -35.6 \\
+Token Count & 45.2 & 28.8 & -36.3 \\
+CDR & 0.125 & 0.083 & -33.6 \\
+\bottomrule
+\end{tabular}
+\caption{Behavioral metrics comparison between model versions}
+\label{tab:probes}
+\end{table}
+
+% Table 3: Inter-annotator Reliability
+\begin{table}[htbp]
+\centering
+\begin{tabular}{lr}
+\toprule
+Measure & Value \\
+\midrule
+Cohen's κ & 0.795 \\
+Observed Agreement & 0.850 \\
+Expected Agreement & 0.280 \\
+Interpretation & Substantial \\
+\bottomrule
+\end{tabular}
+\caption{Inter-annotator reliability results}
+\label{tab:reliability}
+\end{table}

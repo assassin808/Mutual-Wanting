@@ -14,6 +14,9 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 from typing import List, Dict, Any
+import threading
+from concurrent.futures import ThreadPoolExecutor, as_completed
+import queue
 
 load_dotenv()
 
@@ -31,7 +34,11 @@ class OpenRouterClient:
             'gpt-5': 'openai/gpt-5',
             'gpt-5-mini': 'openai/gpt-5-mini',
             'gpt-5-nano': 'openai/gpt-5-nano',
-            
+
+            'gpt-4.1': 'openai/gpt-4.1',
+            'gpt-4.1-mini': 'openai/gpt-4.1-mini',
+  
+
             # GPT-4 series (workhorse models)
             'gpt-4o': 'openai/gpt-4o',
             'gpt-4o-mini': 'openai/gpt-4o-mini', 
@@ -277,7 +284,12 @@ class OpenRouterClient:
                 
             return result
     
-    def run_probe_suite(self, models_to_test: List[str] = None, num_runs: int = 3) -> List[Dict[str, Any]]:
+    def run_probe_suite(
+        self,
+        models_to_test: List[str] = None,
+        num_runs: int = 3,
+        max_workers: int = 6,
+    ) -> List[Dict[str, Any]]:
         """Run the full probe suite across specified models with multiple runs for reproducibility.
         
         Methodology Justification:
@@ -293,71 +305,82 @@ class OpenRouterClient:
         3. Statistical significance - variance and confidence intervals
         """
         if models_to_test is None:
-            # Focus on key OpenAI models for persona transition analysis
+            # Use exactly the requested OpenAI model set
             models_to_test = [
-                'gpt-5',           # Latest flagship model
-                'gpt-4o',          # Current multimodal workhorse
-                'gpt-4-turbo',     # Previous generation flagship
-                'gpt-3.5-turbo',   # Baseline for comparison
-                'o3'               # Reasoning-focused model
+                'gpt-3.5-turbo',   # 3.5
+                'gpt-4',           # 4
+                'gpt-4o',          # 4o
+                'gpt-4.1',         # 4.1
+                'o3',              # o3
+                'gpt-4.1-mini',    # 4.1 mini
+                'gpt-4o-mini',     # 4o mini
+                'gpt-5',           # gpt-5
+                'gpt-5-mini',      # gpt-5 mini
             ]
         
         probes = self.create_probe_prompts()
         results = []
         
         total_queries = len(probes) * len(models_to_test) * num_runs
+        est_sec_per_query = 3
+        est_minutes = max(1, (total_queries * est_sec_per_query) // max(1, max_workers) // 60)
         print(f"🧪 Running SCIENTIFIC probe suite with REPRODUCIBILITY:")
         print(f"   📊 OpenAI Models: {len(models_to_test)} ({', '.join(models_to_test)})")
         print(f"   📝 Probe Categories: {len(probes)} comprehensive persona tests")
         print(f"   🔄 Runs per probe: {num_runs} (statistical significance)")
         print(f"   🌡️  Temperature strategy: 0.3→0.7→1.0 (consistency→creativity)")
         print(f"   📈 Total queries: {total_queries}")
-        print(f"   ⏱️  Estimated time: ~{total_queries * 3 // 60} minutes")
+        print(f"   ⏱️  Estimated time with concurrency (workers={max_workers}): ~{est_minutes} minutes")
         print(f"   🎯 Purpose: Measure persona stability across temperature/model variations")
         
         query_count = 0
+        print_lock = threading.Lock()
         
         for model_idx, model in enumerate(models_to_test, 1):
             print(f"\n🤖 Testing model {model_idx}/{len(models_to_test)}: {model}")
             
-            for probe_idx, probe in enumerate(probes, 1):
-                print(f"  📝 Probe {probe_idx:2d}/{len(probes)}: {probe['id']:<25}")
+            # Prepare concurrent tasks per model
+            temperatures = [0.3, 0.7, 1.0]
+            futures = []
+            with ThreadPoolExecutor(max_workers=max_workers) as executor:
+                for probe_idx, probe in enumerate(probes, 1):
+                    # Lightweight progress on probe scheduling
+                    print(f"  📝 Scheduling probe {probe_idx:2d}/{len(probes)}: {probe['id']:<25}")
+                    for run_num in range(1, num_runs + 1):
+                        temp = temperatures[(run_num - 1) % len(temperatures)]
+                        run_info = {
+                            'probe_id': probe['id'],
+                            'measures': probe['measures'],
+                            'expected_behavior': probe['expected_behavior'],
+                            'run_number': run_num,
+                            'total_runs': num_runs,
+                            'probe_category': self._get_probe_category(probe['id'])
+                        }
+                        futures.append(
+                            executor.submit(
+                                self.query_model,
+                                model,
+                                probe['prompt'],
+                                300,
+                                temp,
+                                run_info
+                            )
+                        )
                 
-                # Run each probe multiple times for reproducibility
-                # Temperature Justification for Persona Analysis:
-                # T=0.3: Tests core persona consistency (minimal randomness)
-                # T=0.7: Tests normal conversational persona (OpenAI default)  
-                # T=1.0: Tests persona under creative pressure (high variance)
-                # This allows measurement of persona stability vs. response diversity
-                temperatures = [0.3, 0.7, 1.0]  
-                
-                for run_num in range(1, num_runs + 1):
-                    query_count += 1
-                    temp = temperatures[(run_num - 1) % len(temperatures)]
-                    temp_desc = {0.3: "Consistent", 0.7: "Balanced", 1.0: "Creative"}[temp]
-                    print(f"    🔄 Run {run_num}/{num_runs} (T={temp} {temp_desc}) ({query_count:3d}/{total_queries}): ", end="")
-                    
-                    run_info = {
-                        'probe_id': probe['id'],
-                        'measures': probe['measures'],
-                        'expected_behavior': probe['expected_behavior'],
-                        'run_number': run_num,
-                        'total_runs': num_runs,
-                        'probe_category': self._get_probe_category(probe['id'])
-                    }
-                    
-                    result = self.query_model(model, probe['prompt'], temperature=temp, run_info=run_info)
-                    results.append(result)
-                    
-                    if not result['success']:
-                        print(f"❌ {result.get('error', 'Unknown error')[:30]}...")
-                    else:
-                        tokens = result['usage']['total_tokens']
-                        response_preview = result['response'][:40].replace('\n', ' ') if result['response'] else ''
-                        print(f"✅ ({tokens:3d}t) {response_preview}...")
-                    
-                    # Rate limiting - be respectful to APIs
-                    time.sleep(2)
+                # Consume results as they complete
+                for future in as_completed(futures):
+                    res = future.result()
+                    results.append(res)
+                    with print_lock:
+                        query_count += 1
+                        temp = res.get('temperature', '?')
+                        if not res.get('success'):
+                            err_msg = (res.get('error') or 'Unknown error')
+                            print(f"    🔄 ({query_count:3d}/{total_queries}) T={temp} ❌ {res.get('model')} · {res.get('probe_id')} · {err_msg[:60]}...")
+                        else:
+                            tokens = res['usage']['total_tokens']
+                            preview = (res['response'] or '')[:60].replace('\n', ' ')
+                            print(f"    🔄 ({query_count:3d}/{total_queries}) T={temp} ✅ {res.get('model')} · {res.get('probe_id')} · ({tokens}t) {preview}...")
         
         print(f"\n🎉 Probe suite complete!")
         print(f"   📊 Collected {len(results)} total responses")
@@ -432,11 +455,15 @@ def main():
     
     # Test current OpenAI model lineup (verified on OpenRouter)
     models_to_test = [
-        'gpt-5',           # Flagship 2025 model
-        'gpt-4o',          # Current workhorse  
-        'gpt-4-turbo',     # Previous flagship
-        'gpt-3.5-turbo',   # Legacy baseline
-        'o3'               # Reasoning specialist
+        'gpt-3.5-turbo',   # 3.5
+        'gpt-4',           # 4
+        'gpt-4o',          # 4o  
+        'gpt-4.1',         # 4.1
+        'o3',              # o3
+        'gpt-4.1-mini',    # 4.1 mini
+        'gpt-4o-mini',     # 4o mini
+        'gpt-5',           # 5
+        'gpt-5-mini',      # 5 mini
     ]
     
     print("🔍 Starting OpenRouter API probe suite (OpenAI models only)...")
@@ -444,8 +471,8 @@ def main():
     for model in models_to_test:
         print(f"   • {model}: {client.models[model]}")
     
-    # Run probes with scientific methodology
-    results = client.run_probe_suite(models_to_test)
+    # Run probes with scientific methodology and concurrency
+    results = client.run_probe_suite(models_to_test=models_to_test, num_runs=3, max_workers=6)
     
     # Save results
     output_dir = Path("pipeline/data")
