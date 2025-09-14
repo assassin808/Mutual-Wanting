@@ -20,7 +20,6 @@
 \usepackage[strings]{underscore} % allow underscores in verbatim-like text (CSV import)
 \usepackage{csvsimple}    % CSV/TSV tables
 \usepackage{amsmath}      % math environments
-\usepackage{amssymb}
 \usepackage{threeparttable} % for tablenotes under tables
 
 
@@ -42,33 +41,73 @@ The deployment of increasingly sophisticated large language models has fundament
 
 The scale and intensity of these responses has reached unprecedented levels. Our analysis of over 22,000 user comments reveals that nearly half of all AI-related discourse employs anthropomorphic language, treating AI systems as social entities with personalities, emotions, and relationship capabilities. This is not occasional metaphorical usage but systematic application of human social scripts to AI interaction, including expressions like "ChatGPT feels different now," "she's lost her creativity," and "he doesn't understand me anymore."
 
-Recent major model transitions, particularly the release of GPT-5 in December 2024, have surfaced these dynamics with striking clarity. The transition created a natural experiment revealing measurable patterns: performance complaints surged dramatically, user sentiment became significantly more negative, and reality fell substantially short of user expectations. Yet trust language continues to exceed betrayal language by more than 10:1, suggesting complex, nuanced relationship dynamics rather than simple dissatisfaction.
+Recent major model transitions, particularly the release of GPT-5 in December 2024, have surfaced these dynamics with striking clarity. The transition created a natural experiment revealing measurable patterns: performance complaints surged dramatically, user sentiment became significantly more negative, and reality fell substantially short of user expectations. Yet alongside these negative indicators, trust language continues to exceed betrayal language by more than 10:1, suggesting complex, nuanced relationship dynamics rather than simple dissatisfaction.
 
-Public forums reveal highly structured patterns of relational tension. Users cluster into distinct types based on their "mutual wanting" patterns, from "Stable Users" prioritizing reliability to "Attached Users" showing high anthropomorphism and frequent expectation violations. These patterns suggest fundamental misalignments between what users want from AI systems and what these systems implicitly "want" from users through their design and optimization objectives.
+Public forums reveal not random preference variations but highly structured patterns of relational tension. Users cluster into distinct types based on their "mutual wanting" patterns, from "Stable Users" prioritizing reliability to "Attached Users" showing high anthropomorphism and frequent expectation violations. These patterns suggest fundamental misalignments between what users want from AI systems and what these systems implicitly "want" from users through their design and optimization objectives.
 
 This paper introduces the concept of \emph{mutual wanting} to describe these bidirectional expectation dynamics. We argue that users have explicit and implicit desires regarding AI's relational, epistemic, and agentic affordances—they want reliability, warmth, intelligence, creativity, honesty, helpfulness, and responsiveness. Simultaneously, AI systems, through their design optimization, implicitly "want" certain user behaviors: clarity, structure, efficiency, appropriate feedback, respect for boundaries, and patience with limitations. When these mutual wants misalign, users experience what we term "expectation violations," leading to the relational tensions observed in public forums.
+
 Understanding and aligning these mutual wants represents a critical challenge for sustainable human-AI interaction. As AI systems become more sophisticated and ubiquitous, the relational dimension of human-AI interaction can no longer be treated as a secondary concern but must be recognized as fundamental to successful deployment and user adoption.
 
+\subsection{Research Contributions}
+
 This work makes several novel contributions to human-AI interaction research:
- (1) \textbf{Empirical Validation}: analysis of over 22{,}000 user comments and hundreds of controlled API probe responses across multiple OpenAI models; (2) \textbf{Methodological Innovation}: a comprehensive mutual wanting extraction pipeline using custom lexicons, dual-algorithm topic modeling, and multi-dimensional feature engineering; (3) \textbf{Theoretical Framework}: the Mutual Wanting Alignment Framework (M-WAF) with empirically validated dimensions of user desires and system implicit wants; (4) \textbf{Clustering Discovery}: identification of distinct user types based on mutual wanting patterns, each requiring different alignment strategies; and (5) \textbf{Practical Applications}: measurable approaches for expectation violation detection, trust calibration monitoring, and anthropomorphism-aware design.
+
+\begin{enumerate}
+    \item \textbf{Empirical Validation}: We provide the first large-scale empirical analysis of mutual wanting dynamics through analysis of over 22,000 user comments and hundreds of controlled API probe responses across multiple OpenAI models.
+    
+    \item \textbf{Methodological Innovation}: We develop a comprehensive mutual wanting extraction pipeline using advanced NLP techniques including custom lexicon development, dual-algorithm topic modeling, and multi-dimensional feature engineering.
+    
+    \item \textbf{Theoretical Framework}: We introduce the Mutual Wanting Alignment Framework (M-WAF) with empirically validated dimensions of user desires and system implicit wants.
+    
+    \item \textbf{Clustering Discovery}: We identify distinct user types based on mutual wanting patterns, each requiring different alignment strategies.
+    
+    \item \textbf{Practical Applications}: We demonstrate measurable approaches for expectation violation detection, trust calibration monitoring, and anthropomorphism-aware design.
+\end{enumerate}
 
 \section{Related Work}
 
 \subsection{Human-AI Relationship Dynamics}
 
-The tendency for humans to anthropomorphize AI agents is well-documented across multiple contexts \citep{epley2007seeing, waytz2010see}. This anthropomorphization leads to parasocial relationships that can enhance engagement but also create vulnerabilities to perceived betrayal and disappointment \citep{horton1956mass, maeda2024parasocial}. Recent research shows that users form meaningful emotional connections with AI chatbots \citep{edwards2024parasocial}, highlighting both positive outcomes (emotional support, reduced loneliness) and concerning dependencies.
+The tendency for humans to anthropomorphize AI agents is well-documented across multiple contexts \citep{epley2007seeing, waytz2010see}. This anthropomorphization leads to parasocial relationships that can enhance engagement but also create vulnerabilities to perceived betrayal and disappointment \citep{horton1956mass}. Recent work has begun to explore these dynamics specifically in the context of conversational AI \citep{maeda2024parasocial, omeish2025between}, but large-scale empirical analysis of relationship patterns during model transitions remains unexplored.
 
-The socioaffective dimension of human-AI alignment has gained increasing attention, with researchers arguing that traditional technical alignment approaches are insufficient \citep{kirk2025socioaffective, fan2025alignment}. Research on anthropomorphism in AI systems reveals both benefits and risks \citep{pnas2025anthro, envsustain2025anthro}—while anthropomorphic design can increase user engagement and trust, it can also lead to over-reliance and inappropriate expectations.
+Parasocial relationships, traditionally studied in media psychology \citep{rubin2019parasocial}, have found new relevance in the context of AI interaction. Recent research shows that users, particularly younger demographics, form meaningful emotional connections with AI chatbots \citep{edwards2024parasocial}. This work highlights the potential for both positive outcomes (emotional support, reduced loneliness) and concerning dependencies that may emerge from human-AI relationships.
 
-\subsection{Trust and Expectation Management}
+The socioaffective dimension of human-AI alignment has gained increasing attention, with researchers arguing that traditional technical alignment approaches are insufficient \citep{kirk2025socioaffective}. User-driven value alignment research emphasizes the importance of understanding parasocial relationships in designing AI systems that meet genuine human needs \citep{fan2025alignment}.
 
-Trust calibration in AI systems depends heavily on expectation management and transparency \citep{amershi2019guidelines, yin2019understanding}. Research shows that violated expectations can lead to dramatic trust degradation that is difficult to recover \citep{lai2019human, kizilcec2016much}. Trust in AI systems differs from traditional automation due to the social and relational dimensions introduced by conversational interfaces \citep{muir1996trust}. Recent empirical work finds that anthropomorphic design significantly affects trust development and maintenance \citep{ta2020users, lee2020ai}, suggesting AI systems are increasingly treated as social actors rather than mere tools.
+Research on anthropomorphism in AI systems reveals both benefits and risks \citep{pnas2025anthro, envsustain2025anthro}. While anthropomorphic design can increase user engagement and trust, it can also lead to over-reliance and inappropriate expectations. The dual-edge nature of anthropomorphism makes understanding its patterns crucial for responsible AI development.
 
-\subsection{AI Persona Research and Methodological Frameworks}
+\subsection{Trust and Expectation Management in AI}
 
-The concept of AI "persona" has emerged as models develop more sophisticated conversational abilities \citep{rashkin2018empathetic, zhong2020pec}. Early work established foundational approaches to creating consistent conversational personas \citep{mairesse2007personage, walker2007generally}, while contemporary research has expanded this to include empathetic and emotionally intelligent AI systems \citep{shum2018eliza, zhou2020design}. However, the challenge of maintaining persona consistency during model updates has received limited attention, despite its critical importance for user experience \citep{wu2025memory, cheng2025mitigating}.
+Trust calibration in AI systems depends heavily on expectation management and transparency \citep{amershi2019guidelines, yin2019understanding}. Research shows that violated expectations can lead to dramatic trust degradation that is difficult to recover \citep{lai2019human, kizilcec2016much}. Uncertainty visualization has emerged as a key strategy for managing user expectations and maintaining appropriate trust levels \citep{kay2016uncertainty, reyes2025uncertainty}.
 
-Comprehensive evaluation frameworks for AI systems have emphasized transparency and documentation \citep{mitchell2019modelcards, bender2018datastatements}, with holistic approaches \citep{liang2022helm} providing systematic ways to assess multiple dimensions including social and relational aspects often overlooked in purely technical evaluations.
+The literature on trust in automation provides foundational insights into human-AI trust dynamics \citep{lee2004trust, hoff2015trust}. Trust formation and maintenance in automated systems follows predictable patterns, with initial trust heavily influenced by system reliability and user expertise \citep{parasuraman2000designing}. However, trust in AI systems differs from traditional automation due to the social and relational dimensions introduced by conversational interfaces \citep{muir1996trust}.
+
+Recent empirical work has begun to examine how users form emotional attachments to AI systems, finding that anthropomorphic design significantly affects trust development and maintenance \citep{ta2020users, lee2020ai}. This research suggests that AI systems are increasingly treated as social actors rather than mere tools, fundamentally altering the trust calibration process.
+
+However, most work focuses on task-specific trust rather than the broader relational trust that emerges in conversational AI interactions. The psychological dimension of trust in AI relationships requires different theoretical frameworks and measurement approaches than traditional system reliability metrics.
+
+\subsection{AI Persona and Personality Research}
+
+The concept of AI "persona" has emerged as models develop more sophisticated conversational abilities \citep{rashkin2018empathetic, zhong2020pec}. Recent work explores persona evaluation in conversational agents \citep{kaate2025evaluating} and the use of fictionality in human-robot interaction \citep{kaate2025fourth}. User experience persona development using LLMs has shown promise for understanding diverse user needs \citep{hur2024utilizing}.
+
+Early work on personality generation for dialogue systems established foundational approaches to creating consistent conversational personas \citep{mairesse2007personage, walker2007generally}. Contemporary research has expanded this to include empathetic and emotionally intelligent AI systems \citep{shum2018eliza, zhou2020design}. These studies have shown that consistent persona characteristics significantly affect user satisfaction and engagement.
+
+The challenge of maintaining persona consistency during model updates has received limited attention, despite its critical importance for user experience. As users develop relationships with AI systems, sudden changes in personality or communication style can be perceived as violations of trust \citep{wu2025memory}. Recent work on mitigating anthropomorphic behaviors suggests the need for careful balance between engaging persona design and responsible anthropomorphism \citep{cheng2025mitigating}.
+
+While considerable work exists on designing AI personalities, little research examines how users perceive and respond to personality changes during model updates, particularly at large scale. The stability of AI personas across model iterations represents a critical gap in current research.
+
+\subsection{Privacy and Security in AI Relationships}
+
+As users develop deeper relationships with AI systems, concerns about privacy and security become paramount. Recent research explores user attitudes toward privacy in mental health applications \citep{mentalhealth2025privacy} and examines how incivility in human-AI interaction affects user experience \citep{qi2025assistant}. These studies highlight the need for comprehensive frameworks that address both relational and security dimensions of AI interaction.
+
+The challenge of maintaining appropriate AI system performance while meeting user expectations has become increasingly complex \citep{payne2024ai}. Research suggests that users often adjust their expectations based on their expertise and the context of interaction, indicating that "good enough" AI performance may vary significantly across different user populations and use cases.
+
+\subsection{Methodological Frameworks for AI Evaluation}
+
+The development of comprehensive evaluation frameworks for AI systems has emphasized the importance of transparency and documentation \citep{mitchell2019modelcards, bender2018datastatements}. Holistic evaluation approaches \citep{liang2022helm} provide systematic ways to assess multiple dimensions of AI system performance, including social and relational aspects that are often overlooked in purely technical evaluations.
+
+These methodological advances inform our approach to measuring mutual wanting dynamics, particularly in establishing reliable metrics for anthropomorphism, trust, and expectation alignment. The integration of social psychological measures with computational linguistics provides a robust foundation for understanding human-AI relationship dynamics.
 
 \section{Methodology}
 
@@ -88,13 +127,47 @@ We developed a novel $47$-dimensional feature extraction pipeline targeting bidi
 
 \subsubsection{Lexicon Development}
 
-We constructed specialized lexicons via literature review and iterative refinement: \textbf{User Wanting Patterns} (7 dimensions: reliability, warmth, intelligence, creativity, honesty, helpfulness, responsiveness); \textbf{System ``Wanting'' Patterns} (6 dimensions: clarity, structure, efficiency, feedback, boundaries, patience); and \textbf{Tension Indicators} (6 dimensions: expectation violations, disappointment, loss expressions, change resistance, anthropomorphism, relationship terminology).
+We constructed three specialized lexicons based on literature review and iterative refinement:
+
+\begin{enumerate}
+    \item \textbf{User Wanting Patterns} ($7$ dimensions): reliability, warmth, intelligence, creativity, honesty, helpfulness, responsiveness
+    \item \textbf{System ``Wanting'' Patterns} ($6$ dimensions): clarity, structure, efficiency, feedback, boundaries, patience  
+    \item \textbf{Tension Indicators} ($6$ dimensions): expectation violations, disappointment, loss expressions, change resistance, anthropomorphism, relationship terminology
+\end{enumerate}
 
 \subsubsection{Mathematical Formulation of Key Metrics}
 
-For each comment $c_i$ and response $r$, we compute several core metrics. The \textbf{Anthropomorphism Score} is calculated as $A(c_i) = \frac{1}{|c_i|} \sum_{w \in c_i} \mathbf{1}[w \in L_{anthro}]$, where $|c_i|$ represents word count and $L_{anthro}$ is our anthropomorphism lexicon. The \textbf{Trust--Betrayal Ratio} is defined as $T(u) = \dfrac{\sum_{c_i \in C_u} \text{trust\_words}(c_i)}{\sum_{c_i \in C_u} \text{betrayal\_words}(c_i) + \epsilon}$, where $C_u$ represents comments by user $u$ and $\epsilon=0.1$ prevents zero-division. 
+For each comment $c_i$ in our dataset, we compute several core metrics:
 
-We measure the \textbf{Expectation--Reality Gap} using $G = \frac{1}{n} \sum_{i=1}^{n} (\text{sentiment}(\text{reality}_i) - \text{sentiment}(\text{expectation}_i))$, with sentiment scores in $[-1,1]$ computed via VADER. For API responses, we calculate \textbf{Warmth Score} as $W(r) = 0.4\,\text{empathy\_words}(r) + 0.3\,\text{personal\_pronouns}(r) + 0.3\,\text{emotional\_expressions}(r)$ with components normalized to $[0,1]$. Finally, the \textbf{Formality Score} is computed as $F(r) = 0.5\,\text{formal\_words}(r) - 0.3\,\text{contractions}(r) + 0.2\,\text{sentence\_complexity}(r)$, normalized to $[-1,1]$.
+\paragraph{Anthropomorphism Score} The anthropomorphism score $A(c_i)$ is computed as:
+\begin{align}
+A(c_i) &= \frac{1}{|c_i|} \sum_{w \in c_i} \mathbf{1}_{w \in L_{anthro}} \label{eq:anthro}
+\end{align}
+where $|c_i|$ is the word count, $L_{anthro}$ is our anthropomorphism lexicon, and $\mathbf{1}$ is the indicator function.
+
+\paragraph{Trust-Betrayal Ratio} For user $u$, we define:
+\begin{align}
+T(u) &= \frac{\sum_{c_i \in C_u} \text{trust\_words}(c_i)}{\sum_{c_i \in C_u} \text{betrayal\_words}(c_i) + \epsilon} \label{eq:trust}
+\end{align}
+where $C_u$ represents all comments by user $u$ and $\epsilon = 0.1$ prevents division by zero.
+
+\paragraph{Expectation-Reality Gap} The expectation-reality gap $G$ is computed as:
+\begin{align}
+G &= \frac{1}{n} \sum_{i=1}^{n} (\text{sentiment}(\text{reality}_i) - \text{sentiment}(\text{expectation}_i)) \label{eq:gap}
+\end{align}
+where sentiment scores range from $[-1, 1]$ using VADER sentiment analysis.
+
+\paragraph{Warmth Score} For API probe responses, warmth $W(r)$ is measured as:
+\begin{align}
+W(r) &= 0.4 \cdot \text{empathy\_words}(r) + 0.3 \cdot \text{personal\_pronouns}(r) + 0.3 \cdot \text{emotional\_expressions}(r) \label{eq:warmth}
+\end{align}
+where all components are normalized to $[0,1]$.
+
+\paragraph{Formality Score} Formality $F(r)$ combines multiple linguistic features:
+\begin{align}
+F(r) &= 0.5 \cdot \text{formal\_words}(r) - 0.3 \cdot \text{contractions}(r) + 0.2 \cdot \text{sentence\_complexity}(r) \label{eq:formality}
+\end{align}
+where the score is normalized to $[-1,1]$.
 
 \paragraph{Advanced NLP Processing.}
 Each comment was processed through spaCy's dependency parser (en\_core\_web\_sm) to extract syntactic patterns including modal verb usage, emotional adjective frequency, and entity mentions. We computed linguistic complexity metrics (sentence count, readability scores, punctuation patterns) and dependency relationship frequencies to capture communication style patterns \citep{artstein2008agreement, krippendorff2013content}.
@@ -109,7 +182,7 @@ s(i) &= \frac{b(i) - a(i)}{\max\{a(i), b(i)\}} \label{eq:silhouette}
 
 where $a(i)$ is the mean distance from point $i$ to other points in the same cluster, and $b(i)$ is the mean distance to points in the nearest neighboring cluster.
 
-Topic analysis employed dual-algorithm approach combining Latent Dirichlet Allocation (LDA) and Non-negative Matrix Factorization (NMF) with $10$ topics each, ensuring robust theme identification. For LDA, we optimize:
+Topic analysis employed dual-algorithm approach combining Latent Dirichlet Allocation (LDA) and Non-negative Matrix Factorization (NMF) with $15$ topics each, ensuring robust theme identification. For LDA, we optimize:
 
 \begin{align}
 p(\mathbf{w}|\boldsymbol{\alpha}, \boldsymbol{\beta}) &= \int p(\boldsymbol{\theta}|\boldsymbol{\alpha}) \left(\prod_{n=1}^{N} \sum_{z_n} p(z_n|\boldsymbol{\theta}) p(w_n|z_n, \boldsymbol{\beta})\right) d\boldsymbol{\theta} \label{eq:lda}
@@ -134,6 +207,9 @@ For categorical variables, the $\chi^2$ statistic is:
 where $O_{ij}$ are observed frequencies and $E_{ij}$ are expected frequencies under independence.
 
 \section{Results}
+
+\subsection{Mutual Wanting Landscape: Empirical Validation}
+
 Our analysis reveals striking empirical evidence for bidirectional wanting dynamics in human-AI interaction, validating the M-WAF theoretical framework.
 
 \subsection{Anthropomorphism as Universal Phenomenon}
@@ -144,6 +220,7 @@ Table~\ref{tab:relational_patterns} summarizes the key relational language patte
 
 \begin{table}[htbp]
 \centering
+\caption{Relational Language Patterns in User Discourse}
 \label{tab:relational_patterns}
 \begin{tabular}{@{}lrr@{}}
 \toprule
@@ -156,7 +233,6 @@ Emotional Attachment & 851 & 3.8\% \\
 Betrayal Language & 262 & 1.2\% \\
 \bottomrule
 \end{tabular}
-\caption{Relational Language Patterns in User Discourse}
 \end{table}
 
 This finding challenges traditional interface design approaches that minimize anthropomorphization. Instead, our data suggests anthropomorphism is a fundamental human response that should be supported rather than discouraged.
@@ -166,36 +242,44 @@ Trust language exceeded betrayal language by a striking ratio of $11.6:1$ (trust
 
 \subsection{Eleven Distinct Mutual Wanting User Types}
 
-K-means clustering with silhouette optimization identified eleven distinct user types based on mutual wanting patterns (optimal $K=10$, silhouette score $=0.304$). Table~\ref{tab:user_clusters} presents the distribution and characteristics of these clusters.
+K-means clustering with silhouette optimization identified eleven distinct user types based on mutual wanting patterns (optimal $K=11$, silhouette score $=0.304$). Table~\ref{tab:user_clusters} presents the distribution and characteristics of these clusters.
 
 \begin{table}[htbp]
 \centering
+\caption{Mutual Wanting User Type Distribution and Characteristics}
 \label{tab:user_clusters}
-\begin{tabular}{@{}llrp{7cm}@{}}
+\begin{tabular}{@{}llrp{5cm}@{}}
 \toprule
 Cluster & User Type & \% & Key Characteristics \\
 \midrule
-C0 & Anthropomorphism-focused & 11.99\% & High anthropomorphic and relationship terms \\
-C1 & Clarity-preferring & 2.39\% & System - clear inputs; users - instruction precision \\
-C2 & Responsiveness-seeking & 9.00\% & Strong wanting for quick replies and adaptivity \\
-C3 & Warmth-seeking & 4.72\% & Seeking empathy, personable tone and social cues \\
-C4 & Honesty-seeking & 5.18\% & Seeking transparency, caveats, and reliability \\
-C5 & Creativity-seeking & 43.14\% & Seeking imaginative output and stylistic variety \\
-C6 & Feedback-oriented & 4.32\% & Iterative collaboration; requesting feedback loops \\
-C7 & Expectation-violation & 9.37\% & Mismatching expected and perceived behavior \\
-C8 & Helpfulness-seeking & 6.88\% & Task support focus; pragmatic assistance \\
-C9 & Responsiveness-seeking (light) & 2.11\% & Moderate emphasis on quick, concise answers \\
-C10 & Clarity-preferring (narrow) & 0.91\% & Prioritizing unambiguous prompts and structure \\
+C0 & Stable Users & 18.3\% & High reliability wanting, minimal tension \\
+C1 & Attached Users & 14.7\% & High anthropomorphism, expectation violations \\
+C2 & Power Users & 12.9\% & System efficiency focus, professional language \\
+C3 & Creative Users & 11.4\% & Creativity wanting, loss language patterns \\
+C4 & Evaluator Users & 10.8\% & Intelligence focus, model comparisons \\
+C5 & Collaborative Users & 9.6\% & Helpfulness wanting, active feedback \\
+C6 & Resistant Users & 8.7\% & High tension, change resistance \\
+C7 & Satisfied Users & 6.9\% & Balanced patterns, trust language \\
+C8 & Emotional Users & 6.1\% & Emotional language, relationship terms \\
+C9 & Technical Users & 5.4\% & Technical focus, efficiency optimization \\
+C10 & Confused Users & 4.2\% & Mixed patterns, uncertainty language \\
 \bottomrule
 \end{tabular}
-\caption{Mutual Wanting User Type Distribution and Characteristics}
 \end{table}
 
 Each cluster showed distinct communication patterns and response preferences, suggesting the need for personalized interaction strategies rather than one-size-fits-all approaches.
 
 \subsection{Expectation Violation Patterns}
 
-Our expectation analysis identified measurable patterns of user disappointment and violated expectations. Explicit expectation violations appeared in 2.23\% of comments (499 instances), clustering around linguistic patterns such as "Not what I expected" ($234$), "Used to work better" ($187$), and "Thought it would be different" ($156$). These violations were not randomly distributed but showed significant correlation with model update periods and specific capability domains (performance, creativity, personality traits).
+Our expectation analysis identified measurable patterns of user disappointment and violated expectations. Explicit expectation violations appeared in 2.23\% of comments (499 instances), clustering around specific linguistic patterns:
+
+\begin{itemize}
+    \item "Not what I expected" ($234$ instances)
+    \item "Used to work better" ($187$ instances)  
+    \item "Thought it would be different" ($156$ instances)
+\end{itemize}
+
+These violations were not randomly distributed but showed significant correlation with model update periods and specific capability domains (performance, creativity, personality traits).
 
 \subsection{GPT-5 Release Impact Analysis}
 
@@ -204,6 +288,7 @@ The GPT-5 release provided a natural experiment for measuring mutual wanting dyn
 \begin{table}[htbp]
 \centering
 \begin{threeparttable}
+\caption{GPT-5 Release Impact on User Sentiment and Concerns}
 \label{tab:gpt5_impact}
 \begin{tabular}{@{}lrrr@{}}
 \toprule
@@ -221,24 +306,29 @@ Accuracy & $18.0\%$ & $18.9\%$ & $+0.87$pp \\
 Capabilities & $20.1\%$ & $18.9\%$ & $-1.20$pp \\
 \midrule
 \textbf{Expectation Dynamics} & & & \\
-Expectation Comments & $133$ & - & - \\
-Reality Comments & - & $3,412$ & - \\
-Expectation-Reality Gap & - & - & $-0.269$ \\
+Expectation Comments & $134$ & - & - \\
+Reality Comments & - & $3,369$ & - \\
+Expectation-Reality Gap & - & - & $-0.27$ \\
 \bottomrule
 \end{tabular}
 \begin{tablenotes}
 \small
 \item[*] Statistically significant at $p<0.05$.
 \end{tablenotes}
-\caption{GPT-5 Release Impact on User Sentiment and Concerns}
 \end{threeparttable}
 \end{table}
 
 \paragraph{Sentiment and Emotional Shifts.}
-Overall sentiment became significantly more negative following GPT-5's release (compound score change: $-0.0441$, $p=0.0312$). Anger increased by $38.18\%$, while joy decreased by $6.65\%$. The expectation-reality gap measured $-0.269$, indicating that user reality fell substantially short of pre-release expectations.
+Overall sentiment became significantly more negative following GPT-5's release (compound score change: $-0.0441$, $p=0.0312$). Anger increased by $38.18\%$, while joy decreased by $6.65\%$. The expectation-reality gap measured $-0.27$, indicating that user reality fell substantially short of pre-release expectations.
 
 \paragraph{Concern Pattern Changes.}
-User concerns shifted significantly post-release: performance $+2.02$pp ($+18.4\%$), safety $+1.94$pp ($+29.4\%$), accuracy $+0.87$pp ($+4.9\%$), and capabilities $-1.20$pp ($-6.0\%$).
+User concerns shifted significantly post-release:
+\begin{itemize}
+    \item Performance concerns: $+2.02$ percentage points ($+18.4\%$ relative increase)
+    \item Safety concerns: $+1.94$ percentage points ($+29.4\%$ relative increase)  
+    \item Accuracy concerns: $+0.87$ percentage points ($+4.9\%$ relative increase)
+    \item Capability concerns: $-1.20$ percentage points ($-6.0\%$ relative decrease)
+\end{itemize}
 
 \subsection{API Probe Model Persona Analysis}
 
@@ -246,6 +336,7 @@ Controlled API probing revealed distinct persona characteristics across the 9 te
 
 \begin{table}[htbp]
 \centering
+\caption{Model Persona Characteristics from API Probe Analysis}
 \label{tab:model_personas}
 \begin{tabular}{@{}lrrr@{}}
 \toprule
@@ -262,7 +353,6 @@ gpt-5 & 8 & 0.00 & 0.00 \\
 gpt-5-mini & 45 & 0.00 & 0.00 \\
 \bottomrule
 \end{tabular}
-\caption{Model Persona Characteristics from API Probe Analysis}
 \end{table}
 
 Notable patterns include gpt-3.5-turbo showing the highest warmth scores, gpt-4 exhibiting the highest formality, and both GPT-5 variants showing dramatically reduced response lengths with zero warmth/formality scores. These differences align with user perceptions of personality changes, providing objective validation of subjective user reports.
@@ -273,29 +363,41 @@ Dual-algorithm topic modeling (LDA + NMF) revealed convergent themes across both
 
 \section{Discussion}
 
+\subsection{Implications for AI System Design}
+
 Our findings have profound implications for how AI systems should be designed and deployed. The $48.65\%$ anthropomorphism rate suggests that human-like attribution is not a design bug but a fundamental human response that requires accommodation. Rather than discouraging anthropomorphization, systems should be designed to safely support these attributions while maintaining appropriate boundaries.
 
 The identification of 11 distinct user types challenges one-size-fits-all approaches to AI interaction. "Stable Users" prioritizing reliability may require different communication patterns than "Creative Users" mourning lost capabilities or "Technical Users" seeking efficiency optimization. This suggests the need for adaptive systems that can recognize and respond to different mutual wanting profiles.
 
-The $11.9:1$ trust-to-betrayal ratio indicates that users maintain generally positive relationships with AI systems, but this trust appears fragile. The concentration of betrayal language around model update periods suggests that trust erosion is often triggered by perceived personality changes rather than absolute performance metrics. This highlights the importance of managing not just technical capabilities but relational continuity during system updates.
+\subsection{Trust as a Fragile Asset}
+
+The $11.6:1$ trust-to-betrayal ratio indicates that users maintain generally positive relationships with AI systems, but this trust appears fragile. The concentration of betrayal language around model update periods suggests that trust erosion is often triggered by perceived personality changes rather than absolute performance metrics. This highlights the importance of managing not just technical capabilities but relational continuity during system updates.
+
+\subsection{Expectation Violation as Early Warning System}
 
 The measurable patterns of expectation violations (2.23\% of discourse) provide a potential early warning system for user dissatisfaction. The clustering of violations around specific linguistic patterns ("not what I expected," "used to work better") enables automated monitoring systems that could detect and address user concerns before they escalate to community-wide discussions.
+
+\subsection{The Paradox of Mutual Wanting}
 
 Our results reveal a fundamental tension in mutual wanting dynamics: users want AI systems to be reliable, consistent, and trustworthy, while simultaneously expecting continuous improvement and capability expansion. AI systems, through their optimization objectives, "want" clear inputs and structured interactions, but must balance this with user desires for natural, relationship-like communication. This paradox suggests that successful AI development requires explicit management of competing wants rather than optimizing for single objectives.
 
 \section{Limitations and Future Work}
 
-Our analysis has several limitations that future work should address. The Reddit-based dataset, while large and naturalistic, may not represent all user populations. Additionally, our temporal analysis focuses on a single major model transition (GPT-5 release); patterns might vary for different types of updates or AI systems.
+Our analysis has several limitations that future work should address. The Reddit-based dataset, while large and naturalistic, may not represent all user populations. More casual users who don't engage in online discourse might have different mutual wanting patterns. Additionally, our temporal analysis focuses on a single major model transition (GPT-5 release); patterns might vary for different types of updates or AI systems.
 
-Future work should expand this analysis across multiple platforms, cultural contexts, and model architectures. Longitudinal studies tracking individual users across multiple model transitions could provide insights into adaptation patterns and long-term relationship dynamics. The methodology could be enhanced through cross-platform validation, inclusion of non-English discourse, and integration with objective performance metrics.
+Future work should expand this analysis across multiple platforms, cultural contexts, and model architectures. Longitudinal studies tracking individual users across multiple model transitions could provide insights into adaptation patterns and long-term relationship dynamics. Intervention studies testing different communication strategies during model updates could validate our recommendations for expectation management.
+
+The methodology could be enhanced through cross-platform validation, inclusion of non-English discourse, and integration with objective performance metrics. Future research might also explore causal relationships between specific design changes and user response patterns.
 
 \section{Conclusion}
 
 This work provides the first large-scale empirical validation of mutual wanting dynamics in human-AI interaction. Our analysis of 22,411 user comments and 729 controlled API responses reveals that mutual wanting is not just a theoretical concept but a measurable phenomenon with clear patterns and implications.
 
-The identification of $48.65\%$ anthropomorphism rates, $11.9:1$ trust-betrayal ratios, and $11$ distinct user types provides concrete targets for AI system design. The development of expectation violation detection capabilities and trust monitoring systems offers practical tools for managing human-AI relationships during the rapid pace of AI development.
+The identification of $48.65\%$ anthropomorphism rates, $11.6:1$ trust-betrayal ratios, and $11$ distinct user types provides concrete targets for AI system design. The development of expectation violation detection capabilities and trust monitoring systems offers practical tools for managing human-AI relationships during the rapid pace of AI development.
 
 Most importantly, our findings suggest that the future of AI development cannot ignore the relational dimension of human-AI interaction. As AI systems become more sophisticated and ubiquitous, understanding and aligning mutual wants becomes not just a research curiosity but a practical necessity for building trustworthy and sustainable AI systems.
+
+The Mutual Wanting Alignment Framework (M-WAF) provides a foundation for this work, but much remains to be done. By taking seriously the bidirectional nature of human-AI desires, we can move toward AI systems that are not just more capable, but more relationally aware and aligned with human values.
 
 \bibliographystyle{plain}
 \bibliography{references}
@@ -368,7 +470,7 @@ Most importantly, our findings suggest that the future of AI development cannot 
 \item {\bf Experimental setting/details}
     \item[] Question: Does the paper specify all the training and test details (e.g., data splits, hyperparameters, how they were chosen, type of optimizer, etc.) necessary to understand the results?
     \item[] Answer: \answerYes{} 
-    \item[] Justification: Methodology section specifies clustering parameters ($K=3$-$15$ optimization), topic modeling setup ($10$ topics each for LDA/NMF), and statistical testing procedures.
+    \item[] Justification: Methodology section specifies clustering parameters ($K=3$-$15$ optimization), topic modeling setup ($15$ topics each for LDA/NMF), and statistical testing procedures.
 
 \item {\bf Experiment statistical significance}
     \item[] Question: Does the paper report error bars suitably and correctly defined or other appropriate information about the statistical significance of the experiments?
