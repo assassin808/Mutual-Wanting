@@ -4,189 +4,202 @@
 
 A research project investigating bidirectional expectations between users and AI systems during major model transitions, with practical applications for building more trustworthy and relationally-aware AI systems.
 
-## 🎯 Quick Start
+## 🚀 Quick Start
 
-### Repository Usage
+### 1. Setup Environment
+```bash
+# Clone and setup
+git clone <repository-url>
+cd AI-researcher
 
-1. **Setup Environment**
-   ```bash
-   python -m venv .venv
-   source .venv/bin/activate  # or `.venv\Scripts\activate` on Windows
-   pip install -r requirements.txt
-   ```
-
-2. **Run Complete Analysis Pipeline**
-   ```bash
-   python experiments/run_all_experiments.py
-   ```
-
-3. **Generate Paper Results**
-   ```bash
-   # Results will be in pipeline/outputs/
-   # - experiment_1_reddit_drift.csv
-   # - experiment_2_probe_results.json
-   # - experiment_3_reliability.json
-   # - paper_tables.tex (ready for LaTeX inclusion)
-   ```
-
-4. **Compile Paper**
-   ```bash
-   cd paper/
-   pdflatex mutual_wanting_paper_v1.tex
-   bibtex mutual_wanting_paper_v1
-   pdflatex mutual_wanting_paper_v1.tex
-   pdflatex mutual_wanting_paper_v1.tex
-   ```
-
-### Directory Structure
-
-```
-├── README.md                   # This file - usage guidance and research archive
-├── experiments/               # 3 focused experiments for paper validation
-│   ├── experiment_1_reddit_analysis.py    # Reddit discourse analysis
-│   ├── experiment_2_probe_comparison.py   # API probe behavioral comparison
-│   ├── experiment_3_reliability_analysis.py # Inter-annotator reliability
-│   └── run_all_experiments.py             # Execute all experiments
-├── pipeline/                  # Data processing and analysis pipeline
-│   ├── fetch_reddit.py       # Reddit data collection
-│   ├── features_and_analysis.py # Feature extraction and analysis
-│   ├── response_analyzer.py  # API response analysis
-│   └── outputs/              # Generated results and tables
-├── paper/                    # Final manuscript and submission materials
-│   ├── mutual_wanting_paper_v1.tex # Main paper (ready for submission)
-│   ├── mutual_wanting_paper_v1.pdf # Compiled PDF
-│   └── references.bib        # Bibliography
-├── analysis_output/          # Visualizations and analysis results
-└── literature_summaries/     # Related work summaries
+# Install dependencies
+python -m venv .venv
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
 ```
 
-## 📊 Key Findings
-
-Our analysis of 22,411 Reddit comments and 729 controlled API responses reveals:
-
-- **48.65%** of users employ anthropomorphic language when discussing AI systems
-- **11.9:1** trust-to-betrayal language ratio, indicating generally positive but fragile relationships
-- **11 distinct user types** based on mutual wanting patterns
-- **Measurable expectation violations** clustered around model update periods
-- **Significant persona changes** across GPT model transitions (35% warmth reduction, 64% efficiency gain)
-
-## 🔬 Research Methodology
-
-### Dual-Source Approach
-
-1. **Reddit Discourse Analysis**: Large-scale analysis of authentic user responses to model transitions
-2. **Controlled API Probing**: Standardized tests across multiple model versions to measure behavioral changes
-
-### Key Innovations
-
-- **47-dimensional feature extraction** targeting bidirectional desires
-- **Dual-algorithm topic modeling** (LDA + NMF) for robust theme identification
-- **Custom lexicons** for anthropomorphism, trust dynamics, and expectation violations
-- **Mutual Wanting Alignment Framework (M-WAF)** for systematic analysis
-
-## 📚 Research Archive
-
-### Project Evolution
-
-This research emerged from observations of user reactions to GPT model transitions, particularly the intense relational responses that resembled interpersonal relationship dynamics rather than typical software feedback. The project evolved through several phases:
-
-1. **Initial Observation Phase** (2024): Noticed patterns in user complaints about AI "personality changes"
-2. **Theoretical Development** (Early 2025): Developed "mutual wanting" framework to explain bidirectional expectations
-3. **Empirical Validation** (Mid 2025): Large-scale data collection and analysis
-4. **Paper Completion** (September 2025): Final manuscript for Agents4Science 2025 conference
-
-### Core Theoretical Framework
-
-**Mutual Wanting**: The bidirectional expectation dynamics where users have desires for AI systems (reliability, warmth, intelligence, creativity, honesty, helpfulness, responsiveness) while AI systems, through their design optimization, implicitly "want" certain user behaviors (clarity, structure, efficiency, feedback, boundaries, patience).
-
-### Experimental Design Philosophy
-
-- **Minimal-Resource Approach**: No proprietary data or expensive compute required
-- **Reproducible Methods**: All code and processing transparent
-- **Focused Experiments**: Each test validates exactly one core claim
-- **Sufficient Evidence**: Meets methodological requirements for publication
-
-### Validation Results
-
-- **Inter-annotator reliability**: Cohen's Kappa = 0.762 (Substantial agreement)
-- **Statistical significance**: Multiple findings with p < 0.05
-- **Effect sizes**: Substantial changes detected across multiple dimensions
-- **Methodology gate**: Exceeds κ > 0.65 threshold for publication
-
-### Related Work Integration
-
-The research builds on foundational work in:
-- **Anthropomorphism in AI** (Epley & Waytz, 2010)
-- **Parasocial relationships** (Horton & Wohl, 1956)
-- **Trust in automation** (Lee & See, 2004)
-- **AI transparency** (Amershi et al., 2019)
-- **Human-AI alignment** (Kirk et al., 2025)
-
-### Conference Context
-
-**Agents4Science 2025**: A conference emphasizing AI as primary author and reviewer, with transparency as a core value. Our project exemplifies reproducible, low-cost alignment observability, directly addressing the conference's focus on computational human-AI interaction.
-
-## 🔧 Technical Implementation
-
-### Requirements
-
-- Python 3.8+
-- Standard NLP libraries (spaCy, NLTK, scikit-learn)
-- Statistical packages (pandas, numpy, scipy)
-- Visualization tools (matplotlib, seaborn)
-
-### API Keys Needed
-
-Create `.env` file with:
-```
+### 2. Configure API Keys
+Create `.env` file in root directory:
+```bash
+# Reddit API (for discourse analysis)
 REDDIT_CLIENT_ID=your_reddit_client_id
 REDDIT_CLIENT_SECRET=your_reddit_client_secret
-OPENAI_API_KEY=your_openai_api_key
+REDDIT_USER_AGENT=mutual_wanting_research_bot/1.0
+
+# OpenRouter API (for model comparison)
+OPEN_ROUTER_API_KEY=your_openrouter_api_key
 ```
 
-### Data Sources
+### 3. Collect Real Data
+```bash
+# Full data collection pipeline
+python collect_data.py
 
-- **Reddit**: r/ChatGPT, r/artificial, r/MachineLearning, r/singularity
-- **API Probing**: 9 OpenAI models across 81 standardized scenarios
-- **Time Period**: November 2024 - January 2025 (GPT-5 release period)
-
-## 📈 Results and Impact
-
-### Academic Contributions
-
-1. **First large-scale empirical validation** of bidirectional desire dynamics in human-AI interaction
-2. **Novel clustering discovery** of 11 distinct user types based on mutual wanting patterns
-3. **Methodological innovation** in combining discourse analysis with controlled behavioral probing
-4. **Practical framework** for expectation violation detection and trust monitoring
-
-### Practical Applications
-
-- **Early warning systems** for user dissatisfaction during model transitions
-- **Personalized interaction strategies** based on user type identification
-- **Trust calibration monitoring** for AI system deployment
-- **Anthropomorphism-aware design** principles for conversational AI
-
-## 📝 Citation
-
-```bibtex
-@article{mutual_wanting_2025,
-  title={Mutual Wanting in Human--AI Interaction: Empirical Evidence from Large-Scale Analysis of GPT Model Transitions},
-  author={Anonymous Authors},
-  journal={Agents4Science 2025},
-  year={2025},
-  note={Under Review}
-}
+# Or collect individually:
+python run_api_collection.py  # API probe data only
+python pipeline/reddit_collector.py  # Reddit data only
 ```
 
-## 📄 License
+### 4. Generate Paper Results
+```bash
+# Run all experiments (generates tables and figures)
+python experiments/run_all_experiments.py
 
-This research is released under CC BY 4.0 license for maximum reproducibility and impact.
+# Compile final paper
+cd paper/
+pdflatex mutual_wanting_paper_v1.tex
+bibtex mutual_wanting_paper_v1
+pdflatex mutual_wanting_paper_v1.tex
+```
 
-## 🤝 Contributing
+## 📁 Repository Structure
 
-This research emphasizes transparency and reproducibility. The complete methodology, code, and results are available for verification and extension by the research community.
+```
+AI-researcher/
+├── README.md                    # This file - quick start guide
+├── RESEARCH_ARCHIVE.md          # Research background and evolution
+├── requirements.txt             # Python dependencies
+├── pyproject.toml              # Project configuration
+│
+├── collect_data.py             # Main data collection orchestrator
+├── run_api_collection.py       # API-only collection script
+├── run_api_probes.py           # Comprehensive API probing
+├── explore_reddit.py           # Reddit exploration utility
+│
+├── pipeline/                   # Core data processing pipeline
+│   ├── collect_data.py         # Data collection coordinator
+│   ├── reddit_collector.py     # Reddit API integration
+│   ├── openrouter_client.py    # OpenRouter API integration  
+│   ├── response_analyzer.py    # Behavioral metrics extraction
+│   └── data/                   # Collected datasets
+│       ├── reddit_comments_all.csv
+│       ├── api_probe_results_raw.json
+│       └── probe_analysis_complete.json
+│
+├── experiments/                # Minimal experiments for validation
+│   ├── experiment_1_reddit_analysis.py     # Reddit discourse analysis
+│   ├── experiment_2_probe_comparison.py    # API probe comparison
+│   ├── experiment_3_reliability_analysis.py # Inter-annotator reliability
+│   └── run_all_experiments.py              # Execute all experiments
+│
+├── paper/                      # Final manuscript
+│   ├── mutual_wanting_paper_v1.tex         # Main paper
+│   ├── mutual_wanting_paper_v1.pdf         # Compiled PDF
+│   ├── references.bib                      # Bibliography
+│   └── agents4science_2025.sty             # Conference style
+│
+├── analysis_output/            # Generated visualizations and results
+│   ├── visualizations/         # Figures and charts
+│   └── system-fig/             # System overview diagrams
+│
+└── literature_summaries/       # Related work documentation
+    ├── amershi2019guidelines.md
+    ├── epley2007seeing.md
+    └── [other literature summaries]
+```
 
----
+## 🎯 Core Workflow & Research Process
 
-**Status**: Paper submitted to Agents4Science 2025 (September 2025)  
-**Contact**: Available through conference submission system during review period
+### Research Methodology Overview
+Our systematic 5-phase approach demonstrates reproducible, low-cost alignment observability:
+
+1. **🔍 Observation & Theory Development**: Identified relationship-like responses to AI model changes
+2. **📊 Data Collection Strategy**: Designed dual-source methodology (Reddit + API probes)  
+3. **⚡ Empirical Data Gathering**: Collected 22,411 comments + 729 controlled responses
+4. **🔬 Multi-Dimensional Analysis**: 47-dimensional feature extraction and clustering
+5. **✅ Validation & Documentation**: Statistical validation (κ=0.762) and reproducibility package
+
+*See `experiments/README.md` for complete process documentation*
+
+### Data Collection
+1. **Reddit Analysis**: Collect user discourse from 29 AI-related subreddits
+2. **API Probing**: Test 5 OpenAI models with standardized behavioral probes
+3. **Validation**: Ensure data quality meets publication standards
+
+### Analysis Pipeline
+1. **Feature Extraction**: 47-dimensional analysis of mutual wanting patterns
+2. **Clustering**: Identify distinct user types (11 clusters discovered)
+3. **Statistical Testing**: Validate findings with appropriate significance tests
+
+### Results Generation
+- **48.65%** anthropomorphism rate in user discourse
+- **11.9:1** trust-to-betrayal language ratio
+- **11 distinct user types** based on mutual wanting patterns
+- **Measurable expectation violations** during model transitions
+
+## 📊 Key Scripts
+
+| Script | Purpose | When to Use |
+|--------|---------|-------------|
+| `collect_data.py` | Complete data collection | Before running any experiments |
+| `run_api_collection.py` | API probes only | When Reddit data exists |
+| `pipeline/reddit_collector.py` | Reddit data only | When API data exists |
+| `experiments/run_all_experiments.py` | Generate all results | After data collection |
+| `explore_reddit.py` | Debug Reddit issues | When Reddit collection fails |
+
+## ⚙️ Configuration
+
+### Data Collection Settings
+- **Reddit subreddits**: 29 AI-related communities (9.9M to 62K members)
+- **Time period**: Pre/Post GPT-5 release (Dec 2024)
+- **API models**: GPT-5, GPT-4o, GPT-4-turbo, GPT-3.5-turbo, O3
+- **Probe suite**: 6 standardized behavioral tests per model
+
+### Quality Thresholds
+- Minimum 20 comments per time period
+- 80%+ API probe success rate
+- Relevance filtering (AI mentions + persona keywords)
+- Substantial content (5+ words per comment)
+
+## 🔧 Troubleshooting
+
+### Common Issues
+
+**Reddit API returns 0 results:**
+```bash
+python explore_reddit.py  # Debug Reddit access
+```
+
+**API probe failures:**
+```bash
+# Check API key in .env
+# Verify OpenRouter model availability
+python run_api_collection.py  # Test API access
+```
+
+**Missing dependencies:**
+```bash
+pip install -r requirements.txt
+# For NLTK data:
+python -c "import nltk; nltk.download('punkt'); nltk.download('stopwords')"
+```
+
+### Data Validation
+The pipeline automatically validates:
+- Both pre/post Reddit files exist with sufficient data
+- API probe files exist with high success rates
+- All required behavioral metrics are computed
+- Data quality meets publication standards
+
+## 📈 Expected Outputs
+
+After successful data collection and analysis:
+- `pipeline/data/reddit_comments_all.csv` - Complete Reddit dataset
+- `pipeline/data/api_probe_results_raw.json` - Raw API responses
+- `pipeline/data/probe_analysis_complete.json` - Behavioral metrics
+- `experiments/outputs/paper_tables.tex` - LaTeX tables for paper
+- `paper/mutual_wanting_paper_v1.pdf` - Complete manuscript
+
+## 🏆 Research Impact
+
+This work provides the first large-scale empirical validation of bidirectional desire dynamics in human-AI interaction, with practical applications for:
+- Early warning systems for user dissatisfaction
+- Personalized interaction strategies based on user types
+- Trust calibration monitoring for AI deployments
+- Anthropomorphism-aware design principles
+
+## � Contact
+
+For technical issues or research questions, please open an issue in this repository.
+
+**Status**: Paper submitted to Agents4Science 2025 (September 2025)
