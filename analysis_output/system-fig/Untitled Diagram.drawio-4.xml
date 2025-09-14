@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.2 Safari/605.1.15" version="28.2.0">
+  <diagram name="Page-1" id="1gtmhYIQl4OPtY1tyrvM">
+    <mxGraphModel dx="1697" dy="1122" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bQGAswOcu3N5Ykq8PeXT-355" value="&lt;b&gt;Mutual Wanting in Human-AI Interaction&lt;/b&gt;&lt;br&gt;Empirical Evidence from Large-Scale Analysis of GPT Model Transitions" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=13;fontFamily=Arial;align=center;" vertex="1" parent="1">
+          <mxGeometry x="570" y="680" width="500" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="bQGAswOcu3N5Ykq8PeXT-356" value="&lt;b&gt;Mutual Wanting Framework (M-WAF)&lt;/b&gt;&lt;br&gt;Bidirectional expectation dynamics between users and AI systems" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=13;align=center;" vertex="1" parent="1">
+          <mxGeometry x="620" y="790" width="400" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="bQGAswOcu3N5Ykq8PeXT-357" value="&lt;b&gt;User Wants&lt;/b&gt;&lt;br&gt;• Reliability&lt;br&gt;• Warmth&lt;br&gt;• Intelligence&lt;br&gt;• Creativity&lt;br&gt;• Honesty&lt;br&gt;• Helpfulness&lt;br&gt;• Responsiveness" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;align=center;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="270" y="780" width="200" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="bQGAswOcu3N5Ykq8PeXT-358" value="&lt;b&gt;System &#39;Wants&#39;&lt;/b&gt;&lt;br&gt;• Clarity&lt;br&gt;• Structure&lt;br&gt;• Efficiency&lt;br&gt;• Feedback&lt;br&gt;• Boundaries&lt;br&gt;• Patience" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=center;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="1170" y="780" width="200" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="bQGAswOcu3N5Ykq8PeXT-359" value="&lt;b&gt;Reddit Discourse&lt;/b&gt;&lt;br&gt;22,411 comments&lt;br&gt;4 AI subreddits&lt;br&gt;GPT-5 release period" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=center;" vertex="1" parent="1">
+          <mxGeometry x="420" y="960" width="180" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="bQGAswOcu3N5Ykq8PeXT-360" value="&lt;b&gt;API Probing&lt;/b&gt;&lt;br&gt;729 responses&lt;br&gt;9 OpenAI models&lt;br&gt;81 probe scenarios" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;align=center;" vertex="1" parent="1">
+          <mxGeometry x="1040" y="960" width="180" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="bQGAswOcu3N5Ykq8PeXT-361" value="&lt;b&gt;47-Dimensional Feature Extraction&lt;/b&gt;&lt;br&gt;• Anthropomorphism scoring&lt;br&gt;• Trust-betrayal ratios&lt;br&gt;• Expectation violation detection&lt;br&gt;• K-means clustering (K=11)&lt;br&gt;• Dual-algorithm topic modeling" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;align=center;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="645" y="1080" width="350" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="bQGAswOcu3N5Ykq8PeXT-362" value="&lt;b&gt;Key Empirical Findings&lt;/b&gt;&lt;br&gt;• 48.65% anthropomorphism rate&lt;br&gt;• 11.9:1 trust-to-betrayal ratio&lt;br&gt;• 11 distinct user types identified&lt;br&gt;• Measurable expectation violations (2.23%)&lt;br&gt;• GPT-5 impact: -0.044 sentiment change" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffeaa7;strokeColor=#fab1a0;align=center;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="320" y="1240" width="380" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="bQGAswOcu3N5Ykq8PeXT-363" value="&lt;b&gt;Practical Applications&lt;/b&gt;&lt;br&gt;• Expectation violation detection&lt;br&gt;• Trust calibration monitoring&lt;br&gt;• Anthropomorphism-aware design&lt;br&gt;• User type personalization&lt;br&gt;• Model transition management" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#a8e6cf;strokeColor=#81c784;align=center;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="940" y="1240" width="380" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="bQGAswOcu3N5Ykq8PeXT-364" value="&lt;b&gt;Representative User Types&lt;/b&gt;&lt;br&gt;• Creativity-seeking (43.14%)&lt;br&gt;• Anthropomorphism-focused (11.99%)&lt;br&gt;• Expectation-violation (9.37%)&lt;br&gt;• Responsiveness-seeking (9.00%)&lt;br&gt;• Helpfulness-seeking (6.88%)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffcccb;strokeColor=#ff7675;align=center;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="270" y="1110" width="280" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="bQGAswOcu3N5Ykq8PeXT-365" value="&lt;b&gt;Model Persona Variations&lt;/b&gt;&lt;br&gt;• GPT-3.5: Highest warmth (0.14)&lt;br&gt;• GPT-4: Highest formality (0.22)&lt;br&gt;• GPT-5: Minimal responses (8 chars)&lt;br&gt;• Clear personality differences" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ddbea9;strokeColor=#cb997e;align=center;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="1090" y="1110" width="280" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="bQGAswOcu3N5Ykq8PeXT-366" style="endArrow=classic;html=1;rounded=0;align=center;fontSize=13;" edge="1" parent="1" source="bQGAswOcu3N5Ykq8PeXT-357" target="bQGAswOcu3N5Ykq8PeXT-356">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="470" y="840" as="sourcePoint" />
+            <mxPoint x="620" y="840" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bQGAswOcu3N5Ykq8PeXT-367" style="endArrow=classic;html=1;rounded=0;align=center;fontSize=13;" edge="1" parent="1" source="bQGAswOcu3N5Ykq8PeXT-358" target="bQGAswOcu3N5Ykq8PeXT-356">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1170" y="840" as="sourcePoint" />
+            <mxPoint x="1020" y="840" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bQGAswOcu3N5Ykq8PeXT-368" style="endArrow=classic;html=1;rounded=0;align=center;fontSize=13;" edge="1" parent="1" source="bQGAswOcu3N5Ykq8PeXT-356" target="bQGAswOcu3N5Ykq8PeXT-361">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="820" y="910" as="sourcePoint" />
+            <mxPoint x="820" y="1080" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bQGAswOcu3N5Ykq8PeXT-369" style="endArrow=classic;html=1;rounded=0;align=center;fontSize=13;" edge="1" parent="1" source="bQGAswOcu3N5Ykq8PeXT-359" target="bQGAswOcu3N5Ykq8PeXT-361">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="600" y="1000" as="sourcePoint" />
+            <mxPoint x="670" y="1080" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bQGAswOcu3N5Ykq8PeXT-370" style="endArrow=classic;html=1;rounded=0;align=center;fontSize=13;" edge="1" parent="1" source="bQGAswOcu3N5Ykq8PeXT-360" target="bQGAswOcu3N5Ykq8PeXT-361">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1040" y="1000" as="sourcePoint" />
+            <mxPoint x="970" y="1080" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bQGAswOcu3N5Ykq8PeXT-371" style="endArrow=classic;html=1;rounded=0;align=center;fontSize=13;" edge="1" parent="1" source="bQGAswOcu3N5Ykq8PeXT-361" target="bQGAswOcu3N5Ykq8PeXT-362">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="720" y="1180" as="sourcePoint" />
+            <mxPoint x="600" y="1240" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bQGAswOcu3N5Ykq8PeXT-372" style="endArrow=classic;html=1;rounded=0;align=center;fontSize=13;" edge="1" parent="1" source="bQGAswOcu3N5Ykq8PeXT-361" target="bQGAswOcu3N5Ykq8PeXT-363">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="920" y="1180" as="sourcePoint" />
+            <mxPoint x="1040" y="1240" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bQGAswOcu3N5Ykq8PeXT-373" style="endArrow=classic;html=1;rounded=0;dashed=1;align=center;fontSize=13;" edge="1" parent="1" source="bQGAswOcu3N5Ykq8PeXT-359" target="bQGAswOcu3N5Ykq8PeXT-364">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="420" y="1040" as="sourcePoint" />
+            <mxPoint x="420" y="1110" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bQGAswOcu3N5Ykq8PeXT-374" style="endArrow=classic;html=1;rounded=0;dashed=1;align=center;fontSize=13;" edge="1" parent="1" source="bQGAswOcu3N5Ykq8PeXT-360" target="bQGAswOcu3N5Ykq8PeXT-365">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1220" y="1040" as="sourcePoint" />
+            <mxPoint x="1220" y="1110" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bQGAswOcu3N5Ykq8PeXT-375" style="endArrow=classic;html=1;rounded=0;align=center;fontSize=13;" edge="1" parent="1" source="bQGAswOcu3N5Ykq8PeXT-355" target="bQGAswOcu3N5Ykq8PeXT-356">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="820" y="760" as="sourcePoint" />
+            <mxPoint x="820" y="790" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.2 Safari/605.1.15" version="28.2.0">
+  <diagram name="Page-1" id="mutual-wanting-system">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="850" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        
+        <!-- Title -->
+        <mxCell id="title" value="&lt;b&gt;Mutual Wanting in Human-AI Interaction&lt;/b&gt;&lt;br/&gt;Empirical Evidence from Large-Scale Analysis of GPT Model Transitions" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;fontSize=16;fontFamily=Arial;" vertex="1" parent="1">
+          <mxGeometry x="350" y="20" width="500" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Core Concept -->
+        <mxCell id="core-concept" value="&lt;b&gt;Mutual Wanting Framework (M-WAF)&lt;/b&gt;&lt;br/&gt;Bidirectional expectation dynamics between users and AI systems" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="400" y="130" width="400" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- User Wants -->
+        <mxCell id="user-wants" value="&lt;b&gt;User Wants&lt;/b&gt;&lt;br/&gt;• Reliability&lt;br/&gt;• Warmth&lt;br/&gt;• Intelligence&lt;br/&gt;• Creativity&lt;br/&gt;• Honesty&lt;br/&gt;• Helpfulness&lt;br/&gt;• Responsiveness" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;align=left;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="50" y="120" width="200" height="120" as="geometry" />
+        </mxCell>
+
+        <!-- System Wants -->
+        <mxCell id="system-wants" value="&lt;b&gt;System 'Wants'&lt;/b&gt;&lt;br/&gt;• Clarity&lt;br/&gt;• Structure&lt;br/&gt;• Efficiency&lt;br/&gt;• Feedback&lt;br/&gt;• Boundaries&lt;br/&gt;• Patience" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;align=left;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="950" y="120" width="200" height="120" as="geometry" />
+        </mxCell>
+
+        <!-- Data Sources -->
+        <mxCell id="data-reddit" value="&lt;b&gt;Reddit Discourse&lt;/b&gt;&lt;br/&gt;22,411 comments&lt;br/&gt;4 AI subreddits&lt;br/&gt;GPT-5 release period" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="200" y="300" width="180" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="data-api" value="&lt;b&gt;API Probing&lt;/b&gt;&lt;br/&gt;729 responses&lt;br/&gt;9 OpenAI models&lt;br/&gt;81 probe scenarios" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="820" y="300" width="180" height="80" as="geometry" />
+        </mxCell>
+
+        <!-- Analysis Methods -->
+        <mxCell id="analysis-methods" value="&lt;b&gt;47-Dimensional Feature Extraction&lt;/b&gt;&lt;br/&gt;• Anthropomorphism scoring&lt;br/&gt;• Trust-betrayal ratios&lt;br/&gt;• Expectation violation detection&lt;br/&gt;• K-means clustering (K=11)&lt;br/&gt;• Dual-algorithm topic modeling" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;align=left;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="425" y="420" width="350" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- Key Findings -->
+        <mxCell id="findings" value="&lt;b&gt;Key Empirical Findings&lt;/b&gt;&lt;br/&gt;• 48.65% anthropomorphism rate&lt;br/&gt;• 11.9:1 trust-to-betrayal ratio&lt;br/&gt;• 11 distinct user types identified&lt;br/&gt;• Measurable expectation violations (2.23%)&lt;br/&gt;• GPT-5 impact: -0.044 sentiment change" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffeaa7;strokeColor=#fab1a0;align=left;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="100" y="580" width="380" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- Applications -->
+        <mxCell id="applications" value="&lt;b&gt;Practical Applications&lt;/b&gt;&lt;br/&gt;• Expectation violation detection&lt;br/&gt;• Trust calibration monitoring&lt;br/&gt;• Anthropomorphism-aware design&lt;br/&gt;• User type personalization&lt;br/&gt;• Model transition management" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#a8e6cf;strokeColor=#81c784;align=left;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="720" y="580" width="380" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- User Types (Representative) -->
+        <mxCell id="user-types" value="&lt;b&gt;Representative User Types&lt;/b&gt;&lt;br/&gt;• Creativity-seeking (43.14%)&lt;br/&gt;• Anthropomorphism-focused (11.99%)&lt;br/&gt;• Expectation-violation (9.37%)&lt;br/&gt;• Responsiveness-seeking (9.00%)&lt;br/&gt;• Helpfulness-seeking (6.88%)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffcccb;strokeColor=#ff7675;align=left;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="50" y="450" width="280" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- Model Persona Changes -->
+        <mxCell id="model-changes" value="&lt;b&gt;Model Persona Variations&lt;/b&gt;&lt;br/&gt;• GPT-3.5: Highest warmth (0.14)&lt;br/&gt;• GPT-4: Highest formality (0.22)&lt;br/&gt;• GPT-5: Minimal responses (8 chars)&lt;br/&gt;• Clear personality differences" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ddbea9;strokeColor=#cb997e;align=left;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="870" y="450" width="280" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- Arrows -->
+        <mxCell id="arrow1" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="user-wants" target="core-concept">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="250" y="180" as="sourcePoint" />
+            <mxPoint x="400" y="180" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow2" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="system-wants" target="core-concept">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="950" y="180" as="sourcePoint" />
+            <mxPoint x="800" y="180" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow3" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="core-concept" target="analysis-methods">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="600" y="250" as="sourcePoint" />
+            <mxPoint x="600" y="420" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow4" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="data-reddit" target="analysis-methods">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="380" y="340" as="sourcePoint" />
+            <mxPoint x="450" y="420" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow5" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="data-api" target="analysis-methods">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="820" y="340" as="sourcePoint" />
+            <mxPoint x="750" y="420" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow6" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="analysis-methods" target="findings">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="500" y="520" as="sourcePoint" />
+            <mxPoint x="380" y="580" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow7" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="analysis-methods" target="applications">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="700" y="520" as="sourcePoint" />
+            <mxPoint x="820" y="580" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow8" style="endArrow=classic;html=1;rounded=0;dashed=1;" edge="1" parent="1" source="data-reddit" target="user-types">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="200" y="380" as="sourcePoint" />
+            <mxPoint x="200" y="450" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="arrow9" style="endArrow=classic;html=1;rounded=0;dashed=1;" edge="1" parent="1" source="data-api" target="model-changes">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="1000" y="380" as="sourcePoint" />
+            <mxPoint x="1000" y="450" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+        <!-- Title Arrow -->
+        <mxCell id="title-arrow" style="endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="title" target="core-concept">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="600" y="100" as="sourcePoint" />
+            <mxPoint x="600" y="130" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

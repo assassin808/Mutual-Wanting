@@ -56,21 +56,38 @@ This work makes several novel contributions to human-AI interaction research:
 
 \subsection{Human-AI Relationship Dynamics}
 
-The tendency for humans to anthropomorphize AI agents is well-documented across multiple contexts \citep{epley2007seeing, waytz2010see}. This anthropomorphization leads to parasocial relationships that can enhance engagement but also create vulnerabilities to perceived betrayal and disappointment \citep{horton1956mass, maeda2024parasocial}. Recent research shows that users form meaningful emotional connections with AI chatbots \citep{edwards2024parasocial}, highlighting both positive outcomes (emotional support, reduced loneliness) and concerning dependencies.
+The tendency for humans to anthropomorphize AI agents is well-documented across multiple contexts \citep{epley2007seeing, waytz2010see}. This anthropomorphization leads to parasocial relationships that can enhance engagement but also create vulnerabilities to perceived betrayal and disappointment \citep{horton1956mass}. Recent work has begun to explore these dynamics specifically in the context of conversational AI \citep{maeda2024parasocial, omeish2025between}, but large-scale empirical analysis of relationship patterns during model transitions remains unexplored.
 
-The socioaffective dimension of human-AI alignment has gained increasing attention, with researchers arguing that traditional technical alignment approaches are insufficient \citep{kirk2025socioaffective, fan2025alignment}. Research on anthropomorphism in AI systems reveals both benefits and risks \citep{pnas2025anthro, envsustain2025anthro}—while anthropomorphic design can increase user engagement and trust, it can also lead to over-reliance and inappropriate expectations.
+Parasocial relationships, traditionally studied in media psychology \citep{rubin2019parasocial}, have found new relevance in the context of AI interaction. Recent research shows that users, particularly younger demographics, form meaningful emotional connections with AI chatbots \citep{edwards2024parasocial}. This work highlights both positive outcomes (emotional support, reduced loneliness) and concerning dependencies that may emerge from human-AI relationships.
 
-\subsection{Trust and Expectation Management}
+The socioaffective dimension of human-AI alignment has gained increasing attention, with researchers arguing that traditional technical alignment approaches are insufficient \citep{kirk2025socioaffective}. User-driven value alignment research emphasizes the importance of understanding parasocial relationships in designing AI systems that meet genuine human needs \citep{fan2025alignment}. Research on anthropomorphism in AI systems reveals both benefits and risks \citep{pnas2025anthro, envsustain2025anthro}—while anthropomorphic design can increase user engagement and trust, it can also lead to over-reliance and inappropriate expectations. Privacy concerns also emerge when users develop intimate relationships with AI systems, particularly in sensitive domains like mental health \citep{mentalhealth2025privacy}.
 
-Trust calibration in AI systems depends heavily on expectation management and transparency \citep{amershi2019guidelines, yin2019understanding}. Research shows that violated expectations can lead to dramatic trust degradation that is difficult to recover \citep{lai2019human, kizilcec2016much}. Trust in AI systems differs from traditional automation due to the social and relational dimensions introduced by conversational interfaces \citep{muir1996trust}. Recent empirical work finds that anthropomorphic design significantly affects trust development and maintenance \citep{ta2020users, lee2020ai}, suggesting AI systems are increasingly treated as social actors rather than mere tools.
+\subsection{Trust and Expectation Management in AI}
 
-\subsection{AI Persona Research and Methodological Frameworks}
+Trust calibration in AI systems depends heavily on expectation management and transparency \citep{amershi2019guidelines, yin2019understanding}. Research shows that violated expectations can lead to dramatic trust degradation that is difficult to recover \citep{lai2019human, kizilcec2016much}. Uncertainty visualization has emerged as a key strategy for managing user expectations and maintaining appropriate trust levels \citep{kay2016uncertainty, reyes2025uncertainty}. System performance and user expertise significantly influence trust dynamics in AI-assisted decision-making contexts \citep{payne2024ai}.
 
-The concept of AI "persona" has emerged as models develop more sophisticated conversational abilities \citep{rashkin2018empathetic, zhong2020pec}. Early work established foundational approaches to creating consistent conversational personas \citep{mairesse2007personage, walker2007generally}, while contemporary research has expanded this to include empathetic and emotionally intelligent AI systems \citep{shum2018eliza, zhou2020design}. However, the challenge of maintaining persona consistency during model updates has received limited attention, despite its critical importance for user experience \citep{wu2025memory, cheng2025mitigating}.
+The literature on trust in automation provides foundational insights into human-AI trust dynamics \citep{lee2004trust, hoff2015trust}. Trust formation and maintenance in automated systems follows predictable patterns, with initial trust heavily influenced by system reliability and user expertise \citep{parasuraman2000designing}. However, trust in AI systems differs from traditional automation due to the social and relational dimensions introduced by conversational interfaces \citep{muir1996trust}. Recent empirical work finds that anthropomorphic design significantly affects trust development and maintenance \citep{ta2020users, lee2020ai}, suggesting AI systems are increasingly treated as social actors rather than mere tools. However, this social treatment can lead to negative experiences when users perceive incivility or inappropriate responses from AI systems \citep{qi2025assistant}.
 
-Comprehensive evaluation frameworks for AI systems have emphasized transparency and documentation \citep{mitchell2019modelcards, bender2018datastatements}, with holistic approaches \citep{liang2022helm} providing systematic ways to assess multiple dimensions including social and relational aspects often overlooked in purely technical evaluations.
+\subsection{AI Persona and Personality Research}
+
+The concept of AI "persona" has emerged as models develop more sophisticated conversational abilities \citep{rashkin2018empathetic, zhong2020pec}. Recent work explores persona evaluation in conversational agents \citep{kaate2025evaluating} and the use of fictionality in human-robot interaction \citep{kaate2025fourth}. User experience persona development using LLMs has shown promise for understanding diverse user needs \citep{hur2024utilizing}.
+
+Early work on personality generation for dialogue systems established foundational approaches to creating consistent conversational personas \citep{mairesse2007personage, walker2007generally}. Contemporary research has expanded this to include empathetic and emotionally intelligent AI systems \citep{shum2018eliza, zhou2020design}. However, the challenge of maintaining persona consistency during model updates has received limited attention, despite its critical importance for user experience \citep{wu2025memory, cheng2025mitigating}.
+
+\subsection{Methodological Frameworks for AI Evaluation}
+
+The development of comprehensive evaluation frameworks for AI systems has emphasized the importance of transparency and documentation \citep{mitchell2019modelcards, bender2018datastatements}. Holistic evaluation approaches \citep{liang2022helm} provide systematic ways to assess multiple dimensions of AI system performance, including social and relational aspects that are often overlooked in purely technical evaluations. These methodological advances inform our approach to measuring mutual wanting dynamics, particularly in establishing reliable metrics for anthropomorphism, trust, and expectation alignment.
 
 \section{Methodology}
+
+Figure~\ref{fig:system_overview} provides a comprehensive overview of our empirical approach to analyzing mutual wanting dynamics in human-AI interaction.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{system-overview.pdf}
+\caption{System Overview of Mutual Wanting Analysis Framework. The figure illustrates the bidirectional relationship between user wants (reliability, warmth, intelligence, creativity, honesty, helpfulness, responsiveness) and system 'wants' (clarity, structure, efficiency, feedback, boundaries, patience) within our M-WAF framework. Our empirical analysis combines Reddit discourse data (22,411 comments) and controlled API probing (729 responses across 9 models) through 47-dimensional feature extraction, yielding key findings including 48.65\% anthropomorphism rates, 11.9:1 trust-betrayal ratios, and 11 distinct user types.}
+\label{fig:system_overview}
+\end{figure}
 
 \subsection{Data Collection}
 
@@ -88,7 +105,7 @@ We developed a novel $47$-dimensional feature extraction pipeline targeting bidi
 
 \subsubsection{Lexicon Development}
 
-We constructed specialized lexicons via literature review and iterative refinement: \textbf{User Wanting Patterns} (7 dimensions: reliability, warmth, intelligence, creativity, honesty, helpfulness, responsiveness); \textbf{System ``Wanting'' Patterns} (6 dimensions: clarity, structure, efficiency, feedback, boundaries, patience); and \textbf{Tension Indicators} (6 dimensions: expectation violations, disappointment, loss expressions, change resistance, anthropomorphism, relationship terminology).
+We constructed specialized lexicons via literature review and iterative refinement: \textbf{User Wanting Patterns} (7 dimensions: reliability, warmth, intelligence, creativity, honesty, helpfulness, responsiveness); \textbf{System ``Wanting'' Patterns} (6 dimensions: clarity, structure, efficiency, feedback, boundaries, patience); and \textbf{Tension Indicators} (6 dimensions: expectation violations, disappointment, loss expressions, change resistance, anthropomorphism, relationship terminology). Our approach builds on foundational conversation analysis work that identified systematic patterns in conversational turn-taking and interaction organization \citep{sacks1974simplest}.
 
 \subsubsection{Mathematical Formulation of Key Metrics}
 
@@ -307,31 +324,31 @@ Most importantly, our findings suggest that the future of AI development cannot 
 \begin{enumerate}
     \item \textbf{Hypothesis development}: Hypothesis development includes the process by which you came to explore this research topic and research question. This can involve the background research performed by either researchers or by AI. This can also involve whether the idea was proposed by researchers or by AI. 
 
-    Answer: \involvementC{} 
+    Answer: \involvementB{} 
     
-    Explanation: The core "mutual wanting" hypothesis emerged from AI analysis of user discourse patterns, but was developed through extensive human-AI collaboration. AI identified initial patterns in anthropomorphic language and trust dynamics, while humans provided theoretical framing and research question refinement. The bidirectional concept was jointly developed through iterative discussion and validation.
+    Explanation: Human provided initial prompt.md containing Reddit forum data and CHI conference context as seed material. AI agents autonomously developed the entire "mutual wanting" research topic, theoretical framework, and specific hypotheses through analysis of the provided discourse. Human acted as mentor, approving or disapproving AI-generated ideas rather than directly contributing conceptual development. All literature review, theoretical positioning, and research question formulation was AI-driven with human oversight.
 
     \item \textbf{Experimental design and implementation}: This category includes design of experiments that are used to test the hypotheses, coding and implementation of computational methods, and the execution of these experiments. 
 
-    Answer: \involvementC{} 
+    Answer: \involvementB{} 
     
-    Explanation: AI conducted the majority of coding implementation, including the 47-dimensional feature extraction pipeline, clustering algorithms, and statistical analysis. However, humans designed the overall experimental framework, selected methodological approaches, and provided oversight for data collection protocols. The API probe design and validation were collaborative efforts.
+    Explanation: AI autonomously designed and implemented the complete experimental pipeline: 47-dimensional feature extraction, dual-algorithm topic modeling (LDA+NMF), K-means clustering optimization, API probe suite development, and statistical analysis frameworks. All Python code, data processing scripts, analysis methodologies, and metric design were AI-generated. Human contribution was limited to debugging assistance when AI encountered technical obstacles that required switching between different AI agents or restarting from different checkpoints.
 
     \item \textbf{Analysis of data and interpretation of results}: This category encompasses any process to organize and process data for the experiments in the paper. It also includes interpretations of the results of the study.
  
-    Answer: \involvementC{} 
+    Answer: \involvementA{} 
     
-    Explanation: AI performed most of the data processing, statistical analysis, and pattern identification from the 22,411 comments and 729 API responses. However, interpretation of results, particularly the sociological implications and practical applications, was primarily human-driven. The discovery of 11 user types was AI-identified but human-interpreted for meaning and implications.
+    Explanation: AI conducted all data analysis of 22,411 Reddit comments and 729 API responses autonomously, including pattern identification, statistical testing, clustering validation, and result interpretation. AI independently discovered the 11 user types, calculated trust-betrayal ratios, identified expectation violation patterns, and derived all sociological implications without human contribution to analytical processes or insights.
 
     \item \textbf{Writing}: This includes any processes for compiling results, methods, etc. into the final paper form. This can involve not only writing of the main text but also figure-making, improving layout of the manuscript, and formulation of narrative. 
 
-    Answer: \involvementC{} 
+    Answer: \involvementB{} 
     
-    Explanation: AI generated the majority of the paper text, structured arguments, and created tables/figures. However, humans provided significant guidance on narrative framing, edited for clarity and academic style, and ensured proper alignment with conference requirements. The overall storytelling and presentation strategy was collaboratively developed.
+    Explanation: All content creation was AI-generated: manuscript drafting, table creation, figure generation, bibliography management, LaTeX compilation, and formatting. AI independently generated complete sections, structured all arguments, and created all visual presentations. Human contribution was limited to debugging assistance, organizational guidance, and quality assurance when AI processes encountered obstacles requiring agent switching or project reorganization, but did not involve manual content creation or writing.
 
     \item \textbf{Observed AI Limitations}: What limitations have you found when using AI as a partner or lead author? 
 
-    Description: AI occasionally over-interpreted statistical patterns without sufficient theoretical grounding and sometimes lacked nuanced understanding of sociological context. AI required human oversight for ethical considerations and potential biases in anthropomorphism analysis. Additionally, AI needed guidance on research ethics and appropriate claims strength given data limitations.
+    Description: Different AI models showed distinct limitations: GPT-5 proved excellent as a tool but lacks large-scope organizational abilities and author-level understanding. Claude-3.5-Sonnet excels as an author but tends toward complete project synthesis, sometimes using test code and synthetic data while losing track of prior work. Gemini provides well-rounded capabilities but inefficient problem-solving approaches. Critical limitation: AI memory systems are fundamentally unreliable—they either fail to capture long-term, large-scope context or miss crucial details requiring validation. When significant errors occur that stall progress, human intervention becomes essential to stop current agents and strategically switch to different agents starting from different checkpoints, rather than manual correction. This requires architectural decision-making about which agent to deploy and when to restart processes, but does not involve manual validation or content creation. Contrary to expectations, AI ethics was not a significant concern as AI agents demonstrated more ethical behavior than anticipated. The primary challenge is determining optimal agent deployment strategies and managing transitions between different AI capabilities during project execution.
 \end{enumerate}
 
 \newpage
