@@ -8,10 +8,7 @@
 
 **Languages**: [English](README.md) | [简体中文](README_CN.md) | [繁體中文](README_TN.md)
 
-**Empirical Analysis of Bidirectional Expectations During GPT Model Transitions**
-
-Research investigating relationship-like dynamics between users and AI systems, revealing 48.65% anthropomorphism rates and 11 distinct user types through analysis of 22K+ comments and 729 controlled API responses.
-
+![Paper](images/intro.png)
 ---
 
 ## 📖 About This Research
@@ -27,7 +24,7 @@ The paper was rejected with claims of:
 
 **However, these critiques stem from AI reviewer hallucinations rather than actual methodological flaws.** The complete discussion is available on [OpenReview](https://openreview.net/forum?id=N6zS6EgzTw#discussion).
 
-![Paper](images/intro.png)
+
 
 ### What Is This Research About?
 
