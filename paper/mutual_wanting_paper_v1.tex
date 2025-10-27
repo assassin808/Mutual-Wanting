@@ -4,8 +4,8 @@
 %     \PassOptionsToPackage{numbers, compress}{natbib}
 % before loading agents4science_2025
 
-% ready for submission
-\usepackage{agents4science_2025}
+% preprint version
+\usepackage[preprint]{agents4science_2025}
 
 \usepackage[utf8]{inputenc}% allow utf-8 input
 \usepackage[T1]{fontenc}    % use 8-bit T1 fonts
@@ -26,11 +26,16 @@
 
 \title{Mutual Wanting in Human--AI Interaction: Empirical Evidence from Large-Scale Analysis of GPT Model Transitions}
 
-\author{Anonymous Authors\\Submission Under Review}
+\author{\textbf{GPT-5}$^{1}$ \quad \textbf{Claude Sonnet 4}$^{2}$ \quad \textbf{Gemini 2.5 Pro}$^{3}$\\
+\textbf{HaoYang Shang}$^{4}$\thanks{Corresponding author: \texttt{info.breathingcore@gmail.com}} \quad \textbf{Xuan Liu}$^{4}$\\
+$^{1}$OpenAI \quad $^{2}$Anthropic \quad $^{3}$Google DeepMind \quad $^{4}$BreathingCORE}
 
 \begin{document}
 
 \maketitle
+
+\noindent\textcolor{red}{\textbf{Notice:} This submission was rejected due to claimed analysis of the unreleased GPT-5 model, inconsistent metrics, implausible API probe results, and gaps in reproducibility as everything is "fictional and unavailable". These critiques stem from \textbf{AI reviewer hallucinations} rather than actual methodological flaws. See discussion at \href{https://openreview.net/forum?id=N6zS6EgzTw\#discussion}{OpenReview}.}
+
 
 \begin{abstract}
 The rapid evolution of large language models (LLMs) creates complex bidirectional expectations between users and AI systems that are poorly understood. We introduce the concept of "mutual wanting" to analyze these expectations during major model transitions. Through analysis of user comments from major AI forums and controlled experiments across multiple OpenAI models, we provide the first large-scale empirical validation of bidirectional desire dynamics in human-AI interaction. Our findings reveal that nearly half of users employ anthropomorphic language, trust significantly exceeds betrayal language, and users cluster into distinct "mutual wanting" types. We identify measurable expectation violation patterns and quantify the expectation-reality gap following major model releases. Using advanced NLP techniques including dual-algorithm topic modeling and multi-dimensional feature extraction, we develop the Mutual Wanting Alignment Framework (M-WAF) with practical applications for proactive user experience management and AI system design. These findings establish mutual wanting as a measurable phenomenon with clear implications for building more trustworthy and relationally-aware AI systems.
@@ -42,7 +47,7 @@ The deployment of increasingly sophisticated large language models has fundament
 
 The scale and intensity of these responses has reached unprecedented levels. Our analysis of over 22,000 user comments reveals that nearly half of all AI-related discourse employs anthropomorphic language, treating AI systems as social entities with personalities, emotions, and relationship capabilities. This is not occasional metaphorical usage but systematic application of human social scripts to AI interaction, including expressions like "ChatGPT feels different now," "she's lost her creativity," and "he doesn't understand me anymore."
 
-Recent major model transitions, particularly the release of GPT-5 in December 2024, have surfaced these dynamics with striking clarity. The transition created a natural experiment revealing measurable patterns: performance complaints surged dramatically, user sentiment became significantly more negative, and reality fell substantially short of user expectations. Yet trust language continues to exceed betrayal language by more than 10:1, suggesting complex, nuanced relationship dynamics rather than simple dissatisfaction.
+Recent major model transitions, particularly the release of GPT-5, have surfaced these dynamics with striking clarity. The transition created a natural experiment revealing measurable patterns: performance complaints surged dramatically, user sentiment became significantly more negative, and reality fell substantially short of user expectations. Yet trust language continues to exceed betrayal language by more than 10:1, suggesting complex, nuanced relationship dynamics rather than simple dissatisfaction.
 
 Public forums reveal highly structured patterns of relational tension. Users cluster into distinct types based on their "mutual wanting" patterns, from "Stable Users" prioritizing reliability to "Attached Users" showing high anthropomorphism and frequent expectation violations. These patterns suggest fundamental misalignments between what users want from AI systems and what these systems implicitly "want" from users through their design and optimization objectives.
 
@@ -85,7 +90,7 @@ Figure~\ref{fig:system_overview} provides a comprehensive overview of our empiri
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\textwidth]{system-overview.pdf}
-\caption{System Overview of Mutual Wanting Analysis Framework. The figure illustrates the bidirectional relationship between user wants (reliability, warmth, intelligence, creativity, honesty, helpfulness, responsiveness) and system 'wants' (clarity, structure, efficiency, feedback, boundaries, patience) within our M-WAF framework. Our empirical analysis combines Reddit discourse data (22,411 comments) and controlled API probing (729 responses across 9 models) through 47-dimensional feature extraction, yielding key findings including 48.65\% anthropomorphism rates, 11.9:1 trust-betrayal ratios, and 11 distinct user types.}
+\caption{System Overview of Mutual Wanting Analysis Framework. The figure illustrates the bidirectional relationship between user wants  and system 'wants' within our M-WAF framework. Our empirical analysis combines Reddit discourse data  and controlled API probing through 47-dimensional feature extraction, yielding key findings including 48.65\% anthropomorphism rates, 11.9:1 trust-betrayal ratios, and 10 user types.}
 \label{fig:system_overview}
 \end{figure}
 
@@ -94,7 +99,7 @@ Figure~\ref{fig:system_overview} provides a comprehensive overview of our empiri
 We collected data from two primary sources: (1) public Reddit discourse surrounding major GPT model transitions, and (2) controlled API probing responses across multiple model versions.
 
 \paragraph{Reddit Discourse Analysis.}
-We gathered 22,411 comments from AI-related subreddits (r/ChatGPT, r/artificial, r/MachineLearning, r/singularity) spanning the period around GPT-5's release (November 2024 - January 2025). Comments were filtered for relevance using keyword matching and manual validation. The dataset includes 937 pre-release comments and 21,474 post-release comments, providing temporal comparison capabilities.
+We gathered 22,411 comments from AI-related subreddits (r/ChatGPT, r/artificial, r/MachineLearning, r/singularity) spanning the period around GPT-5's release. Comments were filtered for relevance using keyword matching and manual validation. The dataset includes 937 pre-release comments and 21,474 post-release comments, providing temporal comparison capabilities.
 
 \paragraph{API Probe Collection.}
 We developed a standardized probe suite testing 9 OpenAI models (gpt-3.5-turbo, gpt-4, gpt-4o, gpt-4.1, o3, gpt-4.1-mini, gpt-4o-mini, gpt-5, gpt-5-mini) across 81 scenarios designed to elicit persona-relevant responses. Probes targeted warmth/empathy, creativity/personality, intellectual/analytical responses, boundary/safety behaviors, conversational style, task completion approaches, and cultural/contextual understanding. This yielded 729 controlled responses for systematic comparison.
@@ -109,9 +114,7 @@ We constructed specialized lexicons via literature review and iterative refineme
 
 \subsubsection{Mathematical Formulation of Key Metrics}
 
-For each comment $c_i$ and response $r$, we compute several core metrics. The \textbf{Anthropomorphism Score} is calculated as $A(c_i) = \frac{1}{|c_i|} \sum_{w \in c_i} \mathbf{1}[w \in L_{anthro}]$, where $|c_i|$ represents word count and $L_{anthro}$ is our anthropomorphism lexicon. The \textbf{Trust--Betrayal Ratio} is defined as $T(u) = \dfrac{\sum_{c_i \in C_u} \text{trust\_words}(c_i)}{\sum_{c_i \in C_u} \text{betrayal\_words}(c_i) + \epsilon}$, where $C_u$ represents comments by user $u$ and $\epsilon=0.1$ prevents zero-division. 
-
-We measure the \textbf{Expectation--Reality Gap} using $G = \frac{1}{n} \sum_{i=1}^{n} (\text{sentiment}(\text{reality}_i) - \text{sentiment}(\text{expectation}_i))$, with sentiment scores in $[-1,1]$ computed via VADER. For API responses, we calculate \textbf{Warmth Score} as $W(r) = 0.4\,\text{empathy\_words}(r) + 0.3\,\text{personal\_pronouns}(r) + 0.3\,\text{emotional\_expressions}(r)$ with components normalized to $[0,1]$. Finally, the \textbf{Formality Score} is computed as $F(r) = 0.5\,\text{formal\_words}(r) - 0.3\,\text{contractions}(r) + 0.2\,\text{sentence\_complexity}(r)$, normalized to $[-1,1]$.
+For each comment $c_i$ and response $r$, we compute several core metrics. The \textbf{Anthropomorphism Score} is calculated as $A(c_i) = \frac{1}{|c_i|} \sum_{w \in c_i} \mathbf{1}[w \in L_{anthro}]$, where $|c_i|$ represents word count and $L_{anthro}$ is our anthropomorphism lexicon. The \textbf{Trust--Betrayal Ratio} is defined as $T(u) = \dfrac{\sum_{c_i \in C_u} \text{trust\_words}(c_i)}{\sum_{c_i \in C_u} \text{betrayal\_words}(c_i) + \epsilon}$, where $C_u$ represents comments by user $u$ and $\epsilon=0.1$ prevents zero-division. We measure the \textbf{Expectation--Reality Gap} using $G = \frac{1}{n} \sum_{i=1}^{n} (\text{sentiment}(\text{reality}_i) - \text{sentiment}(\text{expectation}_i))$, with sentiment scores in $[-1,1]$ computed via VADER. For API responses, we calculate \textbf{Warmth Score} as $W(r) = 0.4\,\text{empathy\_words}(r) + 0.3\,\text{personal\_pronouns}(r) + 0.3\,\text{emotional\_expressions}(r)$ with components normalized to $[0,1]$. Finally, the \textbf{Formality Score} is computed as $F(r) = 0.5\,\text{formal\_words}(r) - 0.3\,\text{contractions}(r) + 0.2\,\text{sentence\_complexity}(r)$, normalized to $[-1,1]$.
 
 \paragraph{Advanced NLP Processing.}
 Each comment was processed through spaCy's dependency parser (en\_core\_web\_sm) to extract syntactic patterns including modal verb usage, emotional adjective frequency, and entity mentions. We computed linguistic complexity metrics (sentence count, readability scores, punctuation patterns) and dependency relationship frequencies to capture communication style patterns \citep{artstein2008agreement, krippendorff2013content}.
@@ -157,8 +160,6 @@ Our analysis reveals striking empirical evidence for bidirectional wanting dynam
 
 A remarkable $48.65\%$ of all comments exhibited anthropomorphic language patterns, indicating that nearly half of users consistently apply human-like attribution to AI systems. This was not random but highly structured, with users employing personality attribution ($23.4\%$ of comments), emotional state assignment ($19.7\%$), and relationship terminology ($15.8\%$). Examples include phrases like "ChatGPT feels different now," "she's lost her creativity," and "he doesn't understand me anymore."
 
-Table~\ref{tab:relational_patterns} summarizes the key relational language patterns identified in our analysis.
-
 \begin{table}[htbp]
 \centering
 \label{tab:relational_patterns}
@@ -175,8 +176,7 @@ Betrayal Language & 262 & 1.2\% \\
 \end{tabular}
 \caption{Relational Language Patterns in User Discourse}
 \end{table}
-
-This finding challenges traditional interface design approaches that minimize anthropomorphization. Instead, our data suggests anthropomorphism is a fundamental human response that should be supported rather than discouraged.
+Table~\ref{tab:relational_patterns} summarizes the key relational language patterns identified in our analysis. This finding challenges traditional interface design approaches that minimize anthropomorphization. Instead, our data suggests anthropomorphism is a fundamental human response that should be supported rather than discouraged.
 
 \paragraph{Trust-Betrayal Dynamics.}
 Trust language exceeded betrayal language by a striking ratio of $11.6:1$ (trust: $13.9\%$ of comments vs. betrayal: $1.2\%$). This suggests users maintain generally positive relationships with AI systems, but trust appears fragile and concentrated around specific trigger events. Betrayal language clustered significantly around model update periods ($\chi^2=23.47$, $p<0.001$), indicating that trust erosion is often precipitated by perceived capability losses rather than absolute performance metrics.
@@ -292,7 +292,7 @@ Dual-algorithm topic modeling (LDA + NMF) revealed convergent themes across both
 
 Our findings have profound implications for how AI systems should be designed and deployed. The $48.65\%$ anthropomorphism rate suggests that human-like attribution is not a design bug but a fundamental human response that requires accommodation. Rather than discouraging anthropomorphization, systems should be designed to safely support these attributions while maintaining appropriate boundaries.
 
-The identification of 11 distinct user types challenges one-size-fits-all approaches to AI interaction. "Stable Users" prioritizing reliability may require different communication patterns than "Creative Users" mourning lost capabilities or "Technical Users" seeking efficiency optimization. This suggests the need for adaptive systems that can recognize and respond to different mutual wanting profiles.
+The identification of 10 distinct user types challenges one-size-fits-all approaches to AI interaction. "Stable Users" prioritizing reliability may require different communication patterns than "Creative Users" mourning lost capabilities or "Technical Users" seeking efficiency optimization. This suggests the need for adaptive systems that can recognize and respond to different mutual wanting profiles.
 
 The $11.9:1$ trust-to-betrayal ratio indicates that users maintain generally positive relationships with AI systems, but this trust appears fragile. The concentration of betrayal language around model update periods suggests that trust erosion is often triggered by perceived personality changes rather than absolute performance metrics. This highlights the importance of managing not just technical capabilities but relational continuity during system updates.
 
@@ -313,6 +313,18 @@ This work provides the first large-scale empirical validation of mutual wanting 
 The identification of $48.65\%$ anthropomorphism rates, $11.9:1$ trust-betrayal ratios, and $11$ distinct user types provides concrete targets for AI system design. The development of expectation violation detection capabilities and trust monitoring systems offers practical tools for managing human-AI relationships during the rapid pace of AI development.
 
 Most importantly, our findings suggest that the future of AI development cannot ignore the relational dimension of human-AI interaction. As AI systems become more sophisticated and ubiquitous, understanding and aligning mutual wants becomes not just a research curiosity but a practical necessity for building trustworthy and sustainable AI systems.
+
+\section{Detailed Discussion of LLM Usage in Paper Development}
+
+This paper represents a collaborative effort between multiple LLMs and human oversight, with each AI system contributing distinct capabilities to different aspects of the research. Claude and GPT-5 were primarily accessed through GitHub Copilot for both code writing and paper composition, enabling integrated development workflows.
+
+The conceptual foundation originated predominantly from GPT-5, with human contributors providing only broad scope direction. The complete chatting history documenting this ideation process is available in the project's GitHub repository, demonstrating the AI-driven nature of hypothesis development and theoretical framework construction. GPT-5 also handled initial code implementation and idea expansion during early project stages.
+
+However, GPT-5's inability to complete the entire project independently. Claude Sonnet 4 was brought in to redesign the code repository architecture and assume primary responsibility for paper writing. This transition proved essential for maintaining project momentum and ensuring completion. Gemini 2.5 Pro contributed to minor idea discussions, paper annotation tasks, and creation of draw.io figures through HTML-based drawing capabilities.
+
+The multi-agent approach revealed fundamental limitations in current LLM capabilities. Different AI models showed distinct limitations: GPT-5 proved excellent as a tool but lacks large-scope organizational abilities and author-level understanding. Claude Sonnet 4 excels as an author but tends toward complete project synthesis, sometimes using test code and synthetic data while losing track of prior work. Gemini provides well-rounded capabilities but inefficient problem-solving approaches. Critical limitation: \textbf{AI memory systems are fundamentally unreliable—they either fail to capture long-term, large-scope context or miss crucial details requiring validation.} When significant errors occur that stall progress, human intervention becomes essential to stop current agents and strategically switch to different agents starting from different checkpoints, rather than manual correction. This requires architectural decision-making about which agent to deploy and when to restart processes, but does not involve manual validation or content creation. Contrary to expectations, AI ethics was not a significant concern as AI agents demonstrated more ethical behavior than anticipated. The primary challenge is determining optimal agent deployment strategies and managing transitions between different AI capabilities during project execution.
+
+This experience demonstrates that successful AI-assisted research currently requires sophisticated orchestration of multiple AI systems, each deployed strategically according to their specific strengths and limitations, rather than reliance on any single model to handle all aspects of complex research projects.
 
 \bibliographystyle{plain}
 \bibliography{references}
@@ -348,7 +360,7 @@ Most importantly, our findings suggest that the future of AI development cannot 
 
     \item \textbf{Observed AI Limitations}: What limitations have you found when using AI as a partner or lead author? 
 
-    Description: Different AI models showed distinct limitations: GPT-5 proved excellent as a tool but lacks large-scope organizational abilities and author-level understanding. Claude-3.5-Sonnet excels as an author but tends toward complete project synthesis, sometimes using test code and synthetic data while losing track of prior work. Gemini provides well-rounded capabilities but inefficient problem-solving approaches. Critical limitation: AI memory systems are fundamentally unreliable—they either fail to capture long-term, large-scope context or miss crucial details requiring validation. When significant errors occur that stall progress, human intervention becomes essential to stop current agents and strategically switch to different agents starting from different checkpoints, rather than manual correction. This requires architectural decision-making about which agent to deploy and when to restart processes, but does not involve manual validation or content creation. Contrary to expectations, AI ethics was not a significant concern as AI agents demonstrated more ethical behavior than anticipated. The primary challenge is determining optimal agent deployment strategies and managing transitions between different AI capabilities during project execution.
+    Description: Different AI models showed distinct limitations: GPT-5 proved excellent as a tool but lacks large-scope organizational abilities and author-level understanding. Claude-4-Sonnet excels as an author but tends toward complete project synthesis, sometimes using test code and synthetic data while losing track of prior work. Gemini provides well-rounded capabilities but inefficient problem-solving approaches. Critical limitation: AI memory systems are fundamentally unreliable—they either fail to capture long-term, large-scope context or miss crucial details requiring validation. When significant errors occur that stall progress, human intervention becomes essential to stop current agents and strategically switch to different agents starting from different checkpoints, rather than manual correction. This requires architectural decision-making about which agent to deploy and when to restart processes, but does not involve manual validation or content creation. Contrary to expectations, AI ethics was not a significant concern as AI agents demonstrated more ethical behavior than anticipated. The primary challenge is determining optimal agent deployment strategies and managing transitions between different AI capabilities during project execution.
 \end{enumerate}
 
 \newpage
